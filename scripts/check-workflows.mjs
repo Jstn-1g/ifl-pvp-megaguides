@@ -45,6 +45,13 @@ export async function checkWorkflows({ root = projectRoot } = {}) {
         failures.push(`${name}: checkout must resolve to the pull request head SHA so synthetic merge commits do not enter DCO history.`);
       }
     }
+    if (/^name:\s*Build immutable release artifact\s*$/m.test(source)) {
+      const buildCount = source.match(/\bnpm run build\b/g)?.length ?? 0;
+      const manifestCount = source.match(/\bnode scripts\/write-release-manifest\.mjs\b/g)?.length ?? 0;
+      if (buildCount < 2 || manifestCount < 2 || !/cmp --silent/.test(source)) {
+        failures.push(`${name}: immutable release packaging must rebuild, rewrite the manifest, and byte-compare two archives.`);
+      }
+    }
     for (const [index, line] of lines.entries()) {
       const uses = line.match(/^\s*-?\s*uses:\s*([^\s#]+)/);
       const writePermission = line.match(/^\s+([a-z-]+):\s+write\s*(?:#.*)?$/);

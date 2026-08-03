@@ -19,10 +19,9 @@ export async function writeReleaseManifest({ root = projectRoot, tag = option('-
   }
   const digest = createHash('sha256').update(files.map((file) => `${file.path}\0${file.sha256}\n`).join('')).digest('hex');
   const manifest = {
-    schemaVersion: 1,
+    schemaVersion: 2,
     tag,
     commit: commit.toLowerCase(),
-    generatedAt: new Date().toISOString(),
     fileCount: files.length,
     files,
     manifestSha256: digest,

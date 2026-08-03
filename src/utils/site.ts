@@ -7,6 +7,7 @@ export const SITE = {
   url: 'https://iflpvp.com',
   language: 'en-US',
   repository: 'https://github.com/Jstn-1g/ifl-pvp-megaguides',
+  copyrightYear: 2026,
 } as const;
 
 export const NAVIGATION = [

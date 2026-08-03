@@ -61,3 +61,15 @@ test('public release workflow must identify and check out the pull request head'
     assert.ok(result.failures.some((failure) => failure.includes('synthetic merge commits')));
   } finally { await rm(root, { recursive: true, force: true }); }
 });
+
+test('immutable release workflow must prove two complete builds are byte-identical', async () => {
+  const root = await fixture(`name: Build immutable release artifact\non: [push]\npermissions:\n  contents: read\njobs:\n  release:\n    runs-on: ubuntu-latest\n    steps:\n      - run: npm run build\n      - run: node scripts/write-release-manifest.mjs\n      - run: tar -czf release.tar.gz dist\n`);
+  try {
+    const result = await checkWorkflows({ root });
+    assert.equal(result.ok, false);
+    assert.ok(result.failures.some((failure) => failure.includes('byte-compare two archives')));
+
+    await writeFile(path.join(root, '.github', 'workflows', 'ci.yml'), `name: Build immutable release artifact\non: [push]\npermissions:\n  contents: read\njobs:\n  release:\n    runs-on: ubuntu-latest\n    steps:\n      - run: |\n          npm run build\n          node scripts/write-release-manifest.mjs\n          npm run build\n          node scripts/write-release-manifest.mjs\n          cmp --silent first.tar.gz second.tar.gz\n`, 'utf8');
+    assert.equal((await checkWorkflows({ root })).ok, true);
+  } finally { await rm(root, { recursive: true, force: true }); }
+});
