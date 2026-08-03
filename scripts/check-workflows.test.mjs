@@ -38,3 +38,13 @@ test('workflow checker rejects a GitHub workflow dispatch without an explicit re
     assert.ok(result.failures.some((failure) => failure.includes('explicit --repo target')));
   } finally { await rm(root, { recursive: true, force: true }); }
 });
+
+test('public release workflow must identify and check out the pull request head', async () => {
+  const root = await fixture(`name: Public release verification\non: [pull_request]\npermissions:\n  contents: read\njobs:\n  verify:\n    runs-on: ubuntu-latest\n    env:\n      PUBLIC_BUILD_SHA: \${{ github.sha }}\n    steps:\n      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1\n`);
+  try {
+    const result = await checkWorkflows({ root });
+    assert.equal(result.ok, false);
+    assert.ok(result.failures.some((failure) => failure.includes('public build identity')));
+    assert.ok(result.failures.some((failure) => failure.includes('synthetic merge commits')));
+  } finally { await rm(root, { recursive: true, force: true }); }
+});

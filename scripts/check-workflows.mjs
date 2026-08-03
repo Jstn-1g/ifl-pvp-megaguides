@@ -3,6 +3,7 @@ import path from 'node:path';
 import { invokedAsMain, projectRoot } from './release-utils.mjs';
 
 const allowedWritePermissions = new Set(['actions', 'contents', 'pull-requests', 'security-events']);
+const pullRequestHeadExpression = '${{ github.event.pull_request.head.sha || github.sha }}';
 
 function indentation(line) {
   return line.match(/^\s*/)?.[0].length ?? 0;
@@ -34,6 +35,14 @@ export async function checkWorkflows({ root = projectRoot } = {}) {
     if (/^\s*pull_request_target\s*:/m.test(source)) failures.push(`${name}: pull_request_target is forbidden for the public repository.`);
     if (/^\s*secrets:\s*inherit\s*$/m.test(source)) failures.push(`${name}: inherited workflow secrets are forbidden.`);
     if (/^\s*persist-credentials:\s*true\s*$/m.test(source)) failures.push(`${name}: checkout credentials must not persist.`);
+    if (/^name:\s*Public release verification\s*$/m.test(source)) {
+      if (!source.includes(`PUBLIC_BUILD_SHA: ${pullRequestHeadExpression}`)) {
+        failures.push(`${name}: public build identity must resolve to the pull request head SHA.`);
+      }
+      if (!source.includes(`ref: ${pullRequestHeadExpression}`)) {
+        failures.push(`${name}: checkout must resolve to the pull request head SHA so synthetic merge commits do not enter DCO history.`);
+      }
+    }
     for (const [index, line] of lines.entries()) {
       const uses = line.match(/^\s*-?\s*uses:\s*([^\s#]+)/);
       const writePermission = line.match(/^\s+([a-z-]+):\s+write\s*(?:#.*)?$/);
