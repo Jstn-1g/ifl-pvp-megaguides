@@ -4,7 +4,7 @@ This public repository is deny-by-default for non-text assets. A public URL, att
 
 ## Launch boundary
 
-The initial public release contains no approved binary media. Game artwork, screenshots, video, audio, publisher logos, third-party fonts, author portraits, social banners, and collected source media are excluded.
+The initial public release contains only three approved first-party presentation assets: the project social card and two local-build interface captures recorded in the public asset allowlist. Game artwork, gameplay screenshots, video, audio, publisher logos, third-party fonts, author portraits, collected source media, and any unreviewed social asset are excluded.
 
 Any future non-text asset must have exactly one approved entry in [governance/public-asset-allowlist.json](governance/public-asset-allowlist.json). The entry must record its exact path, SHA-256 digest, creator or source, rights basis, applicable license or permission, approval date, reviewer, and redistribution status.
 
