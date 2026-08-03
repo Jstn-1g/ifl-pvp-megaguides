@@ -39,6 +39,19 @@ test('workflow checker rejects a GitHub workflow dispatch without an explicit re
   } finally { await rm(root, { recursive: true, force: true }); }
 });
 
+test('release automation must use the repository vX.Y.Z tag convention', async () => {
+  const root = await fixture(`name: Version PR\non: [push]\npermissions:\n  contents: write\n  pull-requests: write\njobs:\n  release:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7\n`);
+  try {
+    await writeFile(path.join(root, 'release-please-config.json'), '{"include-component-in-tag":true,"include-v-in-tag":true}\n', 'utf8');
+    const unsafe = await checkWorkflows({ root });
+    assert.equal(unsafe.ok, false);
+    assert.ok(unsafe.failures.some((failure) => failure.includes('vX.Y.Z tags without a component prefix')));
+
+    await writeFile(path.join(root, 'release-please-config.json'), '{"include-component-in-tag":false,"include-v-in-tag":true}\n', 'utf8');
+    assert.equal((await checkWorkflows({ root })).ok, true);
+  } finally { await rm(root, { recursive: true, force: true }); }
+});
+
 test('public release workflow must identify and check out the pull request head', async () => {
   const root = await fixture(`name: Public release verification\non: [pull_request]\npermissions:\n  contents: read\njobs:\n  verify:\n    runs-on: ubuntu-latest\n    env:\n      PUBLIC_BUILD_SHA: \${{ github.sha }}\n    steps:\n      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1\n`);
   try {
