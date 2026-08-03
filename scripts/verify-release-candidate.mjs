@@ -14,6 +14,7 @@ async function main() {
   const { stdout } = await execFile('git', ['rev-list', '-n', '1', tag], { cwd: projectRoot, encoding: 'utf8' });
   if (stdout.trim().toLowerCase() !== expectedCommit.toLowerCase()) throw new Error(`Tag ${tag} does not resolve to requested commit.`);
   const manifest = JSON.parse(await readFile(path.join(projectRoot, 'dist', 'release-manifest.json'), 'utf8'));
+  if (manifest.schemaVersion !== 2) throw new Error('Release manifest schema is not the reproducible v2 contract.');
   if (manifest.tag !== tag || manifest.commit !== expectedCommit.toLowerCase()) throw new Error('Release manifest tag/commit does not match the requested immutable candidate.');
   console.log(`Immutable release candidate verified: ${tag} at ${expectedCommit}.`);
 }

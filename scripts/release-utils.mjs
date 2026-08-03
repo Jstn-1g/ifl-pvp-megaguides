@@ -22,7 +22,13 @@ export async function walkFiles(root) {
     }
   }
   await visit(root);
-  return files.sort((left, right) => left.localeCompare(right));
+  return files.sort((left, right) => {
+    const leftPath = relativePosix(root, left);
+    const rightPath = relativePosix(root, right);
+    if (leftPath < rightPath) return -1;
+    if (leftPath > rightPath) return 1;
+    return 0;
+  });
 }
 
 export function relativePosix(root, path) {
