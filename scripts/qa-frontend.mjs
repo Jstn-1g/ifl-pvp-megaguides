@@ -8,6 +8,7 @@ async function run(baseUrl) {
   const browser = await chromium.launch({ headless: true });
   const failures = [];
   const outputDirectory = process.env.QA_OUTPUT_DIR;
+  const reducedMotion = process.env.QA_REDUCED_MOTION === '1' ? 'reduce' : 'no-preference';
   const routes = [
     { name: 'home', path: '/' },
     { name: 'guides', path: '/guides/' },
@@ -19,10 +20,14 @@ async function run(baseUrl) {
     { name: 'not-found', path: '/definitely-not-a-public-route/', canonicalPath: '/404/', expectedStatus: 404, noindex: true },
   ];
   try {
-    for (const viewport of [{ name: 'desktop', width: 1440, height: 1000 }, { name: 'mobile', width: 390, height: 844 }]) {
+    for (const viewport of [
+      { name: 'desktop', width: 1440, height: 1000 },
+      { name: 'mobile', width: 390, height: 844 },
+      { name: 'narrow', width: 320, height: 800 },
+    ]) {
       for (const route of routes) {
         console.log(`Checking ${viewport.name}/${route.name}...`);
-        const page = await browser.newPage({ viewport: { width: viewport.width, height: viewport.height } });
+        const page = await browser.newPage({ viewport: { width: viewport.width, height: viewport.height }, reducedMotion });
         page.setDefaultNavigationTimeout(10_000);
         const consoleErrors = [];
         const unexpected404s = [];
@@ -46,7 +51,16 @@ async function run(baseUrl) {
           main: Boolean(document.querySelector('main#main-content, main')),
           canonical: document.querySelector('link[rel="canonical"]')?.getAttribute('href'),
           robots: document.querySelector('meta[name="robots"]')?.getAttribute('content')?.toLowerCase(),
-          forbiddenMedia: document.querySelectorAll('img, video, iframe, svg').length,
+          forbiddenMedia: [...document.querySelectorAll('img, video, iframe, svg')].filter((element) => {
+            if (!(element instanceof HTMLImageElement)) return true;
+            const isApprovedLogo = element.dataset.publicBrandAsset === 'ifl-pvp-logo'
+              && new URL(element.src, window.location.href).pathname === '/brand/ifl-pvp-logo.webp';
+            const isApprovedGenreWorlds = element.dataset.publicArtAsset === 'ifl-pvp-genre-worlds'
+              && new URL(element.src, window.location.href).pathname === '/brand/ifl-pvp-genre-worlds-v1.webp';
+            return !(isApprovedLogo || isApprovedGenreWorlds);
+          }).length,
+          approvedBrandMarks: document.querySelectorAll('img[data-public-brand-asset="ifl-pvp-logo"]').length,
+          approvedGenreWorldArt: document.querySelectorAll('img[data-public-art-asset="ifl-pvp-genre-worlds"]').length,
         }));
         if (!state.language) failures.push(`${label}: document language is missing.`);
         if (!state.h1) failures.push(`${label}: H1 is missing.`);
@@ -57,8 +71,10 @@ async function run(baseUrl) {
         if (state.canonical !== new URL(route.canonicalPath ?? route.path, 'https://iflpvp.com').href) failures.push(`${label}: canonical is ${state.canonical ?? 'missing'}.`);
         if (route.noindex && !(state.robots?.includes('noindex') && state.robots.includes('follow'))) failures.push(`${label}: evidence-held route must emit noindex,follow.`);
         if (state.forbiddenMedia !== 0) failures.push(`${label}: rendered ${state.forbiddenMedia} forbidden media element(s).`);
+        if (state.approvedBrandMarks < 1) failures.push(`${label}: approved IFL PvP brand mark is missing.`);
+        if (route.name === 'home' && state.approvedGenreWorldArt < 1) failures.push(`${label}: approved first-party genre-world artwork is missing.`);
         if (route.name === 'search' && !(await page.locator('input[type="search"]').count())) failures.push(`${label}: search input is missing.`);
-        if (outputDirectory && ['home', 'guide-hold', 'support'].includes(route.name)) {
+        if (outputDirectory && ['home', 'guide-hold', 'evidence-hold', 'support'].includes(route.name)) {
           await mkdir(outputDirectory, { recursive: true });
           await page.screenshot({ path: path.join(outputDirectory, `${route.name}-${viewport.name}.png`), fullPage: true });
         }

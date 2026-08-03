@@ -1,6 +1,6 @@
 ---
 import GuideCard from '../components/GuideCard.astro';
-import ReferenceCover from '../components/ReferenceCover.astro';
+import ArenaStage from '../components/ArenaStage.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { INDEXABLE_PUBLIC_CONTENT, PUBLIC_CONTENT, PUBLIC_MEGA_GUIDES } from '../data/public-content';
 import { SITE } from '../utils/site';
@@ -23,38 +23,21 @@ function reviewLabel(entry: (typeof PUBLIC_CONTENT)[number]) {
 
 <BaseLayout {...descriptions} canonicalPath="/">
   <section class="hero hero--home" aria-labelledby="site-intro">
-    <div class="container hero__grid">
+    <ArenaStage />
+    <div class="container hero__inner">
       <div class="hero__content">
-        <p class="eyebrow">IFL / Reference Grid</p>
-        <h1 id="site-intro">Source-backed, version-pinned field manuals for competitive games.</h1>
-        <p class="hero__lede">A guide-first library with visible evidence, review dates, and clear limits on what is current, historical, or still being checked.</p>
+        <p class="eyebrow">IFL PvP / Competitive intelligence</p>
+        <h1 id="site-intro">Know the matchup.<br />Own the fight.</h1>
+        <p class="hero__lede"><strong>Source-backed, version-pinned field manuals</strong> for competitive games—with visible evidence, review dates, and honest limits on what is current or still being checked.</p>
         <div class="hero__actions">
-          <a class="button button--primary" href="/guides/">Browse retained guides</a>
-          <a class="button button--quiet" href="/editorial-policy/">Read the standards</a>
+          <a class="button button--primary" href="/guides/">Browse retained references <span aria-hidden="true">→</span></a>
+          <a class="button button--quiet" href="/editorial-policy/">See how evidence works</a>
         </div>
         <dl class="hero__facts" aria-label="Library status">
           <div><dt>Retained routes</dt><dd>{retainedGuideCount}</dd></div>
           <div><dt>MegaGuide records</dt><dd>{megaGuideCount}</dd></div>
-          <div><dt>Current indexable guides</dt><dd>{indexableGuideCount}</dd></div>
+          <div><dt>Current guides</dt><dd>{indexableGuideCount}<small>Review in progress</small></dd></div>
         </dl>
-      </div>
-      <ReferenceCover variant="hero" title="Field manuals, held to evidence" eyebrow="Independent competitive reference" status="Open-source reference" index="IFL / 01" />
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="how-it-works">
-    <div class="container section__split">
-      <div>
-        <p class="eyebrow">The operating standard</p>
-        <h2 id="how-it-works">Useful means traceable.</h2>
-      </div>
-      <div class="prose">
-        <p>Every public route states its scope and review state. A link is not treated as proof, a historical reference is not presented as a live meta guide, and a review date is never a cosmetic badge.</p>
-        <ol class="numbered-list">
-          <li><strong>Start with the route status.</strong> Each guide tells you whether it is current, stable historical reference, or held for review.</li>
-          <li><strong>Follow the evidence trail.</strong> Primary sources and their checked dates are visible where a route is retained.</li>
-          <li><strong>Send corrections.</strong> The editorial policy explains how a factual correction is reviewed and recorded.</li>
-        </ol>
       </div>
     </div>
   </section>
@@ -63,8 +46,8 @@ function reviewLabel(entry: (typeof PUBLIC_CONTENT)[number]) {
     <div class="container">
       <div class="section-heading">
         <div>
-          <p class="eyebrow">Retained guide routes</p>
-          <h2 id="retained-guides">Available with explicit limits.</h2>
+          <p class="eyebrow">The MegaGuide library</p>
+          <h2 id="retained-guides">Choose the fight. Check the evidence.</h2>
         </div>
         <a href="/guides/">See all retained routes <span aria-hidden="true">→</span></a>
       </div>
@@ -89,6 +72,23 @@ function reviewLabel(entry: (typeof PUBLIC_CONTENT)[number]) {
       ) : (
         <p class="empty-state">No guide routes are available until a reviewed public record is added.</p>
       )}
+    </div>
+  </section>
+
+  <section class="section section--standard" aria-labelledby="how-it-works">
+    <div class="container section__split">
+      <div>
+        <p class="eyebrow">The operating standard</p>
+        <h2 id="how-it-works">Useful means traceable.</h2>
+      </div>
+      <div class="prose">
+        <p>Every public route states its scope and review state. A link is not treated as proof, a historical reference is not presented as a live meta guide, and a review date is never a cosmetic badge.</p>
+        <ol class="numbered-list">
+          <li><strong>Start with the route status.</strong> Each guide tells you whether it is current, stable historical reference, or held for review.</li>
+          <li><strong>Follow the evidence trail.</strong> Primary sources and their checked dates are visible where a route is retained.</li>
+          <li><strong>Send corrections.</strong> The editorial policy explains how a factual correction is reviewed and recorded.</li>
+        </ol>
+      </div>
     </div>
   </section>
 

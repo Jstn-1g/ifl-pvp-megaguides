@@ -1,0 +1,197 @@
+<!-- Decorative, first-party artwork. Product meaning and state remain in adjacent HTML. -->
+<div class="arena-stage" aria-hidden="true">
+  <img
+    class="arena-stage__art"
+    src="/brand/ifl-pvp-genre-worlds-v1.webp"
+    alt=""
+    width="1672"
+    height="941"
+    decoding="async"
+    fetchpriority="high"
+    data-public-art-asset="ifl-pvp-genre-worlds"
+  />
+  <span class="arena-stage__veil"></span>
+  <span class="arena-stage__ribbon arena-stage__ribbon--cool"></span>
+  <span class="arena-stage__ribbon arena-stage__ribbon--warm"></span>
+  <span class="arena-stage__glint"></span>
+  <span class="arena-stage__logo">
+    <img
+      src="/brand/ifl-pvp-logo.webp"
+      alt=""
+      width="400"
+      height="400"
+      decoding="async"
+      data-public-brand-asset="ifl-pvp-logo"
+    />
+  </span>
+  <span class="arena-stage__genres">
+    <i data-genre="fantasy">Fantasy</i>
+    <i data-genre="arena">Arena</i>
+    <i data-genre="racing">Racing</i>
+    <i data-genre="tactical">Tactical</i>
+  </span>
+  <span class="arena-stage__coordinate">IFL / GENRE CONSTELLATION / 04</span>
+</div>
+
+<style>
+  .arena-stage {
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    overflow: hidden;
+    isolation: isolate;
+    background: #8bc9f4;
+  }
+  .arena-stage__art {
+    position: absolute;
+    z-index: -4;
+    inset: -3%;
+    width: 106%;
+    height: 106%;
+    max-width: none;
+    object-fit: cover;
+    object-position: center;
+    filter: saturate(1.08) contrast(1.02) brightness(1.03);
+    animation: world-drift 22s var(--ease-out) infinite alternate;
+    will-change: transform;
+  }
+  .arena-stage__veil {
+    position: absolute;
+    z-index: -3;
+    inset: 0;
+    background:
+      linear-gradient(90deg, rgba(6, 13, 27, 0.91) 0%, rgba(6, 13, 27, 0.80) 27%, rgba(6, 13, 27, 0.38) 48%, rgba(6, 13, 27, 0.04) 72%),
+      linear-gradient(180deg, rgba(8, 17, 34, 0.04) 42%, rgba(7, 14, 28, 0.62) 100%);
+  }
+  .arena-stage::before {
+    position: absolute;
+    z-index: -2;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.09) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.09) 1px, transparent 1px);
+    background-size: 72px 72px;
+    content: '';
+    mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.70), transparent 58%);
+  }
+  .arena-stage::after {
+    position: absolute;
+    z-index: 4;
+    inset: 0;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    content: '';
+    pointer-events: none;
+  }
+  .arena-stage__ribbon {
+    position: absolute;
+    z-index: -1;
+    width: 42rem;
+    height: 6rem;
+    opacity: 0.30;
+    filter: blur(20px);
+    transform: rotate(-19deg);
+    animation: ribbon-breathe 7s ease-in-out infinite alternate;
+  }
+  .arena-stage__ribbon--cool { top: 41%; left: 24%; background: linear-gradient(90deg, transparent, #6cd6ff, transparent); }
+  .arena-stage__ribbon--warm { right: -2%; bottom: 20%; background: linear-gradient(90deg, transparent, #ff9f43, #f36cff, transparent); animation-delay: -2.8s; }
+  .arena-stage__glint {
+    position: absolute;
+    z-index: 1;
+    top: -24%;
+    left: 40%;
+    width: 12%;
+    height: 150%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18), transparent);
+    opacity: 0;
+    transform: rotate(14deg);
+    animation: world-glint 11s ease-in-out infinite;
+  }
+  .arena-stage__logo {
+    position: absolute;
+    z-index: 2;
+    top: clamp(5.5rem, 11vh, 8rem);
+    right: clamp(1.5rem, 5vw, 5rem);
+    width: clamp(4.75rem, 8vw, 7.75rem);
+    aspect-ratio: 1;
+  }
+  .arena-stage__logo::before {
+    position: absolute;
+    inset: 4%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.82), rgba(113, 197, 255, 0.58) 37%, rgba(255, 170, 64, 0.32) 58%, transparent 72%);
+    content: '';
+    filter: blur(18px);
+  }
+  .arena-stage__logo img { position: relative; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 15px 22px rgba(0, 0, 0, 0.42)); }
+  .arena-stage__genres {
+    position: absolute;
+    z-index: 2;
+    right: clamp(1.5rem, 5vw, 5rem);
+    bottom: 4.8rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.45rem;
+  }
+  .arena-stage__genres i {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.42rem;
+    padding: 0.45rem 0.62rem;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    background: rgba(5, 13, 27, 0.54);
+    color: #f8fbff;
+    font-family: var(--font-display);
+    font-size: 0.6rem;
+    font-style: normal;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    backdrop-filter: blur(12px);
+  }
+  .arena-stage__genres i::before { width: 0.42rem; height: 0.42rem; border-radius: 50%; background: #72d7ff; box-shadow: 0 0 12px currentColor; content: ''; }
+  .arena-stage__genres i[data-genre='arena']::before { background: #73f0ca; }
+  .arena-stage__genres i[data-genre='racing']::before { background: #ff9b5e; }
+  .arena-stage__genres i[data-genre='tactical']::before { background: #e67aff; }
+  .arena-stage__coordinate { position: absolute; z-index: 2; right: clamp(1.5rem, 5vw, 5rem); bottom: 2rem; color: #fff0bc; font-family: var(--font-display); font-size: 0.62rem; font-weight: 800; letter-spacing: 0.16em; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.52); text-transform: uppercase; }
+
+  @keyframes world-drift { from { transform: scale(1.012) translate3d(-0.6%, -0.25%, 0); } to { transform: scale(1.065) translate3d(1.15%, 0.55%, 0); } }
+  @keyframes ribbon-breathe { from { opacity: 0.16; transform: rotate(-19deg) scaleX(0.84); } to { opacity: 0.40; transform: rotate(-19deg) scaleX(1.08); } }
+  @keyframes world-glint { 0%, 48% { opacity: 0; transform: translateX(-220%) rotate(14deg); } 55% { opacity: 0.65; } 75%, 100% { opacity: 0; transform: translateX(470%) rotate(14deg); } }
+
+  @media (max-width: 900px) {
+    .arena-stage__art { object-position: 56% center; }
+    .arena-stage__veil { background: linear-gradient(90deg, rgba(6, 13, 27, 0.88), rgba(6, 13, 27, 0.54) 53%, rgba(6, 13, 27, 0.06)), linear-gradient(180deg, rgba(7, 14, 28, 0.02) 34%, rgba(7, 14, 28, 0.67)); }
+    .arena-stage__genres { max-width: 25rem; }
+  }
+  @media (max-width: 640px) {
+    .arena-stage__art { inset: -4%; width: 108%; height: 108%; object-position: 52% center; filter: saturate(1.06) contrast(1.02) brightness(1.02); }
+    .arena-stage__veil { background: linear-gradient(180deg, rgba(6, 13, 27, 0.08) 0%, rgba(6, 13, 27, 0.22) 37%, rgba(6, 13, 27, 0.89) 69%, rgba(6, 13, 27, 0.98) 100%); }
+    .arena-stage__logo { top: 1.25rem; right: 1rem; width: 4.8rem; }
+    .arena-stage__genres { top: 1rem; right: 6rem; bottom: auto; left: 1rem; justify-content: flex-start; }
+    .arena-stage__genres i { padding: 0.36rem 0.46rem; font-size: 0.52rem; }
+    .arena-stage__coordinate, .arena-stage__glint { display: none; }
+  }
+  @media (max-width: 380px) {
+    .arena-stage__genres i:nth-child(even) { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .arena-stage__art, .arena-stage__ribbon, .arena-stage__glint { animation: none; }
+  }
+  :global(html[data-document-hidden]) .arena-stage__art,
+  :global(html[data-document-hidden]) .arena-stage__ribbon,
+  :global(html[data-document-hidden]) .arena-stage__glint { animation-play-state: paused; }
+  @media (forced-colors: active) {
+    .arena-stage__art, .arena-stage__ribbon, .arena-stage__glint, .arena-stage__logo, .arena-stage__genres { display: none; }
+    .arena-stage { background: Canvas; }
+  }
+</style>
+
+<script>
+  const syncArenaVisibility = () => {
+    document.documentElement.toggleAttribute('data-document-hidden', document.hidden);
+  };
+
+  syncArenaVisibility();
+  document.addEventListener('visibilitychange', syncArenaVisibility, { passive: true });
+</script>
