@@ -19,7 +19,7 @@
     },
     {
       "path": "src/data/PUBLIC-CONTENT-NOTES.md",
-      "sha256": "c5e5b74f916f9d656bfc2861840b8cbd8929c63ea10e7072ecab451fc64255df",
+      "sha256": "6da5fabc4d2cd37f9b05acec5c2727891f0ba59a1d52cf1918106f90bb6f0d5b",
       "rightsBasis": "Original project governance documentation written for this clean export.",
       "license": "MIT",
       "reviewedAt": "2026-08-03",
