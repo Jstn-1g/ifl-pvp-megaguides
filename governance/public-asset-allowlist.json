@@ -12,6 +12,26 @@
       "license": "All rights reserved; public redistribution is permitted only as part of this repository and its generated site.",
       "approvalDate": "2026-08-03",
       "redistributable": true
+    },
+    {
+      "path": "docs/screenshots/home-desktop.png",
+      "role": "other",
+      "sha256": "520397df358e88d2801490ae94e961e7418907b7791f7bbfedcefb6718ca61b4",
+      "creatorSource": "Playwright viewport capture of this repository's local static build at 1440x900 with reduced motion enabled",
+      "rightsBasis": "First-party capture of the original CSS-only Reference Grid interface; contains no publisher art, game screenshots, remote fonts, third-party logos, or private data.",
+      "license": "All rights reserved; public redistribution is permitted only as part of this repository and its project presentation.",
+      "approvalDate": "2026-08-03",
+      "redistributable": true
+    },
+    {
+      "path": "docs/screenshots/evidence-hold-desktop.png",
+      "role": "other",
+      "sha256": "25b44240897a03b79c4268e33b86feacbd66b8766a8e821862b98ec3cdc3ac52",
+      "creatorSource": "Playwright viewport capture of this repository's local static build at 1440x900 with reduced motion enabled",
+      "rightsBasis": "First-party capture of the original CSS-only Reference Grid interface and evidence-hold route; contains no publisher art, game screenshots, remote fonts, third-party logos, or private data.",
+      "license": "All rights reserved; public redistribution is permitted only as part of this repository and its project presentation.",
+      "approvalDate": "2026-08-03",
+      "redistributable": true
     }
   ]
 }

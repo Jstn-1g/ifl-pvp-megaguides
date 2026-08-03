@@ -2,6 +2,17 @@
 
 **Source-backed, version-pinned field manuals for competitive games.**
 
+<p align="center">
+  <img src="public/og.png" width="900" alt="IFL PvP MegaGuides — source-backed, version-pinned field manuals for competitive games" />
+</p>
+
+<p align="center">
+  <a href="https://iflpvp.com"><img alt="Live site" src="https://img.shields.io/badge/live-iflpvp.com-e9a84d?style=flat-square" /></a>
+  <a href="https://github.com/Jstn-1g/ifl-pvp-megaguides/actions/workflows/ci.yml"><img alt="Public release verification" src="https://github.com/Jstn-1g/ifl-pvp-megaguides/actions/workflows/ci.yml/badge.svg?branch=main" /></a>
+  <a href="https://github.com/Jstn-1g/ifl-pvp-megaguides/actions/workflows/codeql.yml"><img alt="CodeQL security analysis" src="https://github.com/Jstn-1g/ifl-pvp-megaguides/actions/workflows/codeql.yml/badge.svg?branch=main" /></a>
+  <a href="LICENSE"><img alt="MIT code license" src="https://img.shields.io/badge/code-MIT-83b7d7?style=flat-square" /></a>
+</p>
+
 IFL PvP MegaGuides is a guide-first reference site built for players who want durable answers: what a guide covers, which version it reflects, when it was reviewed, and the evidence behind material claims.
 
 The original application and maintenance tooling in this release candidate are intended for MIT-licensed publication only after the public-release attestation and release checks pass. The project’s editorial library, collected data, brand assets, and third-party material are not automatically covered by that license. Start with [CONTENT-LICENSE.md](CONTENT-LICENSE.md) and [NOTICE.md](NOTICE.md) before reusing anything other than code.
@@ -14,6 +25,33 @@ The original application and maintenance tooling in this release candidate are i
 - A human-reviewed maintenance model: automation may prepare proposals, but it may not merge, deploy, or publish without maintainer approval.
 
 The production site remains at [iflpvp.com](https://iflpvp.com). This repository deliberately does not include a live-site export or a copy of its historical media library.
+
+## Product preview
+
+These captures come from this repository’s CSS-only public candidate. They contain no publisher artwork, game screenshots, remote fonts, or historical media.
+
+<p>
+  <img src="docs/screenshots/home-desktop.png" width="49%" alt="IFL PvP MegaGuides desktop home with the Reference Grid field-manual interface" />
+  <img src="docs/screenshots/evidence-hold-desktop.png" width="49%" alt="Evidence-held guide route showing its review status and publication boundary" />
+</p>
+
+## How it works
+
+1. **A route declares its status.** Current, stable-historical, review-due, and unavailable states are visible rather than hidden behind a freshness badge.
+2. **Material claims require evidence.** Version context, review dates, source links, and correction paths travel with the guide record.
+3. **Publication fails closed.** Missing proof keeps a route available only as a clearly labeled, non-indexed evidence hold; automation cannot promote it on its own.
+4. **Releases are reviewed artifacts.** DCO, rights, provenance, dependency, SEO, browser, accessibility, workflow, and clean-history gates run before a tagged build can become a release asset.
+
+## Repository map
+
+| Path | Responsibility |
+| --- | --- |
+| `src/data/` | Human-reviewed public records and their source ledger |
+| `src/pages/`, `src/layouts/`, `src/components/` | Static routes and the responsive Reference Grid experience |
+| `governance/` | Deny-by-default content and asset publication records |
+| `scripts/` | Deterministic release, provenance, policy, browser, and accessibility gates |
+| `.github/workflows/` | SHA-pinned CI, CodeQL, reviewed version PRs, and immutable release artifacts |
+| `public/` | First-party social preview and LiteSpeed security-header contract |
 
 ## Repository status
 
@@ -34,6 +72,7 @@ Before opening a pull request, run the checks relevant to the change:
 npm run public:boundary
 npm run policy:dco
 npm run licenses:check
+npm run workflows:check
 npm run check
 npm test
 npm run build

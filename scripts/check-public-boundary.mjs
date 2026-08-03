@@ -59,7 +59,9 @@ export async function auditPublicBoundary({ root = projectRoot, paths, allowlist
     const lower = repoPath.toLowerCase();
     if (prohibitedExact.has(lower) || lower.startsWith('.env.') || lower.includes('/.env.')) failures.push(`${repoPath}: environment files are never public.`);
     if (repoPath.startsWith('.git/') || repoPath.startsWith('node_modules/') || repoPath.startsWith('dist/') || repoPath.startsWith('.astro/')) failures.push(`${repoPath}: generated or repository-internal path is forbidden.`);
-    if (prohibitedPrefixes.some((prefix) => repoPath.startsWith(prefix))) failures.push(`${repoPath}: private/media-vault path is forbidden.`);
+    const prohibitedPrefix = prohibitedPrefixes.find((prefix) => repoPath.startsWith(prefix));
+    const reviewedPublicScreenshot = prohibitedPrefix === 'docs/screenshots/' && allowlist.has(repoPath);
+    if (prohibitedPrefix && !reviewedPublicScreenshot) failures.push(`${repoPath}: private/media-vault path is forbidden.`);
     if (lower.endsWith('.pyc') || lower.endsWith('.pyo')) failures.push(`${repoPath}: compiled Python artifacts are forbidden.`);
 
     const extension = path.posix.extname(repoPath).toLowerCase();
