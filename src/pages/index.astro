@@ -24,6 +24,7 @@ function reviewLabel(entry: (typeof PUBLIC_CONTENT)[number]) {
 <BaseLayout {...descriptions} canonicalPath="/">
   <section class="hero hero--home" aria-labelledby="site-intro">
     <ArenaStage />
+    <p class="sr-only">The hero uses original IFL concept art. It is not game footage and does not claim current guide coverage.</p>
     <div class="container hero__inner">
       <div class="hero__content">
         <p class="eyebrow">IFL PvP / Competitive intelligence</p>
@@ -51,7 +52,7 @@ function reviewLabel(entry: (typeof PUBLIC_CONTENT)[number]) {
         </div>
         <a href="/guides/">See all retained routes <span aria-hidden="true">→</span></a>
       </div>
-      <p class="section-intro">The public export starts deliberately small. These pages preserve useful paths without releasing unreviewed detailed guides, imagery, or scraped datasets.</p>
+      <p class="section-intro">The public export starts deliberately small. These pages preserve useful paths without releasing unreviewed detailed guides, publisher or game imagery, or scraped datasets.</p>
       {featuredEntries.length > 0 ? (
         <div class="guide-grid">
           {featuredEntries.map((entry, index) => (

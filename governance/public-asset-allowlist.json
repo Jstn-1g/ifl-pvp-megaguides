@@ -28,7 +28,7 @@
     {
       "path": "public/og.png",
       "role": "social-card",
-      "sha256": "8eeca5e2159966caeb37adf286bdc4541c80e051d3b098207781237cc34f61c5",
+      "sha256": "c814cafa20888869c8c5c997ec1d89c0dbcdef1495a16ee4aeb055e3f5b0b904",
       "creatorSource": "Deterministic local render from scripts/generate-social-card.mjs using the allowlisted IFL PvP logo and multi-genre illustration",
       "rightsBasis": "Original project presentation generated with the approved first-party IFL PvP identity mark, franchise-neutral multi-genre illustration, system typography, and CSS geometry; contains no publisher art, game screenshots, third-party fonts, or remote assets.",
       "license": "All rights reserved; public redistribution is permitted only as part of this repository and its generated site.",
@@ -38,7 +38,7 @@
     {
       "path": "docs/screenshots/home-desktop.png",
       "role": "other",
-      "sha256": "842fa99d866a589d3cf6414d317926d19d036d6cb6c500bf157d3d2e42e21350",
+      "sha256": "24e9e504cbb4a6fb37bc1d4c1942228a77b56a0b003eec5887aa372e06aa02df",
       "creatorSource": "Playwright full-page capture of this repository's local static build at a 1440x1000 viewport with reduced motion enabled",
       "rightsBasis": "First-party capture of the Reference Grid interface using the allowlisted IFL PvP logo and franchise-neutral multi-genre artwork; contains no publisher art, game screenshots, remote fonts, third-party logos, or private data.",
       "license": "All rights reserved; public redistribution is permitted only as part of this repository and its project presentation.",
