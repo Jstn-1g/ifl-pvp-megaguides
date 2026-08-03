@@ -2,6 +2,8 @@ import { readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { invokedAsMain, projectRoot } from './release-utils.mjs';
 
+const allowedWritePermissions = new Set(['actions', 'contents', 'pull-requests', 'security-events']);
+
 function indentation(line) {
   return line.match(/^\s*/)?.[0].length ?? 0;
 }
@@ -34,10 +36,17 @@ export async function checkWorkflows({ root = projectRoot } = {}) {
     if (/^\s*persist-credentials:\s*true\s*$/m.test(source)) failures.push(`${name}: checkout credentials must not persist.`);
     for (const [index, line] of lines.entries()) {
       const uses = line.match(/^\s*-?\s*uses:\s*([^\s#]+)/);
+      const writePermission = line.match(/^\s+([a-z-]+):\s+write\s*(?:#.*)?$/);
       if (uses && !uses[1].startsWith('./') && !/@[a-f0-9]{40}$/i.test(uses[1])) {
         failures.push(`${name}:${index + 1}: action must be pinned to a full commit SHA.`);
       }
+      if (writePermission && !allowedWritePermissions.has(writePermission[1])) {
+        failures.push(`${name}:${index + 1}: ${writePermission[1]}: write is outside the workflow permission allowlist.`);
+      }
       if (expressionInRunBlock(lines, index)) failures.push(`${name}:${index + 1}: GitHub expressions must enter shell steps through a quoted environment variable.`);
+      if (/\bgh\s+workflow\s+run\b/.test(line) && !/\s--repo(?:\s|=)/.test(line)) {
+        failures.push(`${name}:${index + 1}: workflow dispatch must declare an explicit --repo target.`);
+      }
     }
   }
   return { ok: failures.length === 0, failures, workflowCount: names.length };

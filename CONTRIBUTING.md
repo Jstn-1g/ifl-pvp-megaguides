@@ -20,7 +20,7 @@ git commit -s -m "fix: describe the change"
 
 This adds `Signed-off-by: Your Name <email@example.com>` to the commit. By signing off, you certify the statements in [DCO.md](DCO.md). Do not sign off work that you are not authorized to submit under the stated license.
 
-Automated dependency pull requests are not approved for merge as-is. A maintainer must review the update and contribute the accepted change through a signed-off human commit before it can merge.
+The exact GitHub Dependabot identity has a narrow CI-only exception so its dependency pull requests can run verification before review. This is not a DCO waiver for `main`: automated dependency pull requests are not approved for merge as-is, and a maintainer must review the update and contribute the accepted change through a signed-off human commit before it can merge. The exception does not waive scope, licensing, rights, or security review.
 
 ## AI and automation
 

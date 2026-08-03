@@ -28,7 +28,8 @@ jobs:
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
           RELEASE_PR: ${{ steps.release.outputs.pr }}
         run: |
           head_branch="$(jq -er '.headBranchName' <<< "$RELEASE_PR")"
-          gh workflow run ci.yml --ref "$head_branch"
+          gh workflow run ci.yml --repo "$GH_REPO" --ref "$head_branch"

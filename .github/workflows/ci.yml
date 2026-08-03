@@ -41,10 +41,16 @@ jobs:
         run: npm audit --omit=dev --audit-level=high
 
       - name: Verify public source, provenance, and history
+        env:
+          ALLOW_DEPENDABOT_DCO: ${{ github.event_name == 'pull_request' && github.actor == 'dependabot[bot]' }}
         run: |
           npm run version:check
           npm run public:boundary
-          npm run policy:dco
+          if [[ "$ALLOW_DEPENDABOT_DCO" == "true" ]]; then
+            npm run policy:dco -- --allow-dependabot
+          else
+            npm run policy:dco
+          fi
           npm run licenses:check
           npm run workflows:check
           node scripts/check-content-provenance.mjs

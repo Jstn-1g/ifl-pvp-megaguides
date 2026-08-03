@@ -17,21 +17,38 @@ async function commitRange(suppliedRange) {
   return 'HEAD';
 }
 
-export async function checkDco({ root = projectRoot, range } = {}) {
+const dependabotIdentity = {
+  name: 'dependabot[bot]',
+  email: '49699333+dependabot[bot]@users.noreply.github.com',
+};
+
+export async function checkDco({ root = projectRoot, range, allowDependabot = false } = {}) {
   const revisionRange = await commitRange(range);
-  const { stdout } = await execFile('git', ['log', '--format=%H%x00%B%x00', revisionRange], { cwd: root, encoding: 'utf8' });
+  const { stdout } = await execFile('git', ['log', '--format=%H%x00%an%x00%ae%x00%cn%x00%ce%x00%B%x00', revisionRange], { cwd: root, encoding: 'utf8' });
   const chunks = stdout.split('\0').map((chunk) => chunk.trim()).filter(Boolean);
   const failures = [];
-  for (let index = 0; index < chunks.length; index += 2) {
+  let exemptionCount = 0;
+  for (let index = 0; index < chunks.length; index += 6) {
     const commit = chunks[index];
-    const message = chunks[index + 1] ?? '';
-    if (!/^Signed-off-by:\s+.+<[^>]+>\s*$/im.test(message)) failures.push(`${commit}: missing Signed-off-by trailer.`);
+    const authorName = chunks[index + 1] ?? '';
+    const authorEmail = chunks[index + 2] ?? '';
+    const committerName = chunks[index + 3] ?? '';
+    const committerEmail = chunks[index + 4] ?? '';
+    const message = chunks[index + 5] ?? '';
+    const signed = /^Signed-off-by:\s+.+<[^>]+>\s*$/im.test(message);
+    const exactDependabotAuthor = authorName === dependabotIdentity.name && authorEmail === dependabotIdentity.email;
+    const exactDependabotCommitter = committerName === dependabotIdentity.name && committerEmail === dependabotIdentity.email;
+    if (!signed && allowDependabot && exactDependabotAuthor && exactDependabotCommitter) exemptionCount += 1;
+    else if (!signed) failures.push(`${commit}: missing Signed-off-by trailer.`);
   }
-  return { ok: failures.length === 0, failures, range: revisionRange, commitCount: chunks.length / 2 };
+  return { ok: failures.length === 0, failures, range: revisionRange, commitCount: chunks.length / 6, exemptionCount };
 }
 
 async function main() {
-  const result = await checkDco();
+  const args = process.argv.slice(2);
+  const unknown = args.filter((argument) => argument !== '--allow-dependabot');
+  if (unknown.length > 0) throw new Error(`Unknown option(s): ${unknown.join(', ')}`);
+  const result = await checkDco({ allowDependabot: args.includes('--allow-dependabot') });
   if (!result.ok) { console.error(`DCO check failed for ${result.range}:`); result.failures.forEach((failure) => console.error(`  - ${failure}`)); process.exitCode = 1; return; }
   console.log(`DCO check passed: ${result.commitCount} commit(s) in ${result.range}.`);
 }
