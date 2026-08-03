@@ -13,7 +13,7 @@
 * align automated release tags ([#8](https://github.com/Jstn-1g/ifl-pvp-megaguides/issues/8)) ([90fc42a](https://github.com/Jstn-1g/ifl-pvp-megaguides/commit/90fc42a2fd6deed238ef019c852fd14707d898a6))
 * reconcile verified release state ([#9](https://github.com/Jstn-1g/ifl-pvp-megaguides/issues/9)) ([a47d8b9](https://github.com/Jstn-1g/ifl-pvp-megaguides/commit/a47d8b962e69d38e0b81a4ece0df2c384dd414de))
 
-## [0.2.0](https://github.com/Jstn-1g/ifl-pvp-megaguides/compare/ifl-pvp-megaguides-v0.2.0-rc.1...ifl-pvp-megaguides-v0.2.0) (2026-08-03)
+## [0.2.0](https://github.com/Jstn-1g/ifl-pvp-megaguides/releases/tag/v0.2.0) (2026-08-03)
 
 
 ### Features
