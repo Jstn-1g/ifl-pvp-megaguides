@@ -1,6 +1,7 @@
 name: Public release verification
 
 on:
+  workflow_dispatch:
   pull_request:
   push:
     branches: [main]

@@ -5,6 +5,7 @@ on:
     branches: [main]
 
 permissions:
+  actions: write
   contents: write
   pull-requests: write
 
@@ -17,7 +18,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Open or update the reviewed version pull request
+        id: release
         uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
         with:
-          release-type: node
           skip-github-release: true
+
+      - name: Queue release pull request verification
+        if: steps.release.outputs.prs_created == 'true'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_PR: ${{ steps.release.outputs.pr }}
+        run: |
+          head_branch="$(jq -er '.headBranchName' <<< "$RELEASE_PR")"
+          gh workflow run ci.yml --ref "$head_branch"
