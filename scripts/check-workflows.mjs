@@ -28,9 +28,11 @@ export async function checkWorkflows({ root = projectRoot } = {}) {
   const directory = path.join(root, '.github', 'workflows');
   const names = (await readdir(directory)).filter((name) => /\.ya?ml$/i.test(name)).sort();
   const failures = [];
+  let usesReleasePlease = false;
   for (const name of names) {
     const source = await readFile(path.join(directory, name), 'utf8');
     const lines = source.split(/\r?\n/);
+    if (/googleapis\/release-please-action@/i.test(source)) usesReleasePlease = true;
     if (!/^permissions:\s*$/m.test(source)) failures.push(`${name}: top-level permissions must be declared.`);
     if (/^\s*pull_request_target\s*:/m.test(source)) failures.push(`${name}: pull_request_target is forbidden for the public repository.`);
     if (/^\s*secrets:\s*inherit\s*$/m.test(source)) failures.push(`${name}: inherited workflow secrets are forbidden.`);
@@ -56,6 +58,16 @@ export async function checkWorkflows({ root = projectRoot } = {}) {
       if (/\bgh\s+workflow\s+run\b/.test(line) && !/\s--repo(?:\s|=)/.test(line)) {
         failures.push(`${name}:${index + 1}: workflow dispatch must declare an explicit --repo target.`);
       }
+    }
+  }
+  if (usesReleasePlease) {
+    try {
+      const config = JSON.parse(await readFile(path.join(root, 'release-please-config.json'), 'utf8'));
+      if (config['include-component-in-tag'] !== false || config['include-v-in-tag'] !== true) {
+        failures.push('release-please-config.json: tag policy must explicitly produce vX.Y.Z tags without a component prefix.');
+      }
+    } catch (error) {
+      failures.push(`release-please-config.json: could not validate release tag policy (${error.message}).`);
     }
   }
   return { ok: failures.length === 0, failures, workflowCount: names.length };
