@@ -5,7 +5,7 @@
 
 ### Bug Fixes
 
-* make release artifacts reproducible ([#11](https://github.com/Jstn-1g/ifl-pvp-megaguides/issues/11)) ([18a08cc](https://github.com/Jstn-1g/ifl-pvp-megaguides/commit/18a08ccaabdc715def274b9fb5a4d5be3e01b712))
+* make release artifacts reproducible ([#11](https://github.com/Jstn-1g/ifl-pvp-megaguides/pull/11)) ([18a08cc](https://github.com/Jstn-1g/ifl-pvp-megaguides/commit/18a08ccaabdc715def274b9fb5a4d5be3e01b712))
 
 ## [0.3.0](https://github.com/Jstn-1g/ifl-pvp-megaguides/compare/v0.2.0...v0.3.0) (2026-08-03)
 
