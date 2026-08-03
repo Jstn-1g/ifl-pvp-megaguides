@@ -34,4 +34,7 @@ jobs:
         run: node scripts/check-public-history.mjs
 
       - name: Refuse unimplemented hosting writes
-        run: node scripts/deploy-guard.mjs --environment=${{ inputs.environment }} --tag=${{ inputs.tag }}
+        env:
+          DEPLOY_ENVIRONMENT: ${{ inputs.environment }}
+          DEPLOY_TAG: ${{ inputs.tag }}
+        run: node scripts/deploy-guard.mjs "--environment=$DEPLOY_ENVIRONMENT" "--tag=$DEPLOY_TAG"

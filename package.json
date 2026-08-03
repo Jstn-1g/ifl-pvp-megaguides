@@ -22,12 +22,14 @@
     "build": "astro build && node scripts/check-build.mjs",
     "preview": "astro preview",
     "version:check": "node scripts/check-version.mjs",
+    "audit:production": "npm audit --omit=dev --audit-level=high",
     "public:boundary": "node scripts/check-public-boundary.mjs",
     "policy:dco": "node scripts/check-dco.mjs",
     "licenses:check": "node scripts/check-licenses.mjs",
+    "workflows:check": "node scripts/check-workflows.mjs",
     "qa:frontend": "node scripts/qa-frontend.mjs",
     "qa:a11y": "node scripts/qa-a11y.mjs",
-    "release:gate": "npm run version:check && npm run public:boundary && npm run policy:dco && npm run licenses:check && node scripts/check-content-provenance.mjs && node scripts/check-public-history.mjs && npm run check && npm test && npm run build && npm run qa:frontend && npm run qa:a11y && node scripts/check-generated-cleanliness.mjs"
+    "release:gate": "npm run version:check && npm run audit:production && npm run public:boundary && npm run policy:dco && npm run licenses:check && npm run workflows:check && node scripts/check-content-provenance.mjs && node scripts/check-public-history.mjs && npm run check && npm test && npm run build && npm run qa:frontend && npm run qa:a11y && node scripts/check-generated-cleanliness.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",

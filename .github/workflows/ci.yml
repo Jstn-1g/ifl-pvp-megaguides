@@ -45,6 +45,7 @@ jobs:
           npm run public:boundary
           npm run policy:dco
           npm run licenses:check
+          npm run workflows:check
           node scripts/check-content-provenance.mjs
           node scripts/check-public-history.mjs
 

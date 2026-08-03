@@ -18,6 +18,8 @@ jobs:
     env:
       CI: true
       PUBLIC_BUILD_SHA: ${{ github.sha }}
+      RELEASE_COMMIT: ${{ github.sha }}
+      RELEASE_TAG: ${{ github.ref_name }}
     steps:
       - name: Check out exact tag
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -41,6 +43,7 @@ jobs:
           npm run public:boundary
           npm run policy:dco
           npm run licenses:check
+          npm run workflows:check
           node scripts/check-content-provenance.mjs
           node scripts/check-public-history.mjs
           npm run check
@@ -66,14 +69,58 @@ jobs:
 
       - name: Write and verify immutable artifact manifest
         run: |
-          node scripts/write-release-manifest.mjs --tag=${{ github.ref_name }} --commit=${{ github.sha }}
-          node scripts/verify-release-candidate.mjs --tag=${{ github.ref_name }} --commit=${{ github.sha }}
+          node scripts/write-release-manifest.mjs "--tag=$RELEASE_TAG" "--commit=$RELEASE_COMMIT"
+          node scripts/verify-release-candidate.mjs "--tag=$RELEASE_TAG" "--commit=$RELEASE_COMMIT"
           node scripts/check-generated-cleanliness.mjs
+
+      - name: Package deterministic release archive
+        shell: bash
+        run: |
+          artifact="ifl-pvp-${GITHUB_REF_NAME}-${GITHUB_SHA}.tar.gz"
+          tar --sort=name --mtime='UTC 1970-01-01' --owner=0 --group=0 --numeric-owner -cf - -C dist . | gzip -n -9 > "$artifact"
+          sha256sum "$artifact" > "$artifact.sha256"
+          echo "RELEASE_ARTIFACT=$artifact" >> "$GITHUB_ENV"
 
       - name: Upload immutable static artifact
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: ifl-pvp-${{ github.ref_name }}-${{ github.sha }}
-          path: dist/
+          path: |
+            dist/release-manifest.json
+            ${{ env.RELEASE_ARTIFACT }}
+            ${{ env.RELEASE_ARTIFACT }}.sha256
           if-no-files-found: error
           retention-days: 90
+
+
+  publish:
+    name: publish durable release assets
+    needs: artifact
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - name: Download verified release artifact
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: ifl-pvp-${{ github.ref_name }}-${{ github.sha }}
+
+      - name: Publish durable GitHub release assets
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_ARTIFACT: ifl-pvp-${{ github.ref_name }}-${{ github.sha }}.tar.gz
+        run: |
+          publish_draft=false
+          if ! gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            release_args=(--verify-tag --generate-notes --title "$GITHUB_REF_NAME" --draft)
+            if [[ "$GITHUB_REF_NAME" == *-* ]]; then release_args+=(--prerelease); fi
+            gh release create "$GITHUB_REF_NAME" "${release_args[@]}"
+            publish_draft=true
+          elif [[ "$(gh release view "$GITHUB_REF_NAME" --json isDraft --jq .isDraft)" == "true" ]]; then
+            publish_draft=true
+          fi
+          gh release upload "$GITHUB_REF_NAME" "$RELEASE_ARTIFACT" "$RELEASE_ARTIFACT.sha256"
+          if [[ "$publish_draft" == "true" ]]; then gh release edit "$GITHUB_REF_NAME" --draft=false; fi
