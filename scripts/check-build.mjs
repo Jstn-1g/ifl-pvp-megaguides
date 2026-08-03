@@ -1,5 +1,6 @@
-import { stat } from 'node:fs/promises';
+import { readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
+import { checkLegacyRetirementPolicy } from './check-legacy-retirement.mjs';
 import { checkSeoOutput } from './check-seo-output.mjs';
 import { checkSocialCard } from './check-social-card.mjs';
 import { projectRoot, relativePosix, walkFiles } from './release-utils.mjs';
@@ -12,6 +13,10 @@ export async function checkBuild({ root = projectRoot } = {}) {
   const relative = new Set(files.map((file) => relativePosix(dist, file)));
   for (const required of ['.htaccess', 'index.html', '404.html', 'robots.txt', 'sitemap-index.xml', 'sitemap-0.xml', 'rss.xml']) {
     if (!relative.has(required)) failures.push(`dist/${required} is required for a public static release.`);
+  }
+  if (relative.has('.htaccess')) {
+    const htaccess = await readFile(path.join(dist, '.htaccess'), 'utf8');
+    failures.push(...checkLegacyRetirementPolicy(htaccess));
   }
   let totalBytes = 0;
   for (const file of files) {

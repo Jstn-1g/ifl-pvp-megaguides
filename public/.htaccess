@@ -1,5 +1,17 @@
 Options -Indexes
 
+# The former mixed-rights editorial corpus is preserved privately. Retired
+# routes are intentionally gone until each route clears rights and evidence
+# review; the archive page explains that status without a misleading redirect.
+ErrorDocument 410 /archive/index.html
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^ - [G,L]
+</IfModule>
+
 <IfModule mod_headers.c>
   Header always set Content-Security-Policy "default-src 'self'; base-uri 'self'; connect-src 'self'; font-src 'self'; form-action 'self'; frame-ancestors 'none'; img-src 'self' data:; media-src 'none'; object-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests"
   Header always set Cross-Origin-Opener-Policy "same-origin"
