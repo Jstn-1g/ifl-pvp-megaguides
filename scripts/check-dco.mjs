@@ -20,7 +20,7 @@ async function commitRange(suppliedRange) {
 export async function checkDco({ root = projectRoot, range } = {}) {
   const revisionRange = await commitRange(range);
   const { stdout } = await execFile('git', ['log', '--format=%H%x00%B%x00', revisionRange], { cwd: root, encoding: 'utf8' });
-  const chunks = stdout.split('\0').filter(Boolean);
+  const chunks = stdout.split('\0').map((chunk) => chunk.trim()).filter(Boolean);
   const failures = [];
   for (let index = 0; index < chunks.length; index += 2) {
     const commit = chunks[index];
