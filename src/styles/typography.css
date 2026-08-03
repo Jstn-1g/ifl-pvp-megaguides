@@ -16,6 +16,8 @@
 .prose h3 { margin-top: 2rem; font-size: clamp(1.25rem, 1.6vw, 1.5rem); }
 .prose a { color: var(--accent-strong); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.22em; }
 .prose a:hover { color: var(--text-bright); }
+.prose a.button { text-decoration: none; }
+.prose a.button--primary, .prose a.button--primary:hover { color: #171008; }
 .prose strong { color: var(--text-bright); }
 .prose ul, .prose ol { padding-left: 1.3rem; }
 .prose ul { list-style: square; }

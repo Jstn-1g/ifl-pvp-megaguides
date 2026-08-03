@@ -42,9 +42,11 @@ const indexLabel = typeof index === 'number' ? String(index).padStart(2, '0') : 
     --cover-accent: var(--accent);
     position: relative;
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: auto minmax(0, 1fr);
     grid-template-rows: auto 1fr auto;
     min-height: 100%;
+    min-width: 0;
+    width: 100%;
     overflow: hidden;
     isolation: isolate;
     padding: clamp(0.75rem, 3.3cqw, 1.5rem);
@@ -114,7 +116,7 @@ const indexLabel = typeof index === 'number' ? String(index).padStart(2, '0') : 
   .reference-cover--compact { min-height: 7.5rem; }
   .reference-cover--compact .reference-cover__title { font-size: clamp(0.95rem, 8cqw, 1.4rem); }
   .reference-cover--card { aspect-ratio: 16 / 10; }
-  .reference-cover--featured, .reference-cover--hero { aspect-ratio: 16 / 9; min-height: 16rem; }
+  .reference-cover--featured, .reference-cover--hero { aspect-ratio: 16 / 9; }
   .reference-cover--hero .reference-cover__title { max-width: 15ch; font-size: clamp(1.75rem, 8cqw, 4.2rem); }
   .reference-cover--social { aspect-ratio: 1200 / 630; }
 

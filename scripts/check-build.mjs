@@ -10,7 +10,7 @@ export async function checkBuild({ root = projectRoot } = {}) {
   let files = [];
   try { files = await walkFiles(dist); } catch { failures.push('dist/ is missing; run the production build first.'); }
   const relative = new Set(files.map((file) => relativePosix(dist, file)));
-  for (const required of ['index.html', '404.html', 'robots.txt', 'sitemap-index.xml', 'sitemap-0.xml', 'rss.xml']) {
+  for (const required of ['.htaccess', 'index.html', '404.html', 'robots.txt', 'sitemap-index.xml', 'sitemap-0.xml', 'rss.xml']) {
     if (!relative.has(required)) failures.push(`dist/${required} is required for a public static release.`);
   }
   let totalBytes = 0;

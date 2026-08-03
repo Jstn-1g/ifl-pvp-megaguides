@@ -51,6 +51,7 @@ const jsonLd = {
     ...supplementalStructuredData,
   ],
 };
+const serializedJsonLd = JSON.stringify(jsonLd).replaceAll('<', '\\u003c');
 ---
 
 <!doctype html>
@@ -74,7 +75,7 @@ const jsonLd = {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={`${SITE.url}/og.png`} />
     <meta name="twitter:image:alt" content="IFL PvP MegaGuides Reference Grid" />
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <script is:inline type="application/ld+json" set:html={serializedJsonLd} />
     <title>{title}</title>
   </head>
   <body>

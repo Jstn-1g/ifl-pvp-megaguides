@@ -20,7 +20,7 @@ const { href, title, description, game, index, status, statusLabel, reviewedLabe
 ---
 
 <article class="guide-card" data-guide-status={status}>
-  <a href={href} class="guide-card__link" aria-label={`Read ${title}`}>
+  <a href={href} class="guide-card__link" aria-label={`Read ${title}. Status: ${statusLabel ?? status}.`}>
     <ReferenceCover variant="card" title={title} eyebrow={game ?? 'Competitive reference'} status={statusLabel} index={index} seed={href} />
     <div class="guide-card__body">
       <p class="guide-card__eyebrow">{game ?? 'Competitive reference'}</p>
