@@ -4,11 +4,33 @@
   "purpose": "Records non-text assets approved for storage and public redistribution in this repository.",
   "assets": [
     {
+      "path": "public/brand/ifl-pvp-logo.webp",
+      "role": "brand-icon",
+      "sha256": "49667a4587bffb6d6c413ccbd18bf7ebb4c2b792df2e6d4472e2e1ca89cefcc8",
+      "creatorSource": "Original IFL PvP heart mark; copied byte-for-byte from the separately preserved private source archive's approved logo-only asset set",
+      "rightsBasis": "First-party project identity artwork recorded as owned and approved in the private source provenance registry. The project owner explicitly authorized its public use on 2026-08-03; approval does not extend to any game-art collage.",
+      "license": "All rights reserved; public redistribution is permitted only as part of this repository and its generated site. The mark is not licensed under MIT.",
+      "approvalDate": "2026-08-03",
+      "reviewer": "Project owner",
+      "redistributable": true
+    },
+    {
+      "path": "public/brand/ifl-pvp-genre-worlds-v1.webp",
+      "role": "other",
+      "sha256": "1b01687f62f86347eb3026e83892864188cc7d6ebad39237906591e6b25663ae",
+      "creatorSource": "Original franchise-neutral multi-genre artwork generated specifically for this project with the built-in OpenAI image-generation workflow; exact prompt is recorded in governance/generated-assets.md",
+      "rightsBasis": "Project-directed original visual spanning fantasy, arena, racing, and tactical competition with no intentional existing game characters, logos, UI, screenshots, or publisher assets. The project owner reviewed the generated result in the working session and authorized the brighter multi-genre experience on 2026-08-03.",
+      "license": "All rights reserved; public redistribution is permitted only as part of this repository and its generated site. The artwork is not licensed under MIT.",
+      "approvalDate": "2026-08-03",
+      "reviewer": "Project owner",
+      "redistributable": true
+    },
+    {
       "path": "public/og.png",
       "role": "social-card",
-      "sha256": "84fe3c5e9587d52488a3387f0fad9564c51934a60d951dd731e16faf94df0b3c",
-      "creatorSource": "Deterministic CSS-only render from scripts/generate-social-card.mjs",
-      "rightsBasis": "Original project presentation generated without third-party art, logos, screenshots, fonts, or remote assets.",
+      "sha256": "c814cafa20888869c8c5c997ec1d89c0dbcdef1495a16ee4aeb055e3f5b0b904",
+      "creatorSource": "Deterministic local render from scripts/generate-social-card.mjs using the allowlisted IFL PvP logo and multi-genre illustration",
+      "rightsBasis": "Original project presentation generated with the approved first-party IFL PvP identity mark, franchise-neutral multi-genre illustration, system typography, and CSS geometry; contains no publisher art, game screenshots, third-party fonts, or remote assets.",
       "license": "All rights reserved; public redistribution is permitted only as part of this repository and its generated site.",
       "approvalDate": "2026-08-03",
       "redistributable": true
@@ -16,9 +38,9 @@
     {
       "path": "docs/screenshots/home-desktop.png",
       "role": "other",
-      "sha256": "520397df358e88d2801490ae94e961e7418907b7791f7bbfedcefb6718ca61b4",
-      "creatorSource": "Playwright viewport capture of this repository's local static build at 1440x900 with reduced motion enabled",
-      "rightsBasis": "First-party capture of the original CSS-only Reference Grid interface; contains no publisher art, game screenshots, remote fonts, third-party logos, or private data.",
+      "sha256": "24e9e504cbb4a6fb37bc1d4c1942228a77b56a0b003eec5887aa372e06aa02df",
+      "creatorSource": "Playwright full-page capture of this repository's local static build at a 1440x1000 viewport with reduced motion enabled",
+      "rightsBasis": "First-party capture of the Reference Grid interface using the allowlisted IFL PvP logo and franchise-neutral multi-genre artwork; contains no publisher art, game screenshots, remote fonts, third-party logos, or private data.",
       "license": "All rights reserved; public redistribution is permitted only as part of this repository and its project presentation.",
       "approvalDate": "2026-08-03",
       "redistributable": true
@@ -26,9 +48,9 @@
     {
       "path": "docs/screenshots/evidence-hold-desktop.png",
       "role": "other",
-      "sha256": "25b44240897a03b79c4268e33b86feacbd66b8766a8e821862b98ec3cdc3ac52",
-      "creatorSource": "Playwright viewport capture of this repository's local static build at 1440x900 with reduced motion enabled",
-      "rightsBasis": "First-party capture of the original CSS-only Reference Grid interface and evidence-hold route; contains no publisher art, game screenshots, remote fonts, third-party logos, or private data.",
+      "sha256": "ce415fe0f9c347d16ffc832def31b1826271d17edae03aa550911b12065f40b1",
+      "creatorSource": "Playwright full-page capture of this repository's local evidence-hold route at a 1440x1000 viewport with reduced motion enabled",
+      "rightsBasis": "First-party capture of the Reference Grid evidence-hold route using the allowlisted IFL PvP logo; contains no publisher art, game screenshots, remote fonts, third-party logos, or private data.",
       "license": "All rights reserved; public redistribution is permitted only as part of this repository and its project presentation.",
       "approvalDate": "2026-08-03",
       "redistributable": true

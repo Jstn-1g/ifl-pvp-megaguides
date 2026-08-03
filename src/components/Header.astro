@@ -11,7 +11,16 @@ const isCurrent = (href: string) => href === '/guides/'
 <header class="site-header">
   <div class="container site-header__inner">
     <a class="brand-lockup" href="/" aria-label={`${SITE.name} home`}>
-      <span class="brand-lockup__mark" aria-hidden="true">IFL</span>
+      <span class="brand-lockup__mark" aria-hidden="true">
+        <img
+          src="/brand/ifl-pvp-logo.webp"
+          alt=""
+          width="400"
+          height="400"
+          decoding="async"
+          data-public-brand-asset="ifl-pvp-logo"
+        />
+      </span>
       <span class="brand-lockup__copy">
         <span>IFL PvP</span>
         <strong>MegaGuides</strong>
@@ -32,8 +41,10 @@ const isCurrent = (href: string) => href === '/guides/'
 <style>
   .site-header { position: sticky; z-index: 100; top: 0; min-height: var(--header-height); border-bottom: 1px solid var(--border-subtle); background: color-mix(in srgb, var(--bg-base) 90%, transparent); backdrop-filter: blur(18px); }
   .site-header__inner { display: flex; min-height: var(--header-height); align-items: center; justify-content: space-between; gap: 1.25rem; }
-  .brand-lockup { display: inline-flex; flex: 0 0 auto; align-items: center; gap: 0.6rem; color: var(--text-bright); }
-  .brand-lockup__mark { display: grid; width: 2.25rem; height: 2.25rem; place-items: center; border: 1px solid var(--accent); color: var(--accent-strong); font-family: var(--font-display); font-size: 0.72rem; font-weight: 850; letter-spacing: -0.04em; }
+  .brand-lockup { display: inline-flex; flex: 0 0 auto; align-items: center; gap: 0.68rem; color: var(--text-bright); }
+  .brand-lockup__mark { position: relative; display: grid; width: 2.65rem; height: 2.65rem; place-items: center; }
+  .brand-lockup__mark::before { position: absolute; inset: 12%; border-radius: 50%; background: linear-gradient(135deg, rgba(74, 129, 203, 0.28), rgba(255, 173, 53, 0.25)); content: ''; filter: blur(9px); }
+  .brand-lockup__mark img { position: relative; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 5px 12px rgba(0, 0, 0, 0.38)); }
   .brand-lockup__copy { display: grid; font-family: var(--font-display); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; line-height: 1.05; text-transform: uppercase; }
   .brand-lockup__copy span { color: var(--text-secondary); }
   .brand-lockup__copy strong { color: var(--text-bright); font-size: 0.88rem; letter-spacing: -0.025em; text-transform: none; }
@@ -57,9 +68,8 @@ const isCurrent = (href: string) => href === '/guides/'
     .site-header__inner { flex-wrap: wrap; padding-block: 0.45rem; }
     .brand-lockup__copy span { display: none; }
     .brand-lockup__copy strong { font-size: 0.75rem; }
-    .site-header__nav { width: 100%; max-width: none; justify-content: space-between; overflow: visible; }
+    .site-header__nav { width: 100%; max-width: none; flex-wrap: wrap; justify-content: flex-start; overflow: visible; }
     .site-header__nav > a { padding-inline: 0.35rem; font-size: 0.7rem; }
-    .search-trigger { width: 44px; justify-content: center; padding-inline: 0; }
-    .search-trigger span:nth-child(2) { display: none; }
+    .search-trigger { width: auto; min-width: 44px; flex: 0 0 auto; justify-content: center; padding-inline: 0.58rem; }
   }
 </style>
