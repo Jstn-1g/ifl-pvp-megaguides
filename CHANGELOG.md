@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.3](https://github.com/Jstn-1g/ifl-pvp-megaguides/compare/v0.3.2...v0.3.3) (2026-08-03)
+
+
+### Bug Fixes
+
+* protect deployment artifacts ([93af84a](https://github.com/Jstn-1g/ifl-pvp-megaguides/commit/93af84a29e8341909a4f14efef78eeb3f78317f8))
+
 ## [0.3.2](https://github.com/Jstn-1g/ifl-pvp-megaguides/compare/v0.3.1...v0.3.2) (2026-08-03)
 
 
