@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.2](https://github.com/Jstn-1g/ifl-pvp-megaguides/compare/v0.3.1...v0.3.2) (2026-08-03)
+
+
+### Bug Fixes
+
+* retire unreviewed legacy routes ([c2fdd5f](https://github.com/Jstn-1g/ifl-pvp-megaguides/commit/c2fdd5f84473d057dc777e0c526ebd843aa63e4e))
+
 ## [0.3.1](https://github.com/Jstn-1g/ifl-pvp-megaguides/compare/v0.3.0...v0.3.1) (2026-08-03)
 
 
