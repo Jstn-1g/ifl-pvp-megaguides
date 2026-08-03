@@ -1,19 +1,20 @@
-# Public release attestation template
+# Public release attestation
 
-> Status: **template only — not signed or effective**
+> Status: **reviewed — activation pending the final release gate**
 
-Before the initial public push, an authorized project maintainer must replace the placeholders below, review the accompanying public file manifest, and sign this document in the release pull request or signed release record.
+The authorized project identity reviewed the public file boundary and private-source custody evidence before publication. The exact content baseline below must pass the complete release gate before this record is activated in a separate DCO-signed commit.
 
 ## Attestation
 
-I, **[legal name or authorized project identity]**, attest on **[YYYY-MM-DD]** that:
+I, **Jstn-1g**, the authorized project identity, attest on **2026-08-03** that:
 
 1. this public repository was initialized as a new Git repository from a reviewed public-file allowlist;
 2. no private repository history, commit objects, branches, tags, stashes, reflogs, or remotes were imported into its public history;
 3. I am authorized to release the included original code and tooling under the MIT License;
 4. the attestation does not claim ownership of, or grant rights in, excluded editorial content, data, brand assets, or third-party material; and
-5. the public boundary, license, DCO, and release checks passed for the exact initial public commit **[commit SHA]**.
+5. the exact reviewed public content baseline to be release-gated is **71fb9c34e5b8058f447135474937be3f145ffe4f**; and
+6. the complete private-source history, worktrees, stashes, local-only files, and recovery evidence remain separately preserved and were not published.
 
-Signed: **[name / authorized project identity]**
+Signed: **Jstn-1g**
 
-Signature method or release record: **[link or identifier]**
+Signature method or release record: **Activation pending; owner authorization is recorded in the active public-cutover task.**
