@@ -1,11 +1,13 @@
 import { execFile as execFileCallback } from 'node:child_process';
+import path from 'node:path';
 import { promisify } from 'node:util';
 import { invokedAsMain, projectRoot } from './release-utils.mjs';
 
 const execFile = promisify(execFileCallback);
 
-async function commitRange(suppliedRange) {
+async function commitRange(suppliedRange, root) {
   if (suppliedRange) return suppliedRange;
+  if (path.resolve(root) !== path.resolve(projectRoot)) return 'HEAD';
   if (process.env.GITHUB_EVENT_PATH) {
     try {
       const event = JSON.parse(await (await import('node:fs/promises')).readFile(process.env.GITHUB_EVENT_PATH, 'utf8'));
@@ -23,7 +25,7 @@ const dependabotIdentity = {
 };
 
 export async function checkDco({ root = projectRoot, range, allowDependabot = false } = {}) {
-  const revisionRange = await commitRange(range);
+  const revisionRange = await commitRange(range, root);
   const { stdout } = await execFile('git', ['log', '--format=%H%x00%an%x00%ae%x00%cn%x00%ce%x00%B%x00', revisionRange], { cwd: root, encoding: 'utf8' });
   const chunks = stdout.split('\0').map((chunk) => chunk.trim()).filter(Boolean);
   const failures = [];
