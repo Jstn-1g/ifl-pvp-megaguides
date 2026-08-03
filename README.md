@@ -15,7 +15,7 @@
 
 IFL PvP MegaGuides is a guide-first reference site built for players who want durable answers: what a guide covers, which version it reflects, when it was reviewed, and the evidence behind material claims.
 
-The original application and maintenance tooling in this release candidate are intended for MIT-licensed publication only after the public-release attestation and release checks pass. The project’s editorial library, collected data, brand assets, and third-party material are not automatically covered by that license. Start with [CONTENT-LICENSE.md](CONTENT-LICENSE.md) and [NOTICE.md](NOTICE.md) before reusing anything other than code.
+The original application and maintenance tooling in this repository are published under the MIT License. The project’s editorial library, collected data, brand assets, and third-party material are not automatically covered by that license. Start with [CONTENT-LICENSE.md](CONTENT-LICENSE.md) and [NOTICE.md](NOTICE.md) before reusing anything other than code.
 
 ## What is included
 
@@ -55,7 +55,7 @@ These captures come from this repository’s CSS-only public candidate. They con
 
 ## Repository status
 
-This is a release candidate for a clean public codebase. Its public-release attestation is still a [template](governance/PUBLIC-RELEASE-ATTESTATION.md), not a signed statement. Its custom first-party social preview is generated deterministically from CSS, hash-pinned in the asset allowlist, and contains no prior screenshot or game media.
+This is a clean, fresh-history public codebase. Its [public-release attestation](governance/PUBLIC-RELEASE-ATTESTATION.md) records the initial reviewed content baseline and signed launch record. Its custom first-party social preview is generated deterministically from CSS, hash-pinned in the asset allowlist, and contains no prior screenshot or game media.
 
 ## Local development
 
