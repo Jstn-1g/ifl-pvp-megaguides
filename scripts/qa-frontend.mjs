@@ -24,6 +24,7 @@ async function run(baseUrl) {
       { name: 'desktop', width: 1440, height: 1000 },
       { name: 'mobile', width: 390, height: 844 },
       { name: 'narrow', width: 320, height: 800 },
+      { name: 'narrow-scrollbar', width: 284, height: 800 },
     ]) {
       for (const route of routes) {
         console.log(`Checking ${viewport.name}/${route.name}...`);
@@ -42,32 +43,53 @@ async function run(baseUrl) {
         const label = `${viewport.name}/${route.name}`;
         const expectedStatus = route.expectedStatus ?? 200;
         if (response?.status() !== expectedStatus) failures.push(`${label}: returned ${response?.status() ?? 'no response'}; expected ${expectedStatus}.`);
-        const state = await page.evaluate(() => ({
-          language: document.documentElement.lang,
-          h1: document.querySelector('h1')?.textContent?.trim(),
-          title: document.title,
-          overflow: document.documentElement.scrollWidth - window.innerWidth,
-          skipLink: Boolean(document.querySelector('a[href="#main-content"]')),
-          main: Boolean(document.querySelector('main#main-content, main')),
-          canonical: document.querySelector('link[rel="canonical"]')?.getAttribute('href'),
-          robots: document.querySelector('meta[name="robots"]')?.getAttribute('content')?.toLowerCase(),
-          forbiddenMedia: [...document.querySelectorAll('img, video, iframe, svg')].filter((element) => {
-            if (!(element instanceof HTMLImageElement)) return true;
-            const isApprovedLogo = element.dataset.publicBrandAsset === 'ifl-pvp-logo'
-              && new URL(element.src, window.location.href).pathname === '/brand/ifl-pvp-logo.webp';
-            const isApprovedGenreWorlds = element.dataset.publicArtAsset === 'ifl-pvp-genre-worlds'
-              && new URL(element.src, window.location.href).pathname === '/brand/ifl-pvp-genre-worlds-v1.webp';
-            return !(isApprovedLogo || isApprovedGenreWorlds);
-          }).length,
-          approvedBrandMarks: document.querySelectorAll('img[data-public-brand-asset="ifl-pvp-logo"]').length,
-          approvedGenreWorldArt: document.querySelectorAll('img[data-public-art-asset="ifl-pvp-genre-worlds"]').length,
-        }));
+        const state = await page.evaluate(() => {
+          const isVisiblyClipped = (element) => {
+            for (let ancestor = element.parentElement; ancestor && ancestor !== document.body; ancestor = ancestor.parentElement) {
+              if (['auto', 'clip', 'hidden', 'scroll'].includes(getComputedStyle(ancestor).overflowX)) return true;
+            }
+            return false;
+          };
+          const overflowSources = [...document.querySelectorAll('body *')]
+            .map((element) => ({ element, rect: element.getBoundingClientRect() }))
+            .filter(({ element, rect }) => !isVisiblyClipped(element) && (rect.left < -1 || rect.right > window.innerWidth + 1))
+            .sort((left, right) => Math.max(right.rect.right - window.innerWidth, -right.rect.left) - Math.max(left.rect.right - window.innerWidth, -left.rect.left))
+            .slice(0, 4)
+            .map(({ element, rect }) => {
+              const identity = `${element.tagName.toLowerCase()}${element.id ? `#${element.id}` : ''}${[...element.classList].slice(0, 2).map((name) => `.${name}`).join('')}`;
+              return `${identity} [${Math.round(rect.left)}..${Math.round(rect.right)}]`;
+            });
+          return {
+            language: document.documentElement.lang,
+            h1: document.querySelector('h1')?.textContent?.trim(),
+            title: document.title,
+            overflow: document.documentElement.scrollWidth - window.innerWidth,
+            overflowSources,
+            skipLink: Boolean(document.querySelector('a[href="#main-content"]')),
+            main: Boolean(document.querySelector('main#main-content, main')),
+            canonical: document.querySelector('link[rel="canonical"]')?.getAttribute('href'),
+            robots: document.querySelector('meta[name="robots"]')?.getAttribute('content')?.toLowerCase(),
+            forbiddenMedia: [...document.querySelectorAll('img, video, iframe, svg')].filter((element) => {
+              if (!(element instanceof HTMLImageElement)) return true;
+              const isApprovedLogo = element.dataset.publicBrandAsset === 'ifl-pvp-logo'
+                && new URL(element.src, window.location.href).pathname === '/brand/ifl-pvp-logo.webp';
+              const isApprovedGenreWorlds = element.dataset.publicArtAsset === 'ifl-pvp-genre-worlds'
+                && new URL(element.src, window.location.href).pathname === '/brand/ifl-pvp-genre-worlds-v1.webp';
+              return !(isApprovedLogo || isApprovedGenreWorlds);
+            }).length,
+            approvedBrandMarks: document.querySelectorAll('img[data-public-brand-asset="ifl-pvp-logo"]').length,
+            approvedGenreWorldArt: document.querySelectorAll('img[data-public-art-asset="ifl-pvp-genre-worlds"]').length,
+          };
+        });
         if (!state.language) failures.push(`${label}: document language is missing.`);
         if (!state.h1) failures.push(`${label}: H1 is missing.`);
         if (!state.title) failures.push(`${label}: title is missing.`);
         if (!state.main) failures.push(`${label}: main landmark is missing.`);
         if (!state.skipLink) failures.push(`${label}: skip link to main content is missing.`);
-        if (state.overflow > 1) failures.push(`${label}: horizontal overflow is ${state.overflow}px.`);
+        if (state.overflow > 1) {
+          const sources = state.overflowSources.length ? ` Likely sources: ${state.overflowSources.join(', ')}.` : '';
+          failures.push(`${label}: horizontal overflow is ${state.overflow}px.${sources}`);
+        }
         if (state.canonical !== new URL(route.canonicalPath ?? route.path, 'https://iflpvp.com').href) failures.push(`${label}: canonical is ${state.canonical ?? 'missing'}.`);
         if (route.noindex && !(state.robots?.includes('noindex') && state.robots.includes('follow'))) failures.push(`${label}: evidence-held route must emit noindex,follow.`);
         if (state.forbiddenMedia !== 0) failures.push(`${label}: rendered ${state.forbiddenMedia} forbidden media element(s).`);

@@ -43,7 +43,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 body {
   display: grid;
   min-height: 100vh;
-  min-width: 320px;
+  min-width: 0;
   grid-template-rows: auto 1fr auto;
   isolation: isolate;
   margin: 0;
