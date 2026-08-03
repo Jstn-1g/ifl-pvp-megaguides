@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'Legacy archive status — IFL PvP MegaGuides';
+const description = 'A transparent status page for legacy IFL PvP material that is not part of the first public export.';
+---
+
+<BaseLayout {title} {description} canonicalPath="/archive/" noindex>
+  <section class="page-hero" aria-labelledby="archive-title">
+    <div class="container">
+      <p class="eyebrow">Legacy archive</p>
+      <h1 id="archive-title">Preserved privately. Restored one route at a time.</h1>
+      <p class="page-hero__lede">The older editorial archive is not bundled into this public release candidate. It stays private until individual routes pass rights and evidence review.</p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container prose">
+      <h2>Why the archive is not a bulk import</h2>
+      <p>Historical writing can be useful, but it should not be mistaken for current, supported game advice. Older pages may also include media, datasets, or source claims that are not cleared for this public repository.</p>
+      <h2>What a restored route needs</h2>
+      <ul>
+        <li>a documented right to publish the text and any included assets;</li>
+        <li>primary sources for material factual claims, with checked dates;</li>
+        <li>a clear historical or current scope statement; and</li>
+        <li>a visible review and indexing decision.</li>
+      </ul>
+      <p>If you are looking for a previously published page, please use the retained guide routes or send a request through the correction process. A missing page is not represented as a current public source.</p>
+    </div>
+  </section>
+</BaseLayout>

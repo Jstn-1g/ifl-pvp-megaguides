@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../utils/site';
+
+const title = `Terms — ${SITE.name}`;
+const description = 'Terms for using the static IFL PvP MegaGuides public reference library.';
+---
+
+<BaseLayout {title} {description} canonicalPath="/terms/">
+  <section class="page-hero" aria-labelledby="terms-title">
+    <div class="container">
+      <p class="eyebrow">Terms</p>
+      <h1 id="terms-title">Use the reference with its scope intact.</h1>
+      <p class="page-hero__lede">These terms set basic expectations for an independent, static game-reference site.</p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container prose">
+      <h2>Reference, not official advice</h2>
+      <p>IFL PvP MegaGuides is an independent editorial reference. It is not affiliated with game publishers, platform holders, tournament organizers, or rights holders. Guides may be historical, evidence-held, or out of date; check each route’s status before relying on it.</p>
+      <h2>Content rights</h2>
+      <p>Unless a file says otherwise, site code is governed by the repository license and public editorial text is reserved. Game titles, marks, and other third-party intellectual property remain the property of their respective owners.</p>
+      <h2>Acceptable use</h2>
+      <p>Do not misrepresent this site as an official game source, remove source and status context when quoting it, or use the service to interfere with the site’s operation.</p>
+      <h2>Changes</h2>
+      <p>These terms may change as the public release matures. Material changes will be recorded in the repository.</p>
+    </div>
+  </section>
+</BaseLayout>

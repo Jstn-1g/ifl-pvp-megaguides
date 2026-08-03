@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../utils/site';
+
+const title = `Editorial policy — ${SITE.name}`;
+const description = 'How IFL PvP MegaGuides handles source review, guide status, corrections, and historical references.';
+---
+
+<BaseLayout {title} {description} canonicalPath="/editorial-policy/">
+  <section class="page-hero" aria-labelledby="policy-title">
+    <div class="container">
+      <p class="eyebrow">Editorial policy</p>
+      <h1 id="policy-title">A guide is only as useful as its evidence trail.</h1>
+      <p class="page-hero__lede">These standards govern what the public site may represent as current, stable, historical, or still under review.</p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container prose">
+      <h2>1. Source-backed reviews</h2>
+      <p>Material current-state claims should be checked against primary sources wherever they exist: developer communications, official game sites, patch notes, and platform-store records. Community material may help identify a question, but it is not enough by itself for a material current claim.</p>
+      <h2>2. Visible dates and scope</h2>
+      <p>Current guides should identify their version context, supported platforms, review date, next review date, and source list. Historical references must be labeled as historical. A route with incomplete proof is evidence-held and not indexed.</p>
+      <h2>3. No synthetic certainty</h2>
+      <p>Search snippets, summaries, model-generated proposals, and uncited databases are not publication proof. They can support research, but they do not replace a human review of the claims and sources that reach the public page.</p>
+      <h2 id="corrections">4. Corrections and challenges</h2>
+      <p>If you find a factual error, outdated version context, broken source, rights concern, or misleading presentation, open an issue in the <a href="https://github.com/Jstn-1g/ifl-pvp-megaguides/issues">public repository</a>. Include the route, the specific claim, and a primary source when possible. Corrections are reviewed before a guide’s status or content changes.</p>
+      <h2>5. What the first public release does not claim</h2>
+      <p>The current retained routes do not claim to be a complete game catalogue, a live meta database, or a fully re-reviewed archive. Public expansion is deliberate: each new route must clear its own rights and evidence checks.</p>
+    </div>
+  </section>
+</BaseLayout>

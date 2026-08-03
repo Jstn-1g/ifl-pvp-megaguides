@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../utils/site';
+
+const title = `Privacy policy — ${SITE.name}`;
+const description = 'Privacy information for the static IFL PvP MegaGuides public website.';
+---
+
+<BaseLayout {title} {description} canonicalPath="/privacy-policy/">
+  <section class="page-hero" aria-labelledby="privacy-title">
+    <div class="container">
+      <p class="eyebrow">Privacy policy</p>
+      <h1 id="privacy-title">A static site with a small data surface.</h1>
+      <p class="page-hero__lede">This policy describes the public release candidate as built: static pages, no account system, and no embedded advertising or analytics tooling.</p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container prose">
+      <h2>Information collected by this site</h2>
+      <p>The site does not ask visitors to create an account, submit a profile, or provide payment information. It does not intentionally load third-party analytics, advertising, social-media pixels, web fonts, or remote media.</p>
+      <h2>Server logs</h2>
+      <p>The hosting provider may process routine server-log information such as IP address, request time, requested path, referrer, and user-agent to operate and secure the service. Those logs are controlled by the host’s configuration and retention policies.</p>
+      <h2>External links</h2>
+      <p>Evidence links and repository links lead to external services. Their privacy practices apply once you leave this site.</p>
+      <h2>Future changes</h2>
+      <p>If the site adds a contact form, donation service, analytics, or another data-collecting feature, this policy will be updated before that feature is enabled.</p>
+    </div>
+  </section>
+</BaseLayout>

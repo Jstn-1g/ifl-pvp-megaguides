@@ -1,0 +1,15 @@
+---
+import GuideEvidenceHold from '../layouts/GuideEvidenceHold.astro';
+import { PUBLIC_CONTENT, type PublicContentEntry } from '../data/public-content';
+
+export function getStaticPaths() {
+  return PUBLIC_CONTENT.map((entry) => ({
+    params: { slug: entry.route.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props as { entry: PublicContentEntry };
+---
+
+<GuideEvidenceHold entry={entry} />

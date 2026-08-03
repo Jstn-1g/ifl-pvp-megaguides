@@ -1,0 +1,72 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { PUBLIC_CONTENT } from '../../data/public-content';
+
+const title = 'Search retained guides — IFL PvP MegaGuides';
+const description = 'Search the small, evidence-held public route list for IFL PvP MegaGuides.';
+---
+
+<BaseLayout {title} {description} canonicalPath="/search/" noindex>
+  <section class="page-hero page-hero--compact" aria-labelledby="search-title">
+    <div class="container">
+      <p class="eyebrow">Reference search</p>
+      <h1 id="search-title">Find a retained route.</h1>
+      <p class="page-hero__lede">Searches this public candidate’s route titles, games, and scope labels. Results remain evidence-held until they pass factual review.</p>
+    </div>
+  </section>
+  <section class="section" aria-labelledby="search-results-title">
+    <div class="container">
+      <form class="search-page-form" role="search" data-search-page-form>
+        <label for="guide-search">Search retained routes</label>
+        <div>
+          <input id="guide-search" name="q" type="search" autocomplete="off" placeholder="Game or guide title" data-search-page-input />
+          <button type="submit">Search</button>
+        </div>
+      </form>
+      <p id="search-results-title" class="search-results-summary" aria-live="polite" aria-atomic="true" data-search-page-summary>{PUBLIC_CONTENT.length} retained routes available.</p>
+      <ul class="search-results-list" role="list" data-search-page-results>
+        {PUBLIC_CONTENT.map((entry) => (
+          <li data-search-page-item data-search-term={`${entry.title} ${entry.game} ${entry.description}`.toLocaleLowerCase()}>
+            <a href={`/${entry.route.slug}/`}>
+              <span>{entry.game}</span>
+              <strong>{entry.title}</strong>
+              <small>Evidence held · {entry.sources.length} source links retained</small>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <p class="empty-state" data-search-page-empty hidden>No retained route matches that search.</p>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-search-page-form]');
+  const input = document.querySelector<HTMLInputElement>('[data-search-page-input]');
+  const items = [...document.querySelectorAll<HTMLElement>('[data-search-page-item]')];
+  const summary = document.querySelector<HTMLElement>('[data-search-page-summary]');
+  const empty = document.querySelector<HTMLElement>('[data-search-page-empty]');
+
+  const updateResults = (value: string) => {
+    const query = value.trim().toLocaleLowerCase();
+    let visible = 0;
+    items.forEach((item) => {
+      const matches = !query || item.dataset.searchTerm?.includes(query);
+      item.hidden = !matches;
+      if (matches) visible += 1;
+    });
+    if (summary) summary.textContent = `${visible} retained ${visible === 1 ? 'route' : 'routes'} ${query ? 'match this search' : 'available'}.`;
+    if (empty) empty.hidden = visible !== 0;
+  };
+
+  if (input instanceof HTMLInputElement) {
+    const query = new URLSearchParams(window.location.search).get('q') ?? '';
+    input.value = query;
+    updateResults(query);
+    input.addEventListener('input', () => updateResults(input.value));
+  }
+  form?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    if (input instanceof HTMLInputElement) updateResults(input.value);
+  });
+</script>

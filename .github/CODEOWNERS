@@ -1,0 +1,15 @@
+# Governance, supply-chain, and release boundaries require maintainer review.
+* @Jstn-1g
+
+/governance/ @Jstn-1g
+/LICENSE @Jstn-1g
+/CONTENT-LICENSE.md @Jstn-1g
+/NOTICE.md @Jstn-1g
+/TRADEMARKS.md @Jstn-1g
+/DCO.md @Jstn-1g
+/SECURITY.md @Jstn-1g
+/ASSET-GOVERNANCE.md @Jstn-1g
+/.github/ @Jstn-1g
+/package.json @Jstn-1g
+/package-lock.json @Jstn-1g
+/scripts/ @Jstn-1g

@@ -1,0 +1,107 @@
+---
+import GuideCard from '../components/GuideCard.astro';
+import ReferenceCover from '../components/ReferenceCover.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { INDEXABLE_PUBLIC_CONTENT, PUBLIC_CONTENT, PUBLIC_MEGA_GUIDES } from '../data/public-content';
+import { SITE } from '../utils/site';
+
+const retainedGuideCount = PUBLIC_CONTENT.length;
+const megaGuideCount = PUBLIC_MEGA_GUIDES.length;
+const indexableGuideCount = INDEXABLE_PUBLIC_CONTENT.length;
+const featuredEntries = PUBLIC_CONTENT.slice(0, 3);
+const descriptions = {
+  title: `${SITE.name} — Competitive Game Reference Library`,
+  description: 'Source-backed, version-pinned field manuals for competitive games. Current retained routes are clearly marked while evidence review is in progress.',
+};
+
+function reviewLabel(entry: (typeof PUBLIC_CONTENT)[number]) {
+  return entry.kind === 'mega-guide'
+    ? `Review due ${entry.review.nextReviewAt}`
+    : 'Evidence reconstruction in progress';
+}
+---
+
+<BaseLayout {...descriptions} canonicalPath="/">
+  <section class="hero hero--home" aria-labelledby="site-intro">
+    <div class="container hero__grid">
+      <div class="hero__content">
+        <p class="eyebrow">IFL / Reference Grid</p>
+        <h1 id="site-intro">Source-backed, version-pinned field manuals for competitive games.</h1>
+        <p class="hero__lede">A guide-first library with visible evidence, review dates, and clear limits on what is current, historical, or still being checked.</p>
+        <div class="hero__actions">
+          <a class="button button--primary" href="/guides/">Browse retained guides</a>
+          <a class="button button--quiet" href="/editorial-policy/">Read the standards</a>
+        </div>
+        <dl class="hero__facts" aria-label="Library status">
+          <div><dt>Retained routes</dt><dd>{retainedGuideCount}</dd></div>
+          <div><dt>MegaGuide records</dt><dd>{megaGuideCount}</dd></div>
+          <div><dt>Current indexable guides</dt><dd>{indexableGuideCount}</dd></div>
+        </dl>
+      </div>
+      <ReferenceCover variant="hero" title="Field manuals, held to evidence" eyebrow="Independent competitive reference" status="Public release candidate" index="IFL / 01" />
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="how-it-works">
+    <div class="container section__split">
+      <div>
+        <p class="eyebrow">The operating standard</p>
+        <h2 id="how-it-works">Useful means traceable.</h2>
+      </div>
+      <div class="prose">
+        <p>Every public route states its scope and review state. A link is not treated as proof, a historical reference is not presented as a live meta guide, and a review date is never a cosmetic badge.</p>
+        <ol class="numbered-list">
+          <li><strong>Start with the route status.</strong> Each guide tells you whether it is current, stable historical reference, or held for review.</li>
+          <li><strong>Follow the evidence trail.</strong> Primary sources and their checked dates are visible where a route is retained.</li>
+          <li><strong>Send corrections.</strong> The editorial policy explains how a factual correction is reviewed and recorded.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--library" aria-labelledby="retained-guides">
+    <div class="container">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Retained guide routes</p>
+          <h2 id="retained-guides">Available with explicit limits.</h2>
+        </div>
+        <a href="/guides/">See all retained routes <span aria-hidden="true">→</span></a>
+      </div>
+      <p class="section-intro">The public export starts deliberately small. These pages preserve useful paths without releasing unreviewed detailed guides, imagery, or scraped datasets.</p>
+      {featuredEntries.length > 0 ? (
+        <div class="guide-grid">
+          {featuredEntries.map((entry, index) => (
+            <GuideCard
+              href={`/${entry.route.slug}/`}
+              title={entry.title}
+              description={entry.description}
+              game={entry.game}
+              index={index + 1}
+              status="review-due"
+              statusLabel="Evidence held"
+              reviewedLabel={reviewLabel(entry)}
+              gameVersion={entry.kind === 'mega-guide' ? entry.gameVersion : undefined}
+              sourceCount={entry.sources.length}
+            />
+          ))}
+        </div>
+      ) : (
+        <p class="empty-state">No guide routes are available until a reviewed public record is added.</p>
+      )}
+    </div>
+  </section>
+
+  <section class="section section--quiet" aria-labelledby="archive-status">
+    <div class="container section__split">
+      <div>
+        <p class="eyebrow">Legacy archive</p>
+        <h2 id="archive-status">Preserved privately. Restored deliberately.</h2>
+      </div>
+      <div class="prose">
+        <p>Legacy writing is not bulk-republished simply because it existed before. A route returns only after its text rights, sources, scope, and review state are documented for public use.</p>
+        <p><a href="/archive/">View the archive status</a></p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

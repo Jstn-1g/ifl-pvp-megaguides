@@ -1,0 +1,81 @@
+---
+interface Props {
+  action?: string | undefined;
+  id?: string | undefined;
+}
+
+const { action = '/search/', id = 'site-search' } = Astro.props;
+---
+
+<dialog id={id} class="search-dialog" aria-labelledby={`${id}-title`}>
+  <div class="search-dialog__panel">
+    <div class="search-dialog__heading">
+      <p class="search-dialog__eyebrow">Reference search</p>
+      <h2 id={`${id}-title`}>Find an answer</h2>
+      <p>Search by game, character, mechanic, or competitive concept.</p>
+    </div>
+    <form class="search-dialog__form" action={action} method="get" role="search">
+      <label for={`${id}-input`}>Search MegaGuides</label>
+      <div class="search-dialog__input-row">
+        <input id={`${id}-input`} name="q" type="search" autocomplete="off" placeholder="Try a game or mechanic" />
+        <button type="submit">Search</button>
+      </div>
+    </form>
+    <button type="button" class="search-dialog__close" data-search-close>Close search</button>
+    <div class="search-dialog__results" aria-live="polite" aria-atomic="true" data-search-results>
+      <slot />
+    </div>
+  </div>
+</dialog>
+
+<script is:inline>
+  const dialog = document.currentScript?.previousElementSibling;
+  if (dialog instanceof HTMLDialogElement) {
+    let opener = null;
+    const close = () => {
+      if (dialog.open) dialog.close();
+      if (opener instanceof HTMLElement && opener.isConnected) opener.focus();
+    };
+    document.querySelectorAll('[data-search-trigger]').forEach((trigger) => {
+      trigger.addEventListener('click', () => {
+        opener = trigger;
+        dialog.showModal();
+        dialog.querySelector('input')?.focus();
+      });
+    });
+    dialog.querySelector('[data-search-close]')?.addEventListener('click', close);
+    dialog.addEventListener('cancel', (event) => { event.preventDefault(); close(); });
+    dialog.addEventListener('click', (event) => { if (event.target === dialog) close(); });
+    document.addEventListener('keydown', (event) => {
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault();
+        if (dialog.open) close();
+        else {
+          opener = document.activeElement;
+          dialog.showModal();
+          dialog.querySelector('input')?.focus();
+        }
+      }
+    });
+  }
+</script>
+
+<style>
+  .search-dialog { width: min(100% - 2rem, 42rem); max-height: min(100% - 2rem, 42rem); margin: auto; padding: 0; border: 1px solid var(--border-medium); background: var(--bg-surface); color: var(--text-primary); box-shadow: var(--shadow-raised); }
+  .search-dialog::backdrop { background: rgba(0, 0, 0, 0.76); backdrop-filter: blur(6px); }
+  .search-dialog__panel { position: relative; padding: clamp(1.25rem, 4vw, 2rem); }
+  .search-dialog__eyebrow { margin: 0; color: var(--accent); font-family: var(--font-display); font-size: 0.7rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; }
+  .search-dialog h2 { margin: 0.25rem 0 0; color: var(--text-bright); font-family: var(--font-display); font-size: clamp(1.65rem, 4vw, 2.3rem); letter-spacing: -0.045em; }
+  .search-dialog__heading > p:last-child { margin: 0.6rem 3.5rem 0 0; color: var(--text-secondary); font-size: 0.88rem; }
+  .search-dialog__form { margin-top: 1.5rem; }
+  .search-dialog__form label { display: block; margin-bottom: 0.4rem; color: var(--text-bright); font-family: var(--font-display); font-size: 0.76rem; font-weight: 750; }
+  .search-dialog__input-row { display: flex; gap: 0.55rem; }
+  .search-dialog input { min-width: 0; flex: 1; min-height: 48px; padding: 0.7rem 0.8rem; border: 1px solid var(--border-medium); border-radius: 0; background: var(--bg-deep); color: var(--text-bright); }
+  .search-dialog input::placeholder { color: var(--text-muted); }
+  .search-dialog button { min-height: 48px; padding: 0.7rem 0.9rem; border: 1px solid var(--accent); border-radius: 0; background: var(--accent); color: #171008; font-family: var(--font-display); font-size: 0.78rem; font-weight: 800; }
+  .search-dialog button:hover { background: var(--accent-strong); }
+  .search-dialog__close { position: absolute; top: 1rem; right: 1rem; border-color: var(--border-medium) !important; background: transparent !important; color: var(--text-secondary) !important; }
+  .search-dialog__close:hover { color: var(--text-bright) !important; border-color: var(--accent) !important; }
+  .search-dialog__results { max-height: 16rem; margin-top: 1.25rem; overflow: auto; color: var(--text-secondary); }
+  @media (max-width: 480px) { .search-dialog { width: calc(100% - 1rem); } .search-dialog__input-row { flex-direction: column; } .search-dialog__input-row button { width: 100%; } }
+</style>

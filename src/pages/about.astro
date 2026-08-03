@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../utils/site';
+
+const title = `About — ${SITE.name}`;
+const description = 'What IFL PvP MegaGuides is building: a disciplined, guide-first competitive game reference library.';
+---
+
+<BaseLayout {title} {description} canonicalPath="/about/">
+  <section class="page-hero" aria-labelledby="about-title">
+    <div class="container">
+      <p class="eyebrow">About IFL</p>
+      <h1 id="about-title">A quieter standard for competitive game reference.</h1>
+      <p class="page-hero__lede">IFL PvP MegaGuides is an independent, guide-first reference library for people who want sources, version context, and clear boundaries around what a page can actually support.</p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container prose">
+      <h2>What this project is building</h2>
+      <p>The aim is a durable set of competitive-game field manuals: useful answers paired with visible evidence, review dates, and a correction path. The project does not claim that this standard has already been met across an entire archive. The public library begins with a deliberately constrained set of evidence-held routes.</p>
+      <h2>What “guide-first” means</h2>
+      <p>Publishing volume is not the goal. A guide should state its game version, supported platforms, status, evidence basis, and scope before it asks for trust. When that proof is incomplete, the public route says so plainly.</p>
+      <h2>Independence and trademarks</h2>
+      <p>IFL PvP MegaGuides is independent and is not affiliated with, sponsored by, or endorsed by game publishers or platform holders. Game names and trademarks belong to their respective owners.</p>
+      <p><a href="/editorial-policy/">Read the editorial policy</a> to see the operating rules, or <a href="/support/">visit support</a> to learn the project’s funding boundary.</p>
+    </div>
+  </section>
+</BaseLayout>

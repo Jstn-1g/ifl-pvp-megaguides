@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/Jstn-1g/ifl-pvp-megaguides/security/advisories/new
+    about: Please use private vulnerability reporting, not a public issue.
+  - name: Rights concern or takedown request
+    url: mailto:support@iflpvp.com?subject=IFL%20PvP%20rights%20concern
+    about: Please use the private process in NOTICE.md.

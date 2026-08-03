@@ -1,0 +1,94 @@
+---
+import GuideStatusBadge from '../components/GuideStatusBadge.astro';
+import ReferenceCover from '../components/ReferenceCover.astro';
+import BaseLayout from './BaseLayout.astro';
+import type { PublicContentEntry } from '../data/public-content';
+
+const { entry } = Astro.props as { entry: PublicContentEntry };
+const canonicalPath = `/${entry.route.slug}/`;
+const isMegaGuide = entry.kind === 'mega-guide';
+const reviewDetails = isMegaGuide ? entry.review : undefined;
+const structuredData = {
+  '@type': 'Article',
+  headline: entry.title,
+  description: entry.description,
+  url: new URL(canonicalPath, 'https://iflpvp.com').toString(),
+  inLanguage: 'en-US',
+  isAccessibleForFree: true,
+  about: entry.game,
+  additionalType: 'https://schema.org/CreativeWork',
+  isPartOf: { '@id': 'https://iflpvp.com/#website' },
+};
+
+function readableDate(date: string) {
+  return new Intl.DateTimeFormat('en-US', { dateStyle: 'long', timeZone: 'UTC' }).format(new Date(`${date}T00:00:00Z`));
+}
+---
+
+<BaseLayout
+  title={`${entry.title} — Evidence held | IFL PvP MegaGuides`}
+  description={entry.description}
+  canonicalPath={canonicalPath}
+  noindex={!entry.route.indexable}
+  pageType="article"
+  {structuredData}
+>
+  <article class="guide-detail" aria-labelledby="guide-title">
+    <header class="guide-detail__hero">
+      <div class="container guide-detail__hero-grid">
+        <div class="guide-detail__intro">
+          <p class="eyebrow">{entry.game} / Retained route</p>
+          <GuideStatusBadge status="review-due" label={isMegaGuide ? 'Review due — evidence held' : 'Evidence reconstruction'} />
+          <h1 id="guide-title">{entry.title}</h1>
+          <p class="guide-detail__lede">{entry.description}</p>
+          <p class="guide-detail__route"><span>Canonical path</span> <code>{canonicalPath}</code></p>
+        </div>
+        <ReferenceCover variant="featured" title={entry.title} eyebrow={entry.game} status="Evidence held" index="IFL / HOLD" seed={entry.route.slug} />
+      </div>
+    </header>
+
+    <div class="container guide-detail__content">
+      <div class="guide-detail__notice prose" role="note" aria-label="Evidence hold notice">
+        <p class="eyebrow">Publication status</p>
+        <h2>This route is available, but it is not a live guide.</h2>
+        <p>{isMegaGuide ? entry.scope : entry.notice}</p>
+        <p>The page is deliberately <strong>not indexed</strong> while factual review is incomplete. It contains no game artwork, screenshots, scraped datasets, detailed builds, tier advice, or unverified gameplay claims.</p>
+      </div>
+
+      {isMegaGuide && reviewDetails && (
+        <section class="guide-detail__panel" aria-labelledby="review-title">
+          <p class="eyebrow">Review record</p>
+          <h2 id="review-title">What must happen before publication</h2>
+          <dl class="fact-grid">
+            <div><dt>Guide status</dt><dd>{entry.guideStatus === 'active' ? 'Patch-sensitive route' : 'Historical reference route'}</dd></div>
+            <div><dt>Version context</dt><dd>{entry.gameVersion}</dd></div>
+            <div><dt>Platforms</dt><dd>{entry.platforms.join(', ')}</dd></div>
+            <div><dt>Confidence</dt><dd>{entry.confidence}</dd></div>
+            <div><dt>Last historical review</dt><dd>{readableDate(reviewDetails.lastReviewedAt)}</dd></div>
+            <div><dt>Next review due</dt><dd>{readableDate(reviewDetails.nextReviewAt)}</dd></div>
+          </dl>
+          <p class="guide-detail__reason">{reviewDetails.reason}</p>
+        </section>
+      )}
+
+      <section class="guide-detail__sources" aria-labelledby="sources-title">
+        <p class="eyebrow">Evidence ledger</p>
+        <h2 id="sources-title">Primary source links retained for review.</h2>
+        <p>These links establish the review trail; they do not by themselves make the former detailed guide current or publishable.</p>
+        <ol class="source-list">
+          {entry.sources.map((source) => (
+            <li>
+              <a href={source.url} rel="external nofollow noopener noreferrer" target="_blank">{source.title}</a>
+              <span>{source.publisher} · {source.type.replace('-', ' ')} · checked {readableDate(source.checkedAt)}</span>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <aside class="guide-detail__next prose" aria-labelledby="next-title">
+        <h2 id="next-title">Know something this route should address?</h2>
+        <p>Please send a correction or primary source through the process in the <a href="/editorial-policy/#corrections">editorial policy</a>. Submissions are reviewed before they change a guide’s public status.</p>
+      </aside>
+    </div>
+  </article>
+</BaseLayout>

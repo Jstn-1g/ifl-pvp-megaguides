@@ -1,0 +1,39 @@
+---
+import { SITE } from '../utils/site';
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <div class="site-footer__brand">
+      <a class="footer-lockup" href="/">
+        <span aria-hidden="true">IFL / FIELD MANUALS</span>
+        <strong>{SITE.name}</strong>
+      </a>
+      <p>Source-backed, version-pinned field manuals for competitive games.</p>
+    </div>
+    <nav class="site-footer__links" aria-label="Footer navigation">
+      <a href="/about/">About</a>
+      <a href="/editorial-policy/">Standards</a>
+      <a href="/editorial-policy/#corrections">Corrections</a>
+      <a href="/archive/">Legacy archive</a>
+      <a href="/support/">Support</a>
+      <a href="/privacy-policy/">Privacy</a>
+      <a href="/terms/">Terms</a>
+    </nav>
+    <p class="site-footer__legal">© {new Date().getFullYear()} {SITE.name}<br />Independent reference publishing.</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer { margin-top: auto; border-top: 1px solid var(--border-subtle); background: var(--bg-deep); }
+  .site-footer__inner { display: grid; grid-template-columns: 1.2fr 1fr auto; gap: 2rem; align-items: end; padding-block: 3rem; }
+  .footer-lockup { display: grid; gap: 0.25rem; width: max-content; }
+  .footer-lockup span { color: var(--accent); font-family: var(--font-display); font-size: 0.65rem; font-weight: 800; letter-spacing: 0.12em; }
+  .footer-lockup strong { color: var(--text-bright); font-family: var(--font-display); font-size: 1.15rem; letter-spacing: -0.035em; }
+  .site-footer__brand p { max-width: 30rem; margin: 0.65rem 0 0; color: var(--text-muted); font-size: 0.82rem; }
+  .site-footer__links { display: flex; flex-wrap: wrap; gap: 0.6rem 1rem; }
+  .site-footer__links a { color: var(--text-secondary); font-size: 0.78rem; text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 0.25em; }
+  .site-footer__links a:hover { color: var(--text-bright); text-decoration-color: var(--accent); }
+  .site-footer__legal { margin: 0; color: var(--text-muted); font-size: 0.7rem; line-height: 1.55; text-align: right; }
+  @media (max-width: 760px) { .site-footer__inner { grid-template-columns: 1fr; gap: 1.35rem; } .site-footer__legal { text-align: left; } }
+</style>

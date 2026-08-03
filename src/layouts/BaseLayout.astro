@@ -1,0 +1,89 @@
+---
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import SearchDialog from '../components/SearchDialog.astro';
+import { SITE } from '../utils/site';
+import '../styles/global.css';
+import '../styles/typography.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonicalPath?: string;
+  noindex?: boolean;
+  pageType?: 'website' | 'article';
+  structuredData?: Record<string, unknown> | readonly Record<string, unknown>[];
+}
+
+const {
+  title = SITE.title,
+  description = SITE.description,
+  canonicalPath = Astro.url.pathname,
+  noindex = false,
+  pageType = 'website',
+  structuredData,
+} = Astro.props;
+
+const canonical = new URL(canonicalPath, SITE.url).toString();
+const robots = noindex ? 'noindex,follow' : 'index,follow';
+const organizationId = `${SITE.url}/#organization`;
+const websiteId = `${SITE.url}/#website`;
+const supplementalStructuredData = structuredData
+  ? (Array.isArray(structuredData) ? structuredData : [structuredData])
+  : [];
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': organizationId,
+      name: SITE.name,
+      url: SITE.url,
+    },
+    {
+      '@type': 'WebSite',
+      '@id': websiteId,
+      name: SITE.name,
+      url: SITE.url,
+      inLanguage: SITE.language,
+      publisher: { '@id': organizationId },
+    },
+    ...supplementalStructuredData,
+  ],
+};
+---
+
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="robots" content={robots} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" type="application/rss+xml" title={`${SITE.name} RSS`} href="/rss.xml" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:type" content={pageType} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={`${SITE.url}/og.png`} />
+    <meta property="og:image:alt" content="IFL PvP MegaGuides Reference Grid" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={`${SITE.url}/og.png`} />
+    <meta name="twitter:image:alt" content="IFL PvP MegaGuides Reference Grid" />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <Header />
+    <main id="main-content" tabindex="-1">
+      <slot />
+    </main>
+    <Footer />
+    <SearchDialog />
+  </body>
+</html>

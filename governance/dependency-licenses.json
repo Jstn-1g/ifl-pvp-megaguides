@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-08-03",
+  "dependencies": [
+    {
+      "name": "@astrojs/check",
+      "version": "0.9.10",
+      "license": "MIT",
+      "source": "https://github.com/withastro/astro"
+    },
+    {
+      "name": "@astrojs/rss",
+      "version": "4.0.19",
+      "license": "MIT",
+      "source": "https://github.com/withastro/astro"
+    },
+    {
+      "name": "@axe-core/playwright",
+      "version": "4.12.1",
+      "license": "MPL-2.0",
+      "source": "https://github.com/dequelabs/axe-core-npm"
+    },
+    {
+      "name": "@types/node",
+      "version": "24.13.3",
+      "license": "MIT",
+      "source": "https://github.com/DefinitelyTyped/DefinitelyTyped"
+    },
+    {
+      "name": "astro",
+      "version": "7.1.6",
+      "license": "MIT",
+      "source": "https://github.com/withastro/astro"
+    },
+    {
+      "name": "playwright",
+      "version": "1.62.1",
+      "license": "Apache-2.0",
+      "source": "https://github.com/microsoft/playwright"
+    },
+    {
+      "name": "typescript",
+      "version": "6.0.3",
+      "license": "Apache-2.0",
+      "source": "https://github.com/microsoft/TypeScript"
+    }
+  ]
+}

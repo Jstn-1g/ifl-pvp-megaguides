@@ -1,0 +1,44 @@
+---
+interface Props {
+  status: 'verified-current' | 'stable-reference' | 'review-due' | 'archived' | string;
+  label?: string | undefined;
+  detail?: string | undefined;
+}
+
+const { status, label, detail } = Astro.props;
+const labels: Record<string, string> = {
+  'verified-current': 'Verified current',
+  'stable-reference': 'Stable reference',
+  'review-due': 'Review due',
+  archived: 'Historical reference',
+};
+const visibleLabel = label ?? labels[status] ?? status;
+---
+
+<span class="guide-status" data-guide-status={status}>
+  <span class="guide-status__marker" aria-hidden="true"></span>
+  <span>{visibleLabel}</span>
+  {detail && <span class="guide-status__detail">{detail}</span>}
+</span>
+
+<style>
+  .guide-status {
+    --status-color: var(--status-stable);
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--status-color);
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    font-weight: 750;
+    letter-spacing: 0.045em;
+    line-height: 1.25;
+    text-transform: uppercase;
+  }
+  .guide-status[data-guide-status='verified-current'] { --status-color: var(--status-current); }
+  .guide-status[data-guide-status='review-due'] { --status-color: var(--status-review); }
+  .guide-status[data-guide-status='archived'] { --status-color: var(--text-secondary); }
+  .guide-status__marker { width: 0.5rem; height: 0.5rem; border: 1px solid currentColor; background: currentColor; box-shadow: 0 0 0 3px color-mix(in srgb, currentColor 15%, transparent); }
+  .guide-status__detail { color: var(--text-muted); font-family: var(--font-body); font-size: 0.78rem; font-weight: 500; letter-spacing: 0; text-transform: none; }
+</style>

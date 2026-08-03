@@ -1,0 +1,30 @@
+name: Guide correction proposal
+description: Suggest a concise, source-backed correction for future editorial review.
+title: "correction: "
+labels:
+  - correction
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not copy publisher text, private communications, scraped data, or media into this form. Link to a primary source when possible.
+  - type: input
+    id: guide
+    attributes:
+      label: Guide or site URL
+    validations:
+      required: true
+  - type: textarea
+    id: claim
+    attributes:
+      label: Specific claim and proposed correction
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Primary source URL
+  - type: textarea
+    id: context
+    attributes:
+      label: Why this source supports the correction

@@ -1,0 +1,32 @@
+/* Typography deliberately uses the platform stack so the public build has no font dependency. */
+.prose {
+  max-width: var(--max-prose);
+  color: var(--text-primary);
+  font-size: clamp(1rem, 0.95rem + 0.2vw, 1.075rem);
+  line-height: 1.78;
+}
+.prose > * + * { margin-top: 1.35rem; }
+.prose h2, .prose h3, .prose h4 {
+  color: var(--text-bright);
+  font-family: var(--font-display);
+  letter-spacing: -0.025em;
+  line-height: 1.12;
+}
+.prose h2 { margin-top: 3rem; padding-top: 1.65rem; border-top: 1px solid var(--border-subtle); font-size: clamp(1.6rem, 2vw, 2rem); }
+.prose h3 { margin-top: 2rem; font-size: clamp(1.25rem, 1.6vw, 1.5rem); }
+.prose a { color: var(--accent-strong); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.22em; }
+.prose a:hover { color: var(--text-bright); }
+.prose strong { color: var(--text-bright); }
+.prose ul, .prose ol { padding-left: 1.3rem; }
+.prose ul { list-style: square; }
+.prose ol { list-style: decimal; }
+.prose li + li { margin-top: 0.45rem; }
+.prose blockquote { margin-inline: 0; padding: 0.2rem 0 0.2rem 1.1rem; border-left: 3px solid var(--accent); color: var(--text-secondary); }
+.prose code { padding: 0.15em 0.35em; background: var(--bg-raised); color: var(--text-bright); }
+.prose pre { overflow-x: auto; padding: 1rem; border: 1px solid var(--border-subtle); background: var(--bg-deep); }
+.prose pre code { padding: 0; background: transparent; }
+.prose table { width: 100%; border-collapse: collapse; font-size: 0.9em; }
+.prose th, .prose td { padding: 0.6rem 0.7rem; border-bottom: 1px solid var(--border-subtle); text-align: left; vertical-align: top; }
+.prose th { color: var(--text-bright); font-family: var(--font-display); letter-spacing: 0.02em; }
+.table-scroll { overflow-x: auto; border: 1px solid var(--border-subtle); }
+@media (max-width: 640px) { .prose h2 { margin-top: 2.4rem; } .prose th, .prose td { min-width: 9rem; } }

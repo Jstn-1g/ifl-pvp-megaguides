@@ -1,0 +1,53 @@
+---
+import { NAVIGATION, SITE } from '../utils/site';
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="brand-lockup" href="/" aria-label={`${SITE.name} home`}>
+      <span class="brand-lockup__mark" aria-hidden="true">IFL</span>
+      <span class="brand-lockup__copy">
+        <span>IFL PvP</span>
+        <strong>MegaGuides</strong>
+      </span>
+    </a>
+
+    <nav class="site-header__nav" aria-label="Primary navigation">
+      {NAVIGATION.map((item) => (
+        <a href={item.href} aria-current={currentPath.startsWith(item.href) ? 'page' : undefined}>{item.label}</a>
+      ))}
+      <button type="button" class="search-trigger" data-search-trigger aria-haspopup="dialog" aria-controls="site-search">
+        <span aria-hidden="true">⌕</span><span>Search</span><kbd>Ctrl K</kbd>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header { position: sticky; z-index: 100; top: 0; min-height: var(--header-height); border-bottom: 1px solid var(--border-subtle); background: color-mix(in srgb, var(--bg-base) 90%, transparent); backdrop-filter: blur(18px); }
+  .site-header__inner { display: flex; min-height: var(--header-height); align-items: center; justify-content: space-between; gap: 1.25rem; }
+  .brand-lockup { display: inline-flex; flex: 0 0 auto; align-items: center; gap: 0.6rem; color: var(--text-bright); }
+  .brand-lockup__mark { display: grid; width: 2.25rem; height: 2.25rem; place-items: center; border: 1px solid var(--accent); color: var(--accent-strong); font-family: var(--font-display); font-size: 0.72rem; font-weight: 850; letter-spacing: -0.04em; }
+  .brand-lockup__copy { display: grid; font-family: var(--font-display); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; line-height: 1.05; text-transform: uppercase; }
+  .brand-lockup__copy span { color: var(--text-secondary); }
+  .brand-lockup__copy strong { color: var(--text-bright); font-size: 0.88rem; letter-spacing: -0.025em; text-transform: none; }
+  .site-header__nav { display: flex; align-items: center; gap: 0.15rem; }
+  .site-header__nav > a, .search-trigger { min-height: 44px; padding: 0.65rem 0.72rem; color: var(--text-secondary); font-family: var(--font-display); font-size: 0.77rem; font-weight: 650; letter-spacing: 0.015em; }
+  .site-header__nav > a:hover, .site-header__nav > a[aria-current='page'] { color: var(--text-bright); }
+  .site-header__nav > a[aria-current='page'] { box-shadow: inset 0 -2px 0 var(--accent); }
+  .search-trigger { display: inline-flex; align-items: center; gap: 0.45rem; margin-left: 0.45rem; border: 1px solid var(--border-medium); background: transparent; }
+  .search-trigger:hover { border-color: var(--accent); color: var(--text-bright); }
+  .search-trigger span:first-child { color: var(--accent); font-size: 1.1rem; line-height: 0; }
+  .search-trigger kbd { padding: 0.1rem 0.24rem; border: 1px solid var(--border-subtle); color: var(--text-muted); font: inherit; font-size: 0.6rem; }
+  @media (max-width: 780px) {
+    .site-header__inner { gap: 0.5rem; }
+    .site-header__nav { max-width: calc(100vw - 11rem); overflow-x: auto; scrollbar-width: none; }
+    .site-header__nav::-webkit-scrollbar { display: none; }
+    .site-header__nav > a { padding-inline: 0.52rem; white-space: nowrap; }
+    .search-trigger { margin-left: 0; padding-inline: 0.58rem; }
+    .search-trigger kbd { display: none; }
+  }
+  @media (max-width: 480px) { .brand-lockup__copy span { display: none; } .brand-lockup__copy strong { font-size: 0.75rem; } .site-header__nav > a:nth-child(3), .site-header__nav > a:nth-child(4) { display: none; } }
+</style>

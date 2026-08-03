@@ -1,0 +1,37 @@
+name: Guarded deployment handoff
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Exact immutable release tag (vX.Y.Z)
+        required: true
+        type: string
+      environment:
+        description: Target environment; production approval is configured after public-repo creation
+        required: true
+        type: choice
+        options: [staging, production]
+
+permissions:
+  contents: read
+
+jobs:
+  guard:
+    name: validate deployment handoff
+    runs-on: ubuntu-latest
+    # This selects a GitHub Environment but intentionally consumes no secret and performs no network write.
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: Check out the requested tag only
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ inputs.tag }}
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Verify fresh public history
+        run: node scripts/check-public-history.mjs
+
+      - name: Refuse unimplemented hosting writes
+        run: node scripts/deploy-guard.mjs --environment=${{ inputs.environment }} --tag=${{ inputs.tag }}

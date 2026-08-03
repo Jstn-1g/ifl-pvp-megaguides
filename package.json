@@ -1,0 +1,43 @@
+{
+  "name": "ifl-pvp-megaguides",
+  "version": "0.2.0-rc.1",
+  "private": true,
+  "description": "Source-backed, version-pinned field manuals for competitive games.",
+  "type": "module",
+  "homepage": "https://iflpvp.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jstn-1g/ifl-pvp-megaguides.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Jstn-1g/ifl-pvp-megaguides/issues"
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "check": "astro check",
+    "test": "node --test scripts/*.test.mjs",
+    "build": "astro build && node scripts/check-build.mjs",
+    "preview": "astro preview",
+    "version:check": "node scripts/check-version.mjs",
+    "public:boundary": "node scripts/check-public-boundary.mjs",
+    "policy:dco": "node scripts/check-dco.mjs",
+    "licenses:check": "node scripts/check-licenses.mjs",
+    "qa:frontend": "node scripts/qa-frontend.mjs",
+    "qa:a11y": "node scripts/qa-a11y.mjs",
+    "release:gate": "npm run version:check && npm run public:boundary && npm run policy:dco && npm run licenses:check && node scripts/check-content-provenance.mjs && node scripts/check-public-history.mjs && npm run check && npm test && npm run build && npm run qa:frontend && npm run qa:a11y && node scripts/check-generated-cleanliness.mjs"
+  },
+  "dependencies": {
+    "@astrojs/rss": "^4.0.19",
+    "astro": "^7.1.6"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@axe-core/playwright": "^4.10.2",
+    "@types/node": "^24.13.3",
+    "playwright": "^1.61.1",
+    "typescript": "^6.0.3"
+  }
+}

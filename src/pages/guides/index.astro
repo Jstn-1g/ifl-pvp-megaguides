@@ -1,0 +1,58 @@
+---
+import GuideCard from '../../components/GuideCard.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { PUBLIC_CONTENT } from '../../data/public-content';
+
+const title = 'MegaGuides — Evidence-held competitive references';
+const description = 'Retained competitive-game guide routes with visible evidence-hold status, scope limits, and review information.';
+const retainedRouteCount: number = PUBLIC_CONTENT.length;
+const retainedRouteLabel = new Intl.PluralRules('en-US').select(retainedRouteCount) === 'one' ? 'route' : 'routes';
+
+function statusLabel(entry: (typeof PUBLIC_CONTENT)[number]) {
+  return entry.kind === 'mega-guide' ? 'Review due' : 'Evidence reconstruction';
+}
+
+function reviewLabel(entry: (typeof PUBLIC_CONTENT)[number]) {
+  return entry.kind === 'mega-guide'
+    ? `Review due ${entry.review.nextReviewAt}`
+    : 'Historical evidence reconstruction';
+}
+---
+
+<BaseLayout {title} {description} canonicalPath="/guides/">
+  <section class="page-hero" aria-labelledby="guides-title">
+    <div class="container">
+      <p class="eyebrow">IFL / MegaGuides</p>
+      <h1 id="guides-title">Reference routes with their status in view.</h1>
+      <p class="page-hero__lede">{retainedRouteCount} retained {retainedRouteLabel}, each held to an explicit evidence and review standard. None are currently represented as a verified-current guide.</p>
+    </div>
+  </section>
+
+  <section class="section section--library" aria-label="Retained guide routes">
+    <div class="container">
+      {PUBLIC_CONTENT.length > 0 ? (
+        <div class="guide-grid">
+          {PUBLIC_CONTENT.map((entry, index) => (
+            <GuideCard
+              href={`/${entry.route.slug}/`}
+              title={entry.title}
+              description={entry.description}
+              game={entry.game}
+              index={index + 1}
+              status="review-due"
+              statusLabel={statusLabel(entry)}
+              reviewedLabel={reviewLabel(entry)}
+              gameVersion={entry.kind === 'mega-guide' ? entry.gameVersion : undefined}
+              sourceCount={entry.sources.length}
+            />
+          ))}
+        </div>
+      ) : (
+        <div class="empty-state prose">
+          <h2>No guides are ready to list.</h2>
+          <p>A public guide route appears only after its evidence state is recorded.</p>
+        </div>
+      )}
+    </div>
+  </section>
+</BaseLayout>

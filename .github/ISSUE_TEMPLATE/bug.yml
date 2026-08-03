@@ -1,0 +1,31 @@
+name: Bug report
+description: Report a reproducible problem in the public codebase.
+title: "bug: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not include credentials, private information, third-party account data, or security vulnerabilities. Use SECURITY.md for security reports.
+  - type: textarea
+    id: outcome
+    attributes:
+      label: What happened?
+      description: Describe the observed and expected behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction steps
+      placeholder: |
+        1. …
+        2. …
+        3. …
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Browser, operating system, and version

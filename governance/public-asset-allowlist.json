@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "policy": "deny-by-default",
+  "purpose": "Records non-text assets approved for storage and public redistribution in this repository.",
+  "assets": [
+    {
+      "path": "public/og.png",
+      "role": "social-card",
+      "sha256": "84fe3c5e9587d52488a3387f0fad9564c51934a60d951dd731e16faf94df0b3c",
+      "creatorSource": "Deterministic CSS-only render from scripts/generate-social-card.mjs",
+      "rightsBasis": "Original project presentation generated without third-party art, logos, screenshots, fonts, or remote assets.",
+      "license": "All rights reserved; public redistribution is permitted only as part of this repository and its generated site.",
+      "approvalDate": "2026-08-03",
+      "redistributable": true
+    }
+  ]
+}

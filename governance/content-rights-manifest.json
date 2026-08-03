@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "policy": "deny-by-default",
+  "purpose": "Records editorial, dataset, and other non-code material expressly approved for inclusion in this public repository.",
+  "excludedPrefixes": [
+    "src/data/articles/",
+    "data/",
+    "research/",
+    "reports/"
+  ],
+  "content": [
+    {
+      "path": "src/data/public-content.ts",
+      "sha256": "d91ab00e894342ba889935a070dac175952d5817d9649c8d5ae092a8339159f8",
+      "rightsBasis": "Newly authored, concise evidence-hold route summaries created for this clean export under the repository owner's active task authorization; no private article body or third-party media was copied.",
+      "license": "All rights reserved",
+      "reviewedAt": "2026-08-03",
+      "status": "approved"
+    },
+    {
+      "path": "src/data/PUBLIC-CONTENT-NOTES.md",
+      "sha256": "c5e5b74f916f9d656bfc2861840b8cbd8929c63ea10e7072ecab451fc64255df",
+      "rightsBasis": "Original project governance documentation written for this clean export.",
+      "license": "MIT",
+      "reviewedAt": "2026-08-03",
+      "status": "approved"
+    }
+  ]
+}

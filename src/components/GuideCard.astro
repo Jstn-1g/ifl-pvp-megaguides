@@ -1,0 +1,56 @@
+---
+import ReferenceCover from './ReferenceCover.astro';
+import GuideStatusBadge from './GuideStatusBadge.astro';
+
+interface Props {
+  href: string;
+  title: string;
+  description: string;
+  game?: string | undefined;
+  index?: number | undefined;
+  status: 'verified-current' | 'stable-reference' | 'review-due' | 'archived' | string;
+  statusLabel?: string | undefined;
+  reviewedLabel?: string | undefined;
+  gameVersion?: string | undefined;
+  sourceCount?: number | undefined;
+  readingTime?: string | undefined;
+}
+
+const { href, title, description, game, index, status, statusLabel, reviewedLabel, gameVersion, sourceCount, readingTime } = Astro.props;
+---
+
+<article class="guide-card" data-guide-status={status}>
+  <a href={href} class="guide-card__link" aria-label={`Read ${title}`}>
+    <ReferenceCover variant="card" title={title} eyebrow={game ?? 'Competitive reference'} status={statusLabel} index={index} seed={href} />
+    <div class="guide-card__body">
+      <p class="guide-card__eyebrow">{game ?? 'Competitive reference'}</p>
+      <h3>{title}</h3>
+      <p class="guide-card__description">{description}</p>
+      <div class="guide-card__meta" aria-label="Guide details">
+        {gameVersion && <span>{gameVersion}</span>}
+        {readingTime && <span>{readingTime}</span>}
+        {sourceCount !== undefined && <span>{sourceCount} {sourceCount === 1 ? 'source' : 'sources'}</span>}
+      </div>
+      <div class="guide-card__status-row">
+        <GuideStatusBadge status={status} label={statusLabel} />
+        {reviewedLabel && <span class="guide-card__reviewed">{reviewedLabel}</span>}
+      </div>
+    </div>
+  </a>
+</article>
+
+<style>
+  .guide-card { min-width: 0; border: 1px solid var(--border-subtle); background: var(--bg-surface); transition: border-color var(--duration-base), transform var(--duration-base) var(--ease-out), background var(--duration-base); }
+  .guide-card:hover, .guide-card:focus-within { border-color: var(--border-strong); background: var(--bg-raised); transform: translateY(-3px); }
+  .guide-card__link { display: grid; height: 100%; color: inherit; }
+  .guide-card__body { display: grid; align-content: start; gap: 0.7rem; padding: 1.15rem; }
+  .guide-card__eyebrow { margin: 0; color: var(--accent); font-family: var(--font-display); font-size: 0.7rem; font-weight: 750; letter-spacing: 0.11em; line-height: 1.2; text-transform: uppercase; }
+  .guide-card h3 { margin: 0; color: var(--text-bright); font-family: var(--font-display); font-size: clamp(1.2rem, 2vw, 1.5rem); letter-spacing: -0.035em; line-height: 1.04; text-wrap: balance; }
+  .guide-card__description { display: -webkit-box; margin: 0; overflow: hidden; color: var(--text-secondary); font-size: 0.875rem; line-height: 1.55; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
+  .guide-card__meta { display: flex; flex-wrap: wrap; gap: 0.4rem 0.85rem; color: var(--text-muted); font-size: 0.74rem; }
+  .guide-card__meta span + span::before { display: inline-block; width: 0.3rem; height: 0.3rem; margin: 0 0.55rem 0.1rem 0; background: var(--border-strong); content: ''; }
+  .guide-card__status-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem; padding-top: 0.75rem; border-top: 1px solid var(--border-subtle); }
+  .guide-card__reviewed { color: var(--text-muted); font-size: 0.72rem; }
+  @media (max-width: 640px) { .guide-card__body { padding: 1rem; } }
+  @media (prefers-reduced-motion: reduce) { .guide-card { transition: none; } }
+</style>

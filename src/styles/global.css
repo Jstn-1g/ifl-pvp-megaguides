@@ -1,0 +1,101 @@
+/* IFL Reference Grid: original CSS-only editorial foundations. */
+:root {
+  color-scheme: dark;
+  --bg-deep: #080a0e;
+  --bg-base: #0c1016;
+  --bg-surface: #121822;
+  --bg-raised: #18212c;
+  --bg-hover: #202b38;
+  --text-bright: #f6f3ed;
+  --text-primary: #d8dde5;
+  --text-secondary: #aab4c1;
+  --text-muted: #8e9baa;
+  --accent: #e9a84d;
+  --accent-strong: #ffc66e;
+  --accent-cool: #83b7d7;
+  --status-current: #70d29a;
+  --status-stable: #86bee2;
+  --status-review: #f3bb61;
+  --border-subtle: rgba(229, 237, 246, 0.10);
+  --border-medium: rgba(229, 237, 246, 0.18);
+  --border-strong: rgba(229, 237, 246, 0.34);
+  --grid-line: rgba(233, 168, 77, 0.10);
+  --shadow-raised: 0 20px 50px rgba(0, 0, 0, 0.24);
+  --max-width: 1180px;
+  --max-prose: 740px;
+  --header-height: 70px;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 150ms;
+  --duration-base: 240ms;
+  --font-display: "Arial Narrow", "Aptos Narrow", "Segoe UI", sans-serif;
+  --font-body: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  min-width: 320px;
+  margin: 0;
+  color: var(--text-primary);
+  background: var(--bg-base);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+body::before {
+  position: fixed;
+  z-index: -1;
+  inset: 0;
+  background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 56px 56px;
+  content: "";
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), transparent 64%);
+  pointer-events: none;
+}
+a { color: inherit; text-decoration: none; }
+button, input { font: inherit; }
+button { cursor: pointer; }
+img, svg, video { display: block; max-width: 100%; height: auto; }
+ul, ol { margin: 0; padding: 0; }
+
+.container { width: min(100% - 2.5rem, var(--max-width)); margin-inline: auto; }
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+.skip-link {
+  position: fixed;
+  z-index: 1000;
+  top: 0.75rem;
+  left: 0.75rem;
+  padding: 0.65rem 0.9rem;
+  border: 2px solid var(--accent);
+  background: var(--bg-deep);
+  color: var(--text-bright);
+  transform: translateY(-180%);
+}
+.skip-link:focus { transform: translateY(0); }
+:focus-visible { outline: 3px solid var(--accent-strong); outline-offset: 3px; }
+::selection { background: rgba(233, 168, 77, 0.32); color: var(--text-bright); }
+
+@media (max-width: 640px) { .container { width: min(100% - 1.5rem, var(--max-width)); } }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
+@media (forced-colors: active) {
+  body::before, .reference-cover::before, .reference-cover::after { display: none; }
+  :root { --border-subtle: CanvasText; --border-medium: CanvasText; --border-strong: CanvasText; }
+  .reference-cover, .guide-card, .site-header, .site-footer, .search-dialog__panel { border: 1px solid CanvasText !important; background: Canvas !important; color: CanvasText !important; }
+  .reference-cover__axis, .reference-cover__status { color: CanvasText !important; }
+}

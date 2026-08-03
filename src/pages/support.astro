@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../utils/site';
+
+const title = `Support — ${SITE.name}`;
+const description = 'How to support IFL PvP MegaGuides while keeping editorial decisions independent and transparent.';
+---
+
+<BaseLayout {title} {description} canonicalPath="/support/">
+  <section class="page-hero" aria-labelledby="support-title">
+    <div class="container">
+      <p class="eyebrow">Support</p>
+      <h1 id="support-title">Support the reference standard, not a hidden influence channel.</h1>
+      <p class="page-hero__lede">The first public release does not collect donations, sell placements, or accept paid editorial outcomes.</p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container prose">
+      <h2>What helps now</h2>
+      <p>The most useful support is specific, source-backed correction: a broken official link, a missed patch, a version mismatch, or a route that needs a clearer historical label. Those reports help the project decide what to review next.</p>
+      <p>Use the <a href="https://github.com/Jstn-1g/ifl-pvp-megaguides/issues">public issue tracker</a> for route-specific evidence and corrections.</p>
+      <h2>Funding boundary</h2>
+      <p>A future support option, if added, will be plainly identified and will not buy coverage, rankings, source treatment, or a change to a guide’s evidence status. Until a verified support destination is published here, no financial contribution is requested.</p>
+      <h2>Independence</h2>
+      <p>Support does not confer editorial control. A guide’s publication status remains governed by its rights, scope, evidence, and review record.</p>
+    </div>
+  </section>
+</BaseLayout>
