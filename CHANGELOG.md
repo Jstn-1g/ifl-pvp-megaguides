@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.1](https://github.com/Jstn-1g/ifl-pvp-megaguides/compare/v0.6.0...v0.6.1) (2026-08-04)
+
+
+### Bug Fixes
+
+* revalidate release documents ([#26](https://github.com/Jstn-1g/ifl-pvp-megaguides/issues/26)) ([2b4b29a](https://github.com/Jstn-1g/ifl-pvp-megaguides/commit/2b4b29ac403aa201326f7298dd08c05509cd6f29))
+
 ## [0.6.0](https://github.com/Jstn-1g/ifl-pvp-megaguides/compare/v0.5.1...v0.6.0) (2026-08-04)
 
 
