@@ -8,6 +8,7 @@
  */
 
 export type SourceKind = 'official' | 'developer' | 'patch-notes';
+export type GameKey = 'battlerite' | 'gigantic' | 'gunz' | 'marvel-rivals' | 'bloodline-champions';
 
 export interface EvidenceSource {
   readonly title: string;
@@ -40,14 +41,15 @@ export interface PublicMegaGuide {
   /** Newly authored, intentionally concise copy suitable for the evidence-hold page. */
   readonly scope: string;
   readonly game: string;
+  readonly gameKey: GameKey;
   readonly gameVersion: string;
   readonly platforms: readonly string[];
   readonly guideStatus: 'active' | 'stable';
   readonly confidence: 'low' | 'medium';
   readonly review: ReviewDue;
   readonly sources: readonly EvidenceSource[];
-  /** Decorative first-party arena art is presentation only and never guide evidence. */
-  readonly visual: 'original-fantasy-arena-art';
+  /** Publisher media stays unavailable until an exact public-display grant is recorded. */
+  readonly visual: 'game-identity-under-review';
   /** Original public summaries are copyright-reserved; application code is separately licensed. */
   readonly contentRights: 'editorial-text-reserved';
 }
@@ -59,8 +61,9 @@ export interface EvidenceHoldNotice {
   readonly description: string;
   readonly notice: string;
   readonly game: string;
+  readonly gameKey: GameKey;
   readonly sources: readonly EvidenceSource[];
-  readonly visual: 'original-fantasy-arena-art';
+  readonly visual: 'game-identity-under-review';
   readonly contentRights: 'editorial-text-reserved';
 }
 
@@ -87,6 +90,7 @@ export const PUBLIC_MEGA_GUIDES = [
     scope:
       'This route is retained while the complete champion and mechanics reference is reviewed against primary historical sources. No detailed roster, ability, or balance claims are published here yet.',
     game: 'Battlerite',
+    gameKey: 'battlerite',
     gameVersion: 'Final content build 2.3.0 (October 2019); maintenance status requires review',
     platforms: ['Windows'],
     guideStatus: 'stable',
@@ -121,7 +125,7 @@ export const PUBLIC_MEGA_GUIDES = [
         type: 'patch-notes',
       },
     ],
-    visual: 'original-fantasy-arena-art',
+    visual: 'game-identity-under-review',
     contentRights: 'editorial-text-reserved',
   },
   {
@@ -133,6 +137,7 @@ export const PUBLIC_MEGA_GUIDES = [
     scope:
       'This route is retained while the legacy material is reconciled with current official roster information. It intentionally publishes no hero builds, matchup advice, or balance guidance.',
     game: 'Gigantic: Rampage Edition',
+    gameKey: 'gigantic',
     gameVersion: 'Legacy 21-hero subset; not the full current roster',
     platforms: ['Windows', 'PlayStation', 'Xbox'],
     guideStatus: 'stable',
@@ -160,7 +165,7 @@ export const PUBLIC_MEGA_GUIDES = [
         type: 'official',
       },
     ],
-    visual: 'original-fantasy-arena-art',
+    visual: 'game-identity-under-review',
     contentRights: 'editorial-text-reserved',
   },
   {
@@ -172,6 +177,7 @@ export const PUBLIC_MEGA_GUIDES = [
     scope:
       'This route is retained while historical mechanics and any current-release context are reviewed. Detailed movement inputs, frame claims, and weapon guidance remain private until they are source-checked.',
     game: 'GunZ: The Duel',
+    gameKey: 'gunz',
     gameVersion: 'Legacy mechanics; current-release context requires review',
     platforms: ['Windows'],
     guideStatus: 'active',
@@ -199,7 +205,7 @@ export const PUBLIC_MEGA_GUIDES = [
         type: 'official',
       },
     ],
-    visual: 'original-fantasy-arena-art',
+    visual: 'game-identity-under-review',
     contentRights: 'editorial-text-reserved',
   },
   {
@@ -211,6 +217,7 @@ export const PUBLIC_MEGA_GUIDES = [
     scope:
       'The earlier guide referenced Season 9 and a July 2026 balance baseline. That material is due for review and remains unavailable here until every current claim is verified from primary sources.',
     game: 'Marvel Rivals',
+    gameKey: 'marvel-rivals',
     gameVersion: 'Season 9 / July 2026 baseline under review',
     platforms: ['Windows', 'PlayStation 4', 'PlayStation 5', 'Xbox Series X|S'],
     guideStatus: 'active',
@@ -252,7 +259,7 @@ export const PUBLIC_MEGA_GUIDES = [
         type: 'official',
       },
     ],
-    visual: 'original-fantasy-arena-art',
+    visual: 'game-identity-under-review',
     contentRights: 'editorial-text-reserved',
   },
 ] as const satisfies readonly PublicMegaGuide[];
@@ -272,6 +279,7 @@ export const PUBLIC_EVIDENCE_HOLDS = [
     notice:
       'This page does not publish legacy ability values, roster details, build advice, or competitive-history claims. Those materials remain private until source-captured verification is complete.',
     game: 'Bloodline Champions',
+    gameKey: 'bloodline-champions',
     sources: [
       {
         title: 'Bloodline Champions on Steam',
@@ -295,7 +303,7 @@ export const PUBLIC_EVIDENCE_HOLDS = [
         type: 'developer',
       },
     ],
-    visual: 'original-fantasy-arena-art',
+    visual: 'game-identity-under-review',
     contentRights: 'editorial-text-reserved',
   },
 ] as const satisfies readonly EvidenceHoldNotice[];

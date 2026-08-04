@@ -11,15 +11,15 @@
   "content": [
     {
       "path": "src/data/public-content.ts",
-      "sha256": "8e38d73d37e6952ce1c48a59818291b127db90c2c0c68ccf7f44aa13804e7f02",
-      "rightsBasis": "Newly authored, concise evidence-hold route summaries created for this clean export under the repository owner's active task authorization; no private article body or third-party media was copied.",
+      "sha256": "757d6a5b032d8346b91595000a4b2272bbf0be5738853bdd89987649633f9d13",
+      "rightsBasis": "Newly authored, concise evidence-hold route summaries and explicit game-identity keys created for this clean export under the repository owner's active task authorization; no private article body or third-party media was copied. Every game visual remains mechanically marked under review.",
       "license": "All rights reserved",
       "reviewedAt": "2026-08-03",
       "status": "approved"
     },
     {
       "path": "src/data/PUBLIC-CONTENT-NOTES.md",
-      "sha256": "7426b86580966cda793dda8dd0b781619ce420455b8b9da471f3d8c59249949b",
+      "sha256": "b30602fab640249c9e895943e9d8deab9e18533c0ca8c43c6fa05547956db430",
       "rightsBasis": "Original project governance documentation written for this clean export.",
       "license": "MIT",
       "reviewedAt": "2026-08-03",

@@ -43,7 +43,7 @@ function readableDate(date: string) {
           <p class="guide-detail__lede">{entry.description}</p>
           <p class="guide-detail__route"><span>Canonical path</span> <code>{canonicalPath}</code></p>
         </div>
-        <ReferenceCover variant="featured" title={entry.title} eyebrow={entry.game} status="Evidence held" index="IFL / HOLD" seed={entry.route.slug} />
+        <ReferenceCover variant="featured" title={entry.title} eyebrow={entry.game} status="Evidence held" index="IFL / HOLD" seed={entry.route.slug} gameKey={entry.gameKey} />
       </div>
     </header>
 
@@ -52,7 +52,7 @@ function readableDate(date: string) {
         <p class="eyebrow">Publication status</p>
         <h2>This route is available, but it is not a live guide.</h2>
         <p>{isMegaGuide ? entry.scope : entry.notice}</p>
-        <p>The page is deliberately <strong>not indexed</strong> while factual review is incomplete. It contains no publisher game artwork, screenshots, scraped datasets, detailed builds, tier advice, or unverified gameplay claims. Its shared fantasy arena image is original IFL presentation art, not evidence for this game.</p>
+        <p>The page is deliberately <strong>not indexed</strong> while factual review is incomplete. It contains no publisher game artwork, screenshots, scraped datasets, detailed builds, tier advice, or unverified gameplay claims. Its game-specific color and motion language is original IFL presentation design, not evidence for this game.</p>
       </div>
 
       {isMegaGuide && reviewDetails && (

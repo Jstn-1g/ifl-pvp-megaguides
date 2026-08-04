@@ -25,7 +25,7 @@ function normalizeRepoPath(value) {
 }
 
 async function trackedPaths(root) {
-  const { stdout } = await execFile('git', ['ls-files', '-z'], { cwd: root, encoding: 'buffer' });
+  const { stdout } = await execFile('git', ['ls-files', '-z', '--cached', '--others', '--exclude-standard'], { cwd: root, encoding: 'buffer' });
   return stdout.toString('utf8').split('\0').filter(Boolean).map(normalizeRepoPath).sort();
 }
 
@@ -41,7 +41,18 @@ function validateAllowlist(value) {
     if (!mediaExtensions.has(path.posix.extname(assetPath).toLowerCase())) throw new Error(`assets[${index}] is not a media asset: ${assetPath}`);
     if (!/^[a-f0-9]{64}$/i.test(String(asset.sha256 ?? ''))) throw new Error(`assets[${index}].sha256 must be a SHA-256 digest.`);
     if (typeof asset.rightsBasis !== 'string' || !asset.rightsBasis.trim()) throw new Error(`assets[${index}].rightsBasis is required.`);
-    if (!['social-card', 'brand-icon', 'other'].includes(asset.role)) throw new Error(`assets[${index}].role must be social-card, brand-icon, or other.`);
+    if (!['social-card', 'brand-icon', 'game-media', 'other'].includes(asset.role)) throw new Error(`assets[${index}].role must be social-card, brand-icon, game-media, or other.`);
+    const isGameMediaPath = assetPath.startsWith('public/game-media/');
+    if (isGameMediaPath && asset.role !== 'game-media') throw new Error(`assets[${index}] under public/game-media/ must use role game-media: ${assetPath}`);
+    if (asset.role === 'game-media') {
+      if (!isGameMediaPath) throw new Error(`assets[${index}] game-media must live under public/game-media/: ${assetPath}`);
+      if (typeof asset.gameKey !== 'string' || !asset.gameKey.trim()) throw new Error(`assets[${index}].gameKey is required for game-media.`);
+      if (typeof asset.sourceUrl !== 'string' || !/^https:\/\//.test(asset.sourceUrl)) throw new Error(`assets[${index}].sourceUrl must be an HTTPS primary-source URL for game-media.`);
+      for (const field of ['displayGrant', 'repositoryRedistributionGrant', 'attribution', 'license']) {
+        if (typeof asset[field] !== 'string' || !asset[field].trim()) throw new Error(`assets[${index}].${field} is required for game-media.`);
+      }
+      if (asset.redistributable !== true) throw new Error(`assets[${index}].redistributable must be true before game-media can enter the public repository.`);
+    }
     if (result.has(assetPath)) throw new Error(`Duplicate public asset allowlist entry: ${assetPath}`);
     result.set(assetPath, { ...asset, path: assetPath });
   }

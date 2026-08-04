@@ -21,17 +21,17 @@ The original application and maintenance tooling in this repository are publishe
 
 - An Astro-based static-site foundation for a guide-first reference experience.
 - Deterministic local checks for build quality, accessibility, release boundaries, contributor sign-off, and dependency licensing.
-- Synthetic example material, a first-party IFL identity system, and original franchise-neutral PvP artwork—no publisher game art, screenshots, video, collected game data, or legacy editorial archive.
+- Synthetic example material, a first-party IFL identity system, an original arena hero, and distinct game-specific presentation states—no unapproved publisher art, screenshots, video, collected game data, or legacy editorial archive.
 - A human-reviewed maintenance model: automation may prepare proposals, but it may not merge, deploy, or publish without maintainer approval.
 
 The production site remains at [iflpvp.com](https://iflpvp.com). This repository deliberately does not include a live-site export or a copy of its historical media library.
 
 ## Product preview
 
-These captures come from this repository’s first-party public interface. The design uses the reserved IFL PvP mark, original franchise-neutral competitive archetypes and genre worlds, CSS motion, and system typography; it contains no publisher artwork, game screenshots, remote fonts, or historical media.
+These captures come from this repository’s first-party public interface. The design uses the reserved IFL PvP mark, an original arena hero, game-specific color and motion treatments, CSS effects, and system typography; it contains no unapproved publisher artwork, game screenshots, remote fonts, or historical media.
 
 <p>
-  <img src="docs/screenshots/home-desktop.png" width="49%" alt="IFL PvP MegaGuides desktop home with a bright original multi-genre hero and evidence-led guide library" />
+  <img src="docs/screenshots/home-desktop.png" width="49%" alt="IFL PvP MegaGuides desktop home with an original arena hero and game-specific evidence-led guide library" />
   <img src="docs/screenshots/evidence-hold-desktop.png" width="49%" alt="Evidence-held guide route showing its review status and publication boundary" />
 </p>
 
@@ -41,6 +41,7 @@ These captures come from this repository’s first-party public interface. The d
 2. **Material claims require evidence.** Version context, review dates, source links, and correction paths travel with the guide record.
 3. **Publication fails closed.** Missing proof keeps a route available only as a clearly labeled, non-indexed evidence hold; automation cannot promote it on its own.
 4. **Releases are reviewed artifacts.** DCO, rights, provenance, dependency, SEO, browser, accessibility, workflow, and clean-history gates run before a tagged build can become a release asset.
+5. **Media fails closed.** Every local image and responsive candidate must exist in the built artifact and load on every generated desktop and mobile route. Game media additionally requires separate public-display and repository-redistribution grants.
 
 ## Repository map
 
@@ -48,8 +49,8 @@ These captures come from this repository’s first-party public interface. The d
 | --- | --- |
 | `src/data/` | Human-reviewed public records and their source ledger |
 | `src/pages/`, `src/layouts/`, `src/components/` | Static routes and the responsive Reference Grid experience |
-| `governance/` | Deny-by-default content and asset publication records |
-| `scripts/` | Deterministic release, provenance, policy, browser, and accessibility gates |
+| `governance/` | Deny-by-default content, game-media, and asset publication records |
+| `scripts/` | Deterministic release, provenance, media-integrity, policy, browser, and accessibility gates |
 | `.github/workflows/` | SHA-pinned CI, CodeQL, reviewed version PRs, and immutable release artifacts |
 | `public/` | Reviewed first-party brand art, social preview, and LiteSpeed security-header contract |
 
@@ -76,6 +77,7 @@ npm run workflows:check
 npm run check
 npm test
 npm run build
+npm run qa:media
 ```
 
 The full release sequence is `npm run release:gate`. It is intentionally fail-closed: passing a normal build is not authorization to publish a release, asset, article, or deployment.
@@ -86,7 +88,7 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md), [DCO.md](DCO.md), [CODE_OF_CONDUCT.md](
 
 - Sign off each human commit with `git commit -s`.
 - Disclose material AI or automation assistance and verify its output yourself.
-- Submit original, MIT-compatible code only. Do not submit publisher media, copied writing, scraped data, private information, credentials, or assets with unclear rights.
+- Submit original, MIT-compatible code only. Do not submit publisher media without the exact display and repository grants required by the [game media release policy](governance/game-media-policy.md), or submit copied writing, scraped data, private information, credentials, or assets with unclear rights.
 - Use a source link or correction proposal instead of copying protected content.
 
 ## Support and contact

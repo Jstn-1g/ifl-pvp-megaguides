@@ -36,6 +36,9 @@ jobs:
       - name: Install locked dependencies
         run: npm ci
 
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
       - name: Run public release gates
         run: |
           npm audit --omit=dev --audit-level=high
@@ -50,9 +53,6 @@ jobs:
           npm test
           npm run build
 
-      - name: Install Chromium
-        run: npx playwright install --with-deps chromium
-
       - name: Run browser and accessibility proof
         shell: bash
         run: |
@@ -66,6 +66,7 @@ jobs:
           done
           BASE_URL=http://127.0.0.1:4321 npm run qa:frontend
           BASE_URL=http://127.0.0.1:4321 npm run qa:a11y
+          BASE_URL=http://127.0.0.1:4321 npm run qa:media
 
       - name: Write and verify immutable artifact manifest
         run: |
