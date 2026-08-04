@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0](https://github.com/Jstn-1g/ifl-pvp-megaguides/compare/v0.4.0...v0.5.0) (2026-08-04)
+
+
+### Features
+
+* restore game-specific visual identity ([#20](https://github.com/Jstn-1g/ifl-pvp-megaguides/issues/20)) ([d3d4108](https://github.com/Jstn-1g/ifl-pvp-megaguides/commit/d3d410875587d82adb92e1dd41912a4e738c1d98))
+
 ## [0.4.0](https://github.com/Jstn-1g/ifl-pvp-megaguides/compare/v0.3.3...v0.4.0) (2026-08-04)
 
 
