@@ -1,12 +1,14 @@
 ---
 import ReferenceCover from './ReferenceCover.astro';
 import GuideStatusBadge from './GuideStatusBadge.astro';
+import type { GameKey } from '../data/public-content';
 
 interface Props {
   href: string;
   title: string;
   description: string;
   game?: string | undefined;
+  gameKey?: GameKey | undefined;
   index?: number | undefined;
   status: 'verified-current' | 'stable-reference' | 'review-due' | 'archived' | string;
   statusLabel?: string | undefined;
@@ -16,12 +18,12 @@ interface Props {
   readingTime?: string | undefined;
 }
 
-const { href, title, description, game, index, status, statusLabel, reviewedLabel, gameVersion, sourceCount, readingTime } = Astro.props;
+const { href, title, description, game, gameKey, index, status, statusLabel, reviewedLabel, gameVersion, sourceCount, readingTime } = Astro.props;
 ---
 
 <article class="guide-card" data-guide-status={status}>
   <a href={href} class="guide-card__link" aria-label={`Read ${title}. Status: ${statusLabel ?? status}.`}>
-    <ReferenceCover variant="card" title={title} eyebrow={game ?? 'Competitive reference'} status={statusLabel} index={index} seed={href} />
+    <ReferenceCover variant="card" title={title} eyebrow={game ?? 'Competitive reference'} status={statusLabel} index={index} seed={href} gameKey={gameKey} />
     <div class="guide-card__body">
       <p class="guide-card__eyebrow">{game ?? 'Competitive reference'}</p>
       <h3>{title}</h3>

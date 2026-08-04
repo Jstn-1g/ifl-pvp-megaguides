@@ -10,7 +10,7 @@ const contentPrefixes = ['content/', 'data/', 'src/content/', 'src/data/'];
 const contentExtensions = new Set(['.csv', '.json', '.md', '.mdx', '.ts', '.txt', '.yaml', '.yml']);
 
 async function trackedPaths(root) {
-  const { stdout } = await execFile('git', ['ls-files', '-z'], { cwd: root, encoding: 'buffer' });
+  const { stdout } = await execFile('git', ['ls-files', '-z', '--cached', '--others', '--exclude-standard'], { cwd: root, encoding: 'buffer' });
   return stdout.toString('utf8').split('\0').filter(Boolean).sort();
 }
 

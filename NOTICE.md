@@ -10,6 +10,8 @@ Third-party product names, company names, game names, logos, and other marks bel
 
 The [MIT License](LICENSE) applies only to the original code and tooling included in this repository. Editorial work, data, brand material, and third-party material are excluded unless a file explicitly says otherwise. Read [CONTENT-LICENSE.md](CONTENT-LICENSE.md) and [TRADEMARKS.md](TRADEMARKS.md) before reuse.
 
+Any future game media is also governed by [the game media release policy](governance/game-media-policy.md) and its exact allowlist record. It is never covered by MIT.
+
 ## Rights concerns
 
 If you own or represent rights in material associated with this project and believe its use is unauthorized, email `support@iflpvp.com` with:

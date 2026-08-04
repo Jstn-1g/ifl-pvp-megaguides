@@ -49,9 +49,9 @@
     {
       "path": "docs/screenshots/home-desktop.png",
       "role": "other",
-      "sha256": "05eaaad12b48f94f89b255a537dd8524151efd1651a4a463ea6991875f83be23",
+      "sha256": "0a930048e15a4f431364ac9f44551cafa1ae4646c3cba57c42b20e78dfa051d7",
       "creatorSource": "Playwright full-page capture of this repository's local static build at a 1440x1000 viewport with reduced motion enabled",
-      "rightsBasis": "First-party capture of the Reference Grid interface using the allowlisted IFL PvP logo and original franchise-neutral fantasy arena artwork; contains no publisher art, game screenshots, remote fonts, third-party logos, or private data.",
+      "rightsBasis": "First-party capture of the IFL PvP interface using the allowlisted logo, original arena artwork, and original game-specific CSS presentation states; contains no publisher art, game screenshots, remote fonts, third-party logos, or private data.",
       "license": "All rights reserved; public redistribution is permitted only as part of this repository and its project presentation.",
       "approvalDate": "2026-08-03",
       "redistributable": true
@@ -59,9 +59,9 @@
     {
       "path": "docs/screenshots/evidence-hold-desktop.png",
       "role": "other",
-      "sha256": "b508bb0c1d42ec0bca5c724b291ee7ca11140fa0dd52c691df987eb3c3da082e",
+      "sha256": "4ea2026288b45311225381b6568c96139ebe3c0f0f54f20a626d73109319f8b9",
       "creatorSource": "Playwright full-page capture of this repository's local evidence-hold route at a 1440x1000 viewport with reduced motion enabled",
-      "rightsBasis": "First-party capture of the Reference Grid evidence-hold route using the allowlisted IFL PvP logo and original franchise-neutral fantasy arena artwork; contains no publisher art, game screenshots, remote fonts, third-party logos, or private data.",
+      "rightsBasis": "First-party capture of the evidence-hold route using the allowlisted IFL PvP logo and original game-specific CSS presentation state; contains no publisher art, game screenshots, remote fonts, third-party logos, or private data.",
       "license": "All rights reserved; public redistribution is permitted only as part of this repository and its project presentation.",
       "approvalDate": "2026-08-03",
       "redistributable": true

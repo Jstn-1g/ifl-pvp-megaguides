@@ -27,17 +27,17 @@ function reviewLabel(entry: (typeof PUBLIC_CONTENT)[number]) {
     <p class="sr-only">The hero uses original IFL concept art. It is not game footage and does not claim current guide coverage.</p>
     <div class="container hero__inner">
       <div class="hero__content">
-        <p class="eyebrow">IFL PvP / Competitive intelligence</p>
+        <p class="eyebrow">The IFL PvP library</p>
         <h1 id="site-intro">Know the matchup.<br />Own the fight.</h1>
-        <p class="hero__lede"><strong>Source-backed, version-pinned field manuals</strong> for competitive games—with visible evidence, review dates, and honest limits on what is current or still being checked.</p>
+        <p class="hero__lede">Build your next game plan from <strong>source-backed competitive research</strong>. Every route shows its evidence, review date, and exactly what still needs verification.</p>
         <div class="hero__actions">
-          <a class="button button--primary" href="/guides/">Browse retained references <span aria-hidden="true">→</span></a>
-          <a class="button button--quiet" href="/editorial-policy/">See how evidence works</a>
+          <a class="button button--primary" href="/guides/">Explore game guides <span aria-hidden="true">→</span></a>
+          <a class="button button--quiet" href="/editorial-policy/">How we verify</a>
         </div>
         <dl class="hero__facts" aria-label="Library status">
-          <div><dt>Retained routes</dt><dd>{retainedGuideCount}</dd></div>
-          <div><dt>MegaGuide records</dt><dd>{megaGuideCount}</dd></div>
-          <div><dt>Current guides</dt><dd>{indexableGuideCount}<small>Review in progress</small></dd></div>
+          <div><dt>Retained routes</dt><dd>{retainedGuideCount}<small>Preserved and accessible</small></dd></div>
+          <div><dt>MegaGuide records</dt><dd>{megaGuideCount}<small>Rebuilding game by game</small></dd></div>
+          <div class="hero__status"><dt>Current guide status</dt><dd>{indexableGuideCount === 0 ? 'Evidence review' : `${indexableGuideCount} verified`}<small>{indexableGuideCount === 0 ? 'No live-meta claims yet' : 'Ready to explore'}</small></dd></div>
         </dl>
       </div>
     </div>
@@ -48,11 +48,11 @@ function reviewLabel(entry: (typeof PUBLIC_CONTENT)[number]) {
       <div class="section-heading">
         <div>
           <p class="eyebrow">The MegaGuide library</p>
-          <h2 id="retained-guides">Choose the fight. Check the evidence.</h2>
+          <h2 id="retained-guides">Pick a game. See what’s verified.</h2>
         </div>
         <a href="/guides/">See all retained routes <span aria-hidden="true">→</span></a>
       </div>
-      <p class="section-intro">The public export starts deliberately small. These pages preserve useful paths without releasing unreviewed detailed guides, publisher or game imagery, or scraped datasets.</p>
+      <p class="section-intro">Five established routes are being rebuilt with game-specific research and media. Each card tells you what is usable now, what is historical, and what is still under review.</p>
       {featuredEntries.length > 0 ? (
         <div class="guide-grid">
           {featuredEntries.map((entry, index) => (
@@ -65,6 +65,7 @@ function reviewLabel(entry: (typeof PUBLIC_CONTENT)[number]) {
               status="review-due"
               statusLabel="Evidence held"
               reviewedLabel={reviewLabel(entry)}
+              gameKey={entry.gameKey}
               gameVersion={entry.kind === 'mega-guide' ? entry.gameVersion : undefined}
               sourceCount={entry.sources.length}
             />
