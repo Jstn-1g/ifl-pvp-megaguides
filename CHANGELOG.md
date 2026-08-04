@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.0](https://github.com/Jstn-1g/ifl-pvp-megaguides/compare/v0.5.1...v0.6.0) (2026-08-04)
+
+
+### Features
+
+* restore original route artwork ([#24](https://github.com/Jstn-1g/ifl-pvp-megaguides/issues/24)) ([61c8de9](https://github.com/Jstn-1g/ifl-pvp-megaguides/commit/61c8de9a4d6c705320dd15a16068390f44aa13b4))
+
 ## [0.5.1](https://github.com/Jstn-1g/ifl-pvp-megaguides/compare/v0.5.0...v0.5.1) (2026-08-04)
 
 

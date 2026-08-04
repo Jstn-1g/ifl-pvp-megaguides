@@ -1,6 +1,6 @@
 {
   "name": "ifl-pvp-megaguides",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "private": true,
   "description": "Source-backed, version-pinned field manuals for competitive games.",
   "type": "module",
