@@ -28,7 +28,7 @@ The production site remains at [iflpvp.com](https://iflpvp.com). This repository
 
 ## Product preview
 
-These captures come from this repository’s first-party public interface. The design uses the reserved IFL PvP mark, an original arena hero, game-specific color and motion treatments, CSS effects, and system typography; it contains no unapproved publisher artwork, game screenshots, remote fonts, or historical media.
+These captures come from this repository’s first-party public interface. The design uses the reserved IFL PvP mark, an original arena hero, five labeled original route illustrations, CSS effects, and system typography; it contains no unapproved publisher artwork, game screenshots, remote fonts, or historical media.
 
 <p>
   <img src="docs/screenshots/home-desktop.png" width="49%" alt="IFL PvP MegaGuides desktop home with an original arena hero and game-specific evidence-led guide library" />

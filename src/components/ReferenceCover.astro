@@ -1,5 +1,6 @@
 ---
 import type { GameKey } from '../data/public-content';
+import { PUBLIC_GAME_SCENE_PATHS } from '../lib/public-game-scenes.mjs';
 
 interface Props {
   title: string;
@@ -27,10 +28,21 @@ function stableVariant(value: string) {
 
 const track = typeof index === 'number' ? (Math.max(1, index) - 1) % 6 : stableVariant(seed);
 const indexLabel = typeof index === 'number' ? String(index).padStart(2, '0') : index;
+const coverSrc = gameKey ? PUBLIC_GAME_SCENE_PATHS[gameKey] : undefined;
 ---
 
 <!-- Decorative duplicate of adjacent text content; all guide meaning remains in HTML outside this cover. -->
-<div class:list={['reference-cover', `reference-cover--${variant}`]} data-reference-track={track} data-game={gameKey} aria-hidden="true">
+<div class:list={['reference-cover', `reference-cover--${variant}`]} data-reference-track={track} data-game={gameKey} data-has-image={coverSrc ? 'true' : undefined} aria-hidden="true">
+  {coverSrc && (
+    <img
+      class="reference-cover__image"
+      src={coverSrc}
+      alt=""
+      loading={variant === 'hero' || variant === 'featured' ? 'eager' : 'lazy'}
+      decoding="async"
+      data-public-art-asset={`ifl-game-scene-${gameKey}`}
+    />
+  )}
   <span class="reference-cover__motif"></span>
   <span class="reference-cover__flare"></span>
   <span class="reference-cover__corner reference-cover__corner--top"></span>
@@ -41,7 +53,7 @@ const indexLabel = typeof index === 'number' ? String(index).padStart(2, '0') : 
   <span class="reference-cover__title">{title}</span>
   {status && <span class="reference-cover__status">{status}</span>}
   <span class="reference-cover__coordinates">IFL / FIELD / {String(track + 1).padStart(2, '0')}</span>
-  <span class="reference-cover__art-note">Game media under review</span>
+  <span class="reference-cover__art-note">{coverSrc ? 'Original IFL art · not game footage' : 'Game media under review'}</span>
 </div>
 
 <style>
@@ -69,7 +81,7 @@ const indexLabel = typeof index === 'number' ? String(index).padStart(2, '0') : 
   .reference-cover::before,
   .reference-cover::after {
     position: absolute;
-    z-index: -1;
+    z-index: 1;
     inset: 0;
     background:
       radial-gradient(circle at 76% 34%, color-mix(in srgb, var(--cover-secondary) 38%, transparent), transparent 32%),
@@ -95,8 +107,20 @@ const indexLabel = typeof index === 'number' ? String(index).padStart(2, '0') : 
   .reference-cover[data-game='bloodline-champions'] { --cover-accent: #56dd9a; --cover-secondary: #7888ba; --cover-base: #2c353c; }
 
   .reference-cover { --cover-secondary: var(--accent-cool); --cover-base: var(--bg-surface); background: linear-gradient(145deg, color-mix(in srgb, var(--cover-base) 88%, #000), var(--cover-base)); }
+  .reference-cover__image {
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    filter: saturate(0.92) contrast(1.03);
+    transform: scale(1.002);
+    transition: filter 500ms var(--ease-out), transform 700ms var(--ease-out);
+  }
   .reference-cover__motif,
-  .reference-cover__flare { position: absolute; z-index: -2; pointer-events: none; }
+  .reference-cover__flare { position: absolute; z-index: 2; pointer-events: none; }
   .reference-cover__flare { top: -28%; right: -10%; width: 62%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--cover-secondary) 38%, transparent), transparent 66%); filter: blur(14px); }
   .reference-cover__motif { right: 5%; bottom: 2%; width: 49%; aspect-ratio: 1; opacity: 0.62; transition: opacity 500ms var(--ease-out), transform 800ms var(--ease-out); }
   .reference-cover[data-game='battlerite'] .reference-cover__motif { border: 1px solid color-mix(in srgb, var(--cover-accent) 62%, transparent); border-radius: 50%; background: radial-gradient(circle, transparent 0 26%, color-mix(in srgb, var(--cover-secondary) 36%, transparent) 27% 29%, transparent 30% 47%, color-mix(in srgb, var(--cover-accent) 40%, transparent) 48% 50%, transparent 51%); box-shadow: 0 0 32px color-mix(in srgb, var(--cover-secondary) 24%, transparent); }
@@ -107,6 +131,7 @@ const indexLabel = typeof index === 'number' ? String(index).padStart(2, '0') : 
 
   .reference-cover__corner {
     position: absolute;
+    z-index: 3;
     width: 17%;
     height: 19%;
     border-color: var(--cover-accent);
@@ -114,11 +139,13 @@ const indexLabel = typeof index === 'number' ? String(index).padStart(2, '0') : 
   }
   .reference-cover__corner--top { top: 0.55rem; right: 0.55rem; border-top: 1px solid; border-right: 1px solid; }
   .reference-cover__corner--bottom { bottom: 0.55rem; left: 0.55rem; border-bottom: 1px solid; border-left: 1px solid; }
-  .reference-cover__axis { grid-row: 1 / -1; width: 2px; margin-right: clamp(0.55rem, 2.4cqw, 1rem); background: var(--cover-accent); box-shadow: 0 0 16px color-mix(in srgb, var(--cover-accent) 45%, transparent); }
+  .reference-cover__axis { position: relative; z-index: 3; grid-row: 1 / -1; width: 2px; margin-right: clamp(0.55rem, 2.4cqw, 1rem); background: var(--cover-accent); box-shadow: 0 0 16px color-mix(in srgb, var(--cover-accent) 45%, transparent); }
   .reference-cover__index,
   .reference-cover__eyebrow,
   .reference-cover__coordinates,
   .reference-cover__status {
+    position: relative;
+    z-index: 3;
     font-family: var(--font-display);
     font-size: clamp(0.57rem, 3cqw, 0.75rem);
     font-weight: 700;
@@ -128,10 +155,13 @@ const indexLabel = typeof index === 'number' ? String(index).padStart(2, '0') : 
   }
   .reference-cover__index { grid-column: 2; color: var(--cover-accent); }
   .reference-cover__eyebrow { align-self: end; color: var(--text-secondary); }
-  .reference-cover__title { align-self: center; max-width: 18ch; margin: 0.45rem 0; font-family: var(--font-display); font-size: clamp(1rem, 8cqw, 2.75rem); font-weight: 750; letter-spacing: -0.05em; line-height: 0.92; text-wrap: balance; }
+  .reference-cover__title { position: relative; z-index: 3; align-self: center; max-width: 18ch; margin: 0.45rem 0; font-family: var(--font-display); font-size: clamp(1rem, 8cqw, 2.75rem); font-weight: 750; letter-spacing: -0.05em; line-height: 0.92; text-wrap: balance; text-shadow: 0 2px 16px rgba(0, 0, 0, 0.72); }
   .reference-cover__status { position: absolute; right: clamp(0.75rem, 3.3cqw, 1.5rem); bottom: clamp(0.75rem, 3.3cqw, 1.5rem); color: var(--cover-accent); }
-  .reference-cover__coordinates { align-self: end; color: var(--text-muted); }
-  .reference-cover__art-note { position: absolute; top: clamp(0.75rem, 3.3cqw, 1.5rem); right: clamp(0.75rem, 3.3cqw, 1.5rem); padding: 0.35rem 0.45rem; border: 1px solid rgba(255, 255, 255, 0.22); background: rgba(4, 9, 20, 0.58); color: rgba(255, 255, 255, 0.78); font-family: var(--font-display); font-size: clamp(0.45rem, 2.3cqw, 0.62rem); font-weight: 750; letter-spacing: 0.1em; line-height: 1; text-transform: uppercase; backdrop-filter: blur(8px); }
+  .reference-cover__coordinates { position: relative; z-index: 3; align-self: end; color: var(--text-muted); }
+  .reference-cover__art-note { position: absolute; z-index: 3; top: clamp(0.75rem, 3.3cqw, 1.5rem); right: clamp(0.75rem, 3.3cqw, 1.5rem); max-width: min(52%, 15rem); padding: 0.35rem 0.45rem; border: 1px solid rgba(255, 255, 255, 0.22); background: rgba(4, 9, 20, 0.68); color: rgba(255, 255, 255, 0.86); font-family: var(--font-display); font-size: clamp(0.56rem, 2.3cqw, 0.64rem); font-weight: 750; letter-spacing: 0.08em; line-height: 1.15; text-align: right; text-transform: uppercase; backdrop-filter: blur(8px); }
+
+  .reference-cover[data-has-image='true'] .reference-cover__motif,
+  .reference-cover[data-has-image='true'] .reference-cover__flare { opacity: 0.22; }
 
   .reference-cover--compact { min-height: 7.5rem; }
   .reference-cover--compact .reference-cover__title { font-size: clamp(0.95rem, 8cqw, 1.4rem); }
@@ -142,9 +172,11 @@ const indexLabel = typeof index === 'number' ? String(index).padStart(2, '0') : 
   .reference-cover--social { aspect-ratio: 1200 / 630; }
   :global(.guide-card:hover) .reference-cover::before,
   :global(.guide-card:focus-within) .reference-cover::before { opacity: 1; transform: scale(1.04); }
+  :global(.guide-card:hover) .reference-cover__image,
+  :global(.guide-card:focus-within) .reference-cover__image { filter: saturate(1.03) contrast(1.06); transform: scale(1.035); }
   :global(.guide-card:hover) .reference-cover__motif,
   :global(.guide-card:focus-within) .reference-cover__motif { opacity: 0.84; transform: translate3d(-2%, -2%, 0) scale(1.05); }
 
-  @media (prefers-reduced-motion: reduce) { .reference-cover::before, .reference-cover__motif { transition: none; } }
-  @media (forced-colors: active) { .reference-cover__motif, .reference-cover__flare, .reference-cover__art-note { display: none; } }
+  @media (prefers-reduced-motion: reduce) { .reference-cover::before, .reference-cover__motif, .reference-cover__image { transition: none; } }
+  @media (forced-colors: active) { .reference-cover__image, .reference-cover__motif, .reference-cover__flare, .reference-cover__art-note { display: none; } }
 </style>
