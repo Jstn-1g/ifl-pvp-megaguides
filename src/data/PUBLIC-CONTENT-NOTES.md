@@ -30,9 +30,11 @@ font binaries, game logos, hero data, ability data, and all scraped or
 synchronized datasets. Those materials remain in the private source
 archive pending separate rights and evidence review.
 
-The homepage fantasy arena presentation is original, hash-pinned project art. Game
-cards use a distinct first-party color and motion system while publisher media is
-under review. The card treatment is decorative and is never guide evidence.
+The homepage fantasy arena presentation and five route scenes are original,
+hash-pinned project art. Each route scene uses a distinct first-party composition
+to restore visual game-genre identity while publisher media remains unavailable.
+Every scene is visibly labeled as an original IFL illustration, not game footage;
+the treatment is decorative and is never guide evidence.
 
 ## Route state
 

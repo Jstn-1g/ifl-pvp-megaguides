@@ -3,6 +3,7 @@ import path from 'node:path';
 import { chromium } from 'playwright';
 import { projectRoot } from './release-utils.mjs';
 import { withPreviewServer } from './qa-server.mjs';
+import { PUBLIC_GAME_SCENE_PATHS } from '../src/lib/public-game-scenes.mjs';
 
 async function run(baseUrl) {
   const browser = await chromium.launch({ headless: true });
@@ -45,7 +46,7 @@ async function run(baseUrl) {
         const label = `${viewport.name}/${route.name}`;
         const expectedStatus = route.expectedStatus ?? 200;
         if (response?.status() !== expectedStatus) failures.push(`${label}: returned ${response?.status() ?? 'no response'}; expected ${expectedStatus}.`);
-        const state = await page.evaluate(() => {
+        const state = await page.evaluate((approvedGameScenePaths) => {
           const isVisiblyClipped = (element) => {
             for (let ancestor = element.parentElement; ancestor && ancestor !== document.body; ancestor = ancestor.parentElement) {
               if (['auto', 'clip', 'hidden', 'scroll'].includes(getComputedStyle(ancestor).overflowX)) return true;
@@ -79,20 +80,30 @@ async function run(baseUrl) {
                 && new URL(element.src, window.location.href).pathname === '/brand/ifl-pvp-genre-worlds-v1.webp';
               const isApprovedArenaSilhouettes = element.dataset.publicArtAsset === 'ifl-pvp-arena-silhouettes'
                 && new URL(element.src, window.location.href).pathname === '/brand/ifl-pvp-arena-silhouettes-v1.webp';
-              return !(isApprovedLogo || isApprovedGenreWorlds || isApprovedArenaSilhouettes);
+              const cover = element.closest('.reference-cover[data-game]');
+              const gameKey = cover?.getAttribute('data-game');
+              const approvedGameScenePath = approvedGameScenePaths[gameKey];
+              const isApprovedGameScene = Boolean(gameKey && approvedGameScenePath)
+                && new URL(element.src, window.location.href).pathname === approvedGameScenePath
+                && element.dataset.publicArtAsset === `ifl-game-scene-${cover?.getAttribute('data-game')}`;
+              return !(isApprovedLogo || isApprovedGenreWorlds || isApprovedArenaSilhouettes || isApprovedGameScene);
             }).length,
             approvedBrandMarks: document.querySelectorAll('img[data-public-brand-asset="ifl-pvp-logo"]').length,
             approvedArenaArt: document.querySelectorAll('img[data-public-art-asset="ifl-pvp-arena-silhouettes"]').length,
             gameVisuals: [...document.querySelectorAll('.reference-cover[data-game]')].map((element) => {
               const style = getComputedStyle(element);
+              const scene = element.querySelector('img[data-public-art-asset]');
               return {
                 key: element.getAttribute('data-game'),
                 accent: style.getPropertyValue('--cover-accent').trim(),
                 secondary: style.getPropertyValue('--cover-secondary').trim(),
+                asset: scene?.getAttribute('data-public-art-asset') ?? null,
+                imagePath: scene instanceof HTMLImageElement ? new URL(scene.src, window.location.href).pathname : null,
+                naturalWidth: scene instanceof HTMLImageElement ? scene.naturalWidth : 0,
               };
             }).sort((left, right) => String(left.key).localeCompare(String(right.key))),
           };
-        });
+        }, PUBLIC_GAME_SCENE_PATHS);
         if (!state.language) failures.push(`${label}: document language is missing.`);
         if (!state.h1) failures.push(`${label}: H1 is missing.`);
         if (!state.title) failures.push(`${label}: title is missing.`);
@@ -117,6 +128,13 @@ async function run(baseUrl) {
           if (state.gameVisuals.some((visual) => !visual.accent || !visual.secondary) || visualSignatures.size !== expectedGameKeys.length) {
             failures.push(`${label}: game cards do not expose ${expectedGameKeys.length} distinct computed visual identities.`);
           }
+          if (state.gameVisuals.some((visual) => visual.asset !== `ifl-game-scene-${visual.key}`
+            || visual.imagePath !== PUBLIC_GAME_SCENE_PATHS[visual.key]
+            || visual.naturalWidth < 1)) {
+            failures.push(`${label}: one or more game cards are missing their exact decoded original IFL scene.`);
+          }
+          const scenePaths = new Set(state.gameVisuals.map((visual) => visual.imagePath));
+          if (scenePaths.size !== expectedGameKeys.length) failures.push(`${label}: game cards do not use ${expectedGameKeys.length} distinct original scenes.`);
         }
         if (route.name === 'search' && !(await page.locator('input[type="search"]').count())) failures.push(`${label}: search input is missing.`);
         if (outputDirectory && ['home', 'guide-hold', 'evidence-hold', 'support'].includes(route.name)) {

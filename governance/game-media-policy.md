@@ -18,7 +18,7 @@ The MIT license never applies to game media. A public-display grant alone is not
 
 ## Runtime behavior
 
-Every page must remain complete when publisher media is unavailable. Until an exact asset is approved, the interface renders a game-specific first-party treatment and an honest media-under-review label. It must never emit an `<img>` with a missing or blocked source.
+Every page must remain complete when publisher media is unavailable. Unless an exact publisher asset is approved, the interface may render only an allowlisted first-party treatment with an honest label such as “Original IFL art · not game footage.” It must never emit an `<img>` with a missing or blocked source.
 
 The release gate checks both sides of this contract:
 
