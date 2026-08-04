@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.1](https://github.com/Jstn-1g/ifl-pvp-megaguides/compare/v0.5.0...v0.5.1) (2026-08-04)
+
+
+### Bug Fixes
+
+* preserve game identity across guide library ([#22](https://github.com/Jstn-1g/ifl-pvp-megaguides/issues/22)) ([d5ae7b8](https://github.com/Jstn-1g/ifl-pvp-megaguides/commit/d5ae7b8b09b33471a9979fac69d28d0fb24eee57))
+
 ## [0.5.0](https://github.com/Jstn-1g/ifl-pvp-megaguides/compare/v0.4.0...v0.5.0) (2026-08-04)
 
 
