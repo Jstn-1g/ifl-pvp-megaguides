@@ -2,13 +2,14 @@
 <div class="arena-stage" aria-hidden="true">
   <img
     class="arena-stage__art"
-    src="/brand/ifl-pvp-genre-worlds-v1.webp"
+    src="/brand/ifl-pvp-arena-silhouettes-v1.webp"
     alt=""
-    width="1672"
-    height="941"
-    decoding="async"
+    width="1915"
+    height="821"
+    loading="eager"
+    decoding="sync"
     fetchpriority="high"
-    data-public-art-asset="ifl-pvp-genre-worlds"
+    data-public-art-asset="ifl-pvp-arena-silhouettes"
   />
   <span class="arena-stage__veil"></span>
   <span class="arena-stage__ribbon arena-stage__ribbon--cool"></span>
@@ -24,7 +25,7 @@
       data-public-brand-asset="ifl-pvp-logo"
     />
   </span>
-  <span class="arena-stage__disclosure">Original IFL concept art <b>Not game footage</b></span>
+  <span class="arena-stage__disclosure">Original IFL arena illustration <b>Not game footage</b></span>
 </div>
 
 <style>
@@ -34,7 +35,7 @@
     inset: 0;
     overflow: hidden;
     isolation: isolate;
-    background: #8bc9f4;
+    background: #071325;
   }
   .arena-stage__art {
     position: absolute;
@@ -45,7 +46,7 @@
     max-width: none;
     object-fit: cover;
     object-position: center;
-    filter: saturate(1.08) contrast(1.02) brightness(1.03);
+    filter: saturate(1.08) contrast(1.03) brightness(1.04);
     animation: world-drift 22s var(--ease-out) infinite alternate;
     will-change: transform;
   }
@@ -54,7 +55,7 @@
     z-index: -3;
     inset: 0;
     background:
-      linear-gradient(90deg, rgba(6, 13, 27, 0.91) 0%, rgba(6, 13, 27, 0.80) 27%, rgba(6, 13, 27, 0.38) 48%, rgba(6, 13, 27, 0.04) 72%),
+      linear-gradient(90deg, rgba(6, 13, 27, 0.84) 0%, rgba(6, 13, 27, 0.72) 26%, rgba(6, 13, 27, 0.29) 48%, rgba(6, 13, 27, 0.02) 72%),
       linear-gradient(180deg, rgba(8, 17, 34, 0.04) 42%, rgba(7, 14, 28, 0.62) 100%);
   }
   .arena-stage::before {
@@ -143,12 +144,12 @@
   @keyframes world-glint { 0%, 48% { opacity: 0; transform: translateX(-220%) rotate(14deg); } 55% { opacity: 0.65; } 75%, 100% { opacity: 0; transform: translateX(470%) rotate(14deg); } }
 
   @media (max-width: 900px) {
-    .arena-stage__art { object-position: 56% center; }
+    .arena-stage__art { object-position: 58% center; }
     .arena-stage__veil { background: linear-gradient(90deg, rgba(6, 13, 27, 0.88), rgba(6, 13, 27, 0.54) 53%, rgba(6, 13, 27, 0.06)), linear-gradient(180deg, rgba(7, 14, 28, 0.02) 34%, rgba(7, 14, 28, 0.67)); }
     .arena-stage__disclosure { max-width: 25rem; }
   }
   @media (max-width: 640px) {
-    .arena-stage__art { inset: -4%; width: 108%; height: 108%; object-position: 52% center; filter: saturate(1.06) contrast(1.02) brightness(1.02); }
+    .arena-stage__art { inset: -4%; width: 108%; height: 108%; object-position: 55% center; filter: saturate(1.06) contrast(1.02) brightness(1.03); }
     .arena-stage__veil { background: linear-gradient(180deg, rgba(6, 13, 27, 0.08) 0%, rgba(6, 13, 27, 0.22) 37%, rgba(6, 13, 27, 0.89) 69%, rgba(6, 13, 27, 0.98) 100%); }
     .arena-stage__logo { top: 1.25rem; right: 1rem; width: 4.8rem; }
     .arena-stage__disclosure { top: 1rem; right: 6rem; bottom: auto; left: 1rem; width: max-content; max-width: calc(100% - 7rem); gap: 0.45rem; padding: 0.4rem 0.5rem; font-size: 0.5rem; }

@@ -1,7 +1,7 @@
 # Public content boundary
 
 `public-content.ts` is the entire editorial-data boundary for the initial public
-release. It contains five newly authored, image-free route records:
+release. It contains five newly authored, publisher-image-free route records:
 four review-due MegaGuide summaries and one Bloodline Champions
 evidence-reconstruction notice.
 
@@ -21,14 +21,17 @@ restored. When a route returns, preserve its established slug and record:
 - primary sources for material factual claims, each with a checked date;
 - a current or clearly historical scope statement;
 - `robots` status appropriate to its review state; and
-- image-free body and metadata, unless an asset has a documented public-rights
-  basis.
+- publisher-image-free body and metadata, unless an exact asset has a documented
+  public-rights basis.
 
 The public release deliberately excludes the former article bodies, frontmatter
 image paths, Markdown image embeds, social/OG media, videos, author portrait,
 font binaries, game logos, hero data, ability data, and all scraped or
 synchronized datasets. Those materials remain in the private source
 archive pending separate rights and evidence review.
+
+The shared fantasy arena presentation is original, hash-pinned project art. It
+is decorative, is not tied to any covered game, and is never guide evidence.
 
 ## Route state
 

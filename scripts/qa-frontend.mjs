@@ -40,6 +40,8 @@ async function run(baseUrl) {
         const requestedUrl = new URL(route.path, `${baseUrl}/`).href;
         page.on('response', (response) => { if (response.status() === 404 && !(route.expectedStatus === 404 && response.url() === requestedUrl)) unexpected404s.push(response.url()); });
         const response = await page.goto(requestedUrl, { waitUntil: 'load' });
+        await page.waitForFunction(() => [...document.querySelectorAll('img[data-public-art-asset]')]
+          .every((image) => image instanceof HTMLImageElement && image.complete && image.naturalWidth > 0));
         const label = `${viewport.name}/${route.name}`;
         const expectedStatus = route.expectedStatus ?? 200;
         if (response?.status() !== expectedStatus) failures.push(`${label}: returned ${response?.status() ?? 'no response'}; expected ${expectedStatus}.`);
@@ -75,10 +77,12 @@ async function run(baseUrl) {
                 && new URL(element.src, window.location.href).pathname === '/brand/ifl-pvp-logo.webp';
               const isApprovedGenreWorlds = element.dataset.publicArtAsset === 'ifl-pvp-genre-worlds'
                 && new URL(element.src, window.location.href).pathname === '/brand/ifl-pvp-genre-worlds-v1.webp';
-              return !(isApprovedLogo || isApprovedGenreWorlds);
+              const isApprovedArenaSilhouettes = element.dataset.publicArtAsset === 'ifl-pvp-arena-silhouettes'
+                && new URL(element.src, window.location.href).pathname === '/brand/ifl-pvp-arena-silhouettes-v1.webp';
+              return !(isApprovedLogo || isApprovedGenreWorlds || isApprovedArenaSilhouettes);
             }).length,
             approvedBrandMarks: document.querySelectorAll('img[data-public-brand-asset="ifl-pvp-logo"]').length,
-            approvedGenreWorldArt: document.querySelectorAll('img[data-public-art-asset="ifl-pvp-genre-worlds"]').length,
+            approvedArenaArt: document.querySelectorAll('img[data-public-art-asset="ifl-pvp-arena-silhouettes"]').length,
           };
         });
         if (!state.language) failures.push(`${label}: document language is missing.`);
@@ -94,7 +98,7 @@ async function run(baseUrl) {
         if (route.noindex && !(state.robots?.includes('noindex') && state.robots.includes('follow'))) failures.push(`${label}: evidence-held route must emit noindex,follow.`);
         if (state.forbiddenMedia !== 0) failures.push(`${label}: rendered ${state.forbiddenMedia} forbidden media element(s).`);
         if (state.approvedBrandMarks < 1) failures.push(`${label}: approved IFL PvP brand mark is missing.`);
-        if (route.name === 'home' && state.approvedGenreWorldArt < 1) failures.push(`${label}: approved first-party genre-world artwork is missing.`);
+        if (route.name === 'home' && state.approvedArenaArt < 1) failures.push(`${label}: approved first-party fantasy arena artwork is missing.`);
         if (route.name === 'search' && !(await page.locator('input[type="search"]').count())) failures.push(`${label}: search input is missing.`);
         if (outputDirectory && ['home', 'guide-hold', 'evidence-hold', 'support'].includes(route.name)) {
           await mkdir(outputDirectory, { recursive: true });

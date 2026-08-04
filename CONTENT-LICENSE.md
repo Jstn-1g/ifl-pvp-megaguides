@@ -7,7 +7,7 @@ This repository makes the **site software and tooling** available under the [MIT
 | Original application code, scripts, configuration, and developer documentation | Included | MIT, unless a file says otherwise |
 | Example copy and synthetic fixtures | Included only when specifically identified as examples | MIT with the code, unless a file says otherwise |
 | Editorial articles, research notes, guide databases, and collected or derived data | Excluded by default | All rights reserved unless a separate rights record says otherwise |
-| IFL PvP / IFLPVP / IFL PvP MegaGuides names, marks, logos, and visual identity | Textual references only at launch | No trademark or branding permission; see [TRADEMARKS.md](TRADEMARKS.md) |
+| IFL PvP / IFLPVP / IFL PvP MegaGuides names, marks, logos, and visual identity | Included only as exact reviewed files recorded in the public asset allowlist | All rights reserved; no trademark, branding, or general media-reuse permission; see [TRADEMARKS.md](TRADEMARKS.md) |
 | Game art, screenshots, video, audio, logos, player/team imagery, publisher material, and third-party marks | Excluded | Rights remain with their respective owners |
 
 ## No implied content license

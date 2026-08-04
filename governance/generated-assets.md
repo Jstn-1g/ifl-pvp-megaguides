@@ -14,3 +14,16 @@ This record preserves the generation intent for reviewed public presentation art
 Final prompt:
 
 > Create an original, franchise-neutral panoramic key art image for an open-source competitive gaming guide website. Bright, energetic, premium editorial game-art aesthetic, 16:9 landscape, NO text, NO letters, NO logos, NO recognizable characters, NO copyrighted game imagery. Build one coherent luminous world divided organically into four distinct competitive game genres that are all visible at once, not a slideshow and not separate boxed panels: left foreground heroic high-fantasy duel with magical blue and gold energy; center-left futuristic sci-fi arena with abstract armored silhouettes and neon teal light; center-right high-speed anti-gravity racing competitors with vibrant coral and electric blue trails; right foreground tactical team-action silhouettes with clean orange and violet ability effects. Unite the worlds through sweeping light ribbons converging around a clean empty central region where a separate brand crest will be overlaid. Optimistic daylight and luminous atmosphere, rich bright colors, strong depth, crisp silhouettes, sophisticated cinematic composition, inclusive non-specific figures, visual excitement without violence or gore, readable at website hero size, darker only at the extreme bottom edge for white UI text. No UI, no screenshots, no fake game covers, no watermarks.
+
+## `public/brand/ifl-pvp-arena-silhouettes-v1.webp`
+
+- Generated: 2026-08-03
+- Workflow: built-in OpenAI image generation, then deterministic metadata stripping and WebP conversion at quality 88
+- Purpose: restrained homepage hero and fallback guide-card art that supports rather than competes with future authentic guide media
+- Boundary: wholly original, simplified fantasy silhouettes and geometric arena; it must never be presented as a screenshot, licensed game scene, or evidence for any covered game
+- Source render: 1915 × 821 PNG
+- Public rendition: 1915 × 821 WebP
+
+Final prompt:
+
+> Create a restrained, graphic, non-photoreal illustration that suggests competitive fantasy PvP without looking like detailed game key art. A simplified fantasy arena expressed through large geometric stone arches, a curved wall, abstract banner shapes, and a soft open sky. On the right third, two small original combat silhouettes face off—one broad shield fighter and one agile spellblade—with one subtle arc of blue energy. Sophisticated editorial cel-shaded illustration, flat poster design, graphic-novel-inspired shapes, crisp silhouettes, limited detail, subtle screen-print grain, premium modern esports branding. Very wide 21:9 banner; leave the entire left 55 percent calm and mostly abstract for website copy. Deep IFL navy, muted slate blue, warm amber-gold, restrained electric cyan, and small ivory highlights. Wholly original scene and silhouettes; no existing character, faction, costume, weapon, arena, logo, trademark, title, UI, text, watermark, gore, or franchise-specific expression. Avoid photorealism, detailed faces, realistic armor textures, complex spell effects, cinematic explosions, giant crowds, busy composition, glossy AAA key art, painterly realism, and montage.
