@@ -52,6 +52,17 @@ export async function checkWorkflows({ root = projectRoot } = {}) {
         failures.push(`${name}: immutable release packaging must rebuild, rewrite the manifest, and byte-compare two archives.`);
       }
     }
+    const npmTestPositions = [...source.matchAll(/\bnpm(?:\s+run)?\s+test\b/g)].map((match) => match.index ?? -1);
+    if (npmTestPositions.length > 0) {
+      const chromiumInstall = source.indexOf('npx playwright install --with-deps chromium');
+      if (chromiumInstall === -1 || npmTestPositions.some((position) => position < chromiumInstall)) {
+        failures.push(`${name}: Chromium must be installed before every npm test command because the test suite launches Playwright.`);
+      }
+    }
+    const browserProofCommands = ['npm run qa:frontend', 'npm run qa:a11y', 'npm run qa:media'];
+    if (browserProofCommands.some((command) => source.includes(command)) && !browserProofCommands.every((command) => source.includes(command))) {
+      failures.push(`${name}: browser proof must run qa:frontend, qa:a11y, and qa:media together.`);
+    }
     for (const [index, line] of lines.entries()) {
       const uses = line.match(/^\s*-?\s*uses:\s*([^\s#]+)/);
       const writePermission = line.match(/^\s+([a-z-]+):\s+write\s*(?:#.*)?$/);

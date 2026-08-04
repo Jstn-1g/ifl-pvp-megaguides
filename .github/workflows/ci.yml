@@ -57,6 +57,9 @@ jobs:
           node scripts/check-content-provenance.mjs
           node scripts/check-public-history.mjs
 
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
       - name: Validate source and deterministic checks
         run: |
           npm run check
@@ -64,9 +67,6 @@ jobs:
 
       - name: Build and verify generated public output
         run: npm run build
-
-      - name: Install Chromium
-        run: npx playwright install --with-deps chromium
 
       - name: Verify visible experience and accessibility
         shell: bash
@@ -81,6 +81,7 @@ jobs:
           done
           BASE_URL=http://127.0.0.1:4321 npm run qa:frontend
           BASE_URL=http://127.0.0.1:4321 npm run qa:a11y
+          BASE_URL=http://127.0.0.1:4321 npm run qa:media
 
       - name: Prove no generated source drift
         run: node scripts/check-generated-cleanliness.mjs

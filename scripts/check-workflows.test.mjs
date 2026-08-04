@@ -39,6 +39,30 @@ test('workflow checker rejects a GitHub workflow dispatch without an explicit re
   } finally { await rm(root, { recursive: true, force: true }); }
 });
 
+test('workflows install Chromium before tests that launch Playwright', async () => {
+  const root = await fixture(`name: Browser tests\non: [push]\npermissions:\n  contents: read\njobs:\n  verify:\n    runs-on: ubuntu-latest\n    steps:\n      - run: npm test\n      - run: npx playwright install --with-deps chromium\n`);
+  try {
+    const unsafe = await checkWorkflows({ root });
+    assert.equal(unsafe.ok, false);
+    assert.ok(unsafe.failures.some((failure) => failure.includes('Chromium must be installed before every npm test')));
+
+    await writeFile(path.join(root, '.github', 'workflows', 'ci.yml'), `name: Browser tests\non: [push]\npermissions:\n  contents: read\njobs:\n  verify:\n    runs-on: ubuntu-latest\n    steps:\n      - run: npx playwright install --with-deps chromium\n      - run: npm test\n`, 'utf8');
+    assert.equal((await checkWorkflows({ root })).ok, true);
+  } finally { await rm(root, { recursive: true, force: true }); }
+});
+
+test('browser proof includes media integrity QA', async () => {
+  const root = await fixture(`name: Browser proof\non: [push]\npermissions:\n  contents: read\njobs:\n  verify:\n    runs-on: ubuntu-latest\n    steps:\n      - run: |\n          npm run qa:frontend\n          npm run qa:a11y\n`);
+  try {
+    const unsafe = await checkWorkflows({ root });
+    assert.equal(unsafe.ok, false);
+    assert.ok(unsafe.failures.some((failure) => failure.includes('browser proof must run qa:frontend, qa:a11y, and qa:media together')));
+
+    await writeFile(path.join(root, '.github', 'workflows', 'ci.yml'), `name: Browser proof\non: [push]\npermissions:\n  contents: read\njobs:\n  verify:\n    runs-on: ubuntu-latest\n    steps:\n      - run: |\n          npm run qa:frontend\n          npm run qa:a11y\n          npm run qa:media\n`, 'utf8');
+    assert.equal((await checkWorkflows({ root })).ok, true);
+  } finally { await rm(root, { recursive: true, force: true }); }
+});
+
 test('release automation must use the repository vX.Y.Z tag convention', async () => {
   const root = await fixture(`name: Version PR\non: [push]\npermissions:\n  contents: write\n  pull-requests: write\njobs:\n  release:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7\n`);
   try {
