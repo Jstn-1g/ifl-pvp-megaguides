@@ -1,5 +1,6 @@
 import { readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
+import { checkCachePolicy } from './check-cache-policy.mjs';
 import { checkLegacyRetirementPolicy } from './check-legacy-retirement.mjs';
 import { checkRenderedMedia } from './check-rendered-media.mjs';
 import { checkSeoOutput } from './check-seo-output.mjs';
@@ -17,6 +18,7 @@ export async function checkBuild({ root = projectRoot } = {}) {
   }
   if (relative.has('.htaccess')) {
     const htaccess = await readFile(path.join(dist, '.htaccess'), 'utf8');
+    failures.push(...checkCachePolicy(htaccess));
     failures.push(...checkLegacyRetirementPolicy(htaccess));
   }
   let totalBytes = 0;
