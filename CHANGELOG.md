@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/Jstn-1g/ifl-pvp-megaguides/compare/v0.3.3...v0.4.0) (2026-08-04)
+
+
+### Features
+
+* add original fantasy arena experience ([#18](https://github.com/Jstn-1g/ifl-pvp-megaguides/issues/18)) ([1b46703](https://github.com/Jstn-1g/ifl-pvp-megaguides/commit/1b46703eea6dc23ba95f22780b3d0e9e6be16b32))
+
 ## [0.3.3](https://github.com/Jstn-1g/ifl-pvp-megaguides/compare/v0.3.2...v0.3.3) (2026-08-03)
 
 
