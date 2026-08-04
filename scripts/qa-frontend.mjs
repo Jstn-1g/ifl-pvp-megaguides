@@ -10,8 +10,8 @@ async function run(baseUrl) {
   const outputDirectory = process.env.QA_OUTPUT_DIR;
   const reducedMotion = process.env.QA_REDUCED_MOTION === '1' ? 'reduce' : 'no-preference';
   const routes = [
-    { name: 'home', path: '/' },
-    { name: 'guides', path: '/guides/' },
+    { name: 'home', path: '/', expectedGameKeys: ['battlerite', 'gigantic', 'gunz'] },
+    { name: 'guides', path: '/guides/', expectedGameKeys: ['battlerite', 'bloodline-champions', 'gigantic', 'gunz', 'marvel-rivals'] },
     { name: 'guide-hold', path: '/battlerite-complete-guide-every-champion/', noindex: true },
     { name: 'evidence-hold', path: '/bloodline-champions-complete-guide-every-bloodline/', noindex: true },
     { name: 'search', path: '/search/' },
@@ -83,6 +83,14 @@ async function run(baseUrl) {
             }).length,
             approvedBrandMarks: document.querySelectorAll('img[data-public-brand-asset="ifl-pvp-logo"]').length,
             approvedArenaArt: document.querySelectorAll('img[data-public-art-asset="ifl-pvp-arena-silhouettes"]').length,
+            gameVisuals: [...document.querySelectorAll('.reference-cover[data-game]')].map((element) => {
+              const style = getComputedStyle(element);
+              return {
+                key: element.getAttribute('data-game'),
+                accent: style.getPropertyValue('--cover-accent').trim(),
+                secondary: style.getPropertyValue('--cover-secondary').trim(),
+              };
+            }).sort((left, right) => String(left.key).localeCompare(String(right.key))),
           };
         });
         if (!state.language) failures.push(`${label}: document language is missing.`);
@@ -99,6 +107,17 @@ async function run(baseUrl) {
         if (state.forbiddenMedia !== 0) failures.push(`${label}: rendered ${state.forbiddenMedia} forbidden media element(s).`);
         if (state.approvedBrandMarks < 1) failures.push(`${label}: approved IFL PvP brand mark is missing.`);
         if (route.name === 'home' && state.approvedArenaArt < 1) failures.push(`${label}: approved first-party fantasy arena artwork is missing.`);
+        if (route.expectedGameKeys) {
+          const actualGameKeys = state.gameVisuals.map((visual) => visual.key);
+          const expectedGameKeys = [...route.expectedGameKeys].sort();
+          if (JSON.stringify(actualGameKeys) !== JSON.stringify(expectedGameKeys)) {
+            failures.push(`${label}: game identities are ${JSON.stringify(actualGameKeys)}; expected ${JSON.stringify(expectedGameKeys)}.`);
+          }
+          const visualSignatures = new Set(state.gameVisuals.map((visual) => `${visual.accent}|${visual.secondary}`));
+          if (state.gameVisuals.some((visual) => !visual.accent || !visual.secondary) || visualSignatures.size !== expectedGameKeys.length) {
+            failures.push(`${label}: game cards do not expose ${expectedGameKeys.length} distinct computed visual identities.`);
+          }
+        }
         if (route.name === 'search' && !(await page.locator('input[type="search"]').count())) failures.push(`${label}: search input is missing.`);
         if (outputDirectory && ['home', 'guide-hold', 'evidence-hold', 'support'].includes(route.name)) {
           await mkdir(outputDirectory, { recursive: true });
