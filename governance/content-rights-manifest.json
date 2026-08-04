@@ -11,7 +11,7 @@
   "content": [
     {
       "path": "src/data/public-content.ts",
-      "sha256": "d91ab00e894342ba889935a070dac175952d5817d9649c8d5ae092a8339159f8",
+      "sha256": "8e38d73d37e6952ce1c48a59818291b127db90c2c0c68ccf7f44aa13804e7f02",
       "rightsBasis": "Newly authored, concise evidence-hold route summaries created for this clean export under the repository owner's active task authorization; no private article body or third-party media was copied.",
       "license": "All rights reserved",
       "reviewedAt": "2026-08-03",
@@ -19,7 +19,7 @@
     },
     {
       "path": "src/data/PUBLIC-CONTENT-NOTES.md",
-      "sha256": "6da5fabc4d2cd37f9b05acec5c2727891f0ba59a1d52cf1918106f90bb6f0d5b",
+      "sha256": "7426b86580966cda793dda8dd0b781619ce420455b8b9da471f3d8c59249949b",
       "rightsBasis": "Original project governance documentation written for this clean export.",
       "license": "MIT",
       "reviewedAt": "2026-08-03",

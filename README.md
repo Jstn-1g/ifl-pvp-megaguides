@@ -21,14 +21,14 @@ The original application and maintenance tooling in this repository are publishe
 
 - An Astro-based static-site foundation for a guide-first reference experience.
 - Deterministic local checks for build quality, accessibility, release boundaries, contributor sign-off, and dependency licensing.
-- Synthetic example material, a first-party IFL identity system, and original franchise-neutral genre-world artwork—no publisher game art, screenshots, video, collected game data, or legacy editorial archive.
+- Synthetic example material, a first-party IFL identity system, and original franchise-neutral PvP artwork—no publisher game art, screenshots, video, collected game data, or legacy editorial archive.
 - A human-reviewed maintenance model: automation may prepare proposals, but it may not merge, deploy, or publish without maintainer approval.
 
 The production site remains at [iflpvp.com](https://iflpvp.com). This repository deliberately does not include a live-site export or a copy of its historical media library.
 
 ## Product preview
 
-These captures come from this repository’s first-party public interface. The design uses the reserved IFL PvP mark, original franchise-neutral fantasy, arena, racing, and tactical artwork, CSS motion, and system typography; it contains no publisher artwork, game screenshots, remote fonts, or historical media.
+These captures come from this repository’s first-party public interface. The design uses the reserved IFL PvP mark, original franchise-neutral competitive archetypes and genre worlds, CSS motion, and system typography; it contains no publisher artwork, game screenshots, remote fonts, or historical media.
 
 <p>
   <img src="docs/screenshots/home-desktop.png" width="49%" alt="IFL PvP MegaGuides desktop home with a bright original multi-genre hero and evidence-led guide library" />

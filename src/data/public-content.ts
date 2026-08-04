@@ -46,8 +46,8 @@ export interface PublicMegaGuide {
   readonly confidence: 'low' | 'medium';
   readonly review: ReviewDue;
   readonly sources: readonly EvidenceSource[];
-  /** There is no artwork, screenshot, logo, portrait, video, or font dependency. */
-  readonly visual: 'css-reference-grid';
+  /** Decorative first-party arena art is presentation only and never guide evidence. */
+  readonly visual: 'original-fantasy-arena-art';
   /** Original public summaries are copyright-reserved; application code is separately licensed. */
   readonly contentRights: 'editorial-text-reserved';
 }
@@ -60,7 +60,7 @@ export interface EvidenceHoldNotice {
   readonly notice: string;
   readonly game: string;
   readonly sources: readonly EvidenceSource[];
-  readonly visual: 'css-reference-grid';
+  readonly visual: 'original-fantasy-arena-art';
   readonly contentRights: 'editorial-text-reserved';
 }
 
@@ -121,7 +121,7 @@ export const PUBLIC_MEGA_GUIDES = [
         type: 'patch-notes',
       },
     ],
-    visual: 'css-reference-grid',
+    visual: 'original-fantasy-arena-art',
     contentRights: 'editorial-text-reserved',
   },
   {
@@ -160,7 +160,7 @@ export const PUBLIC_MEGA_GUIDES = [
         type: 'official',
       },
     ],
-    visual: 'css-reference-grid',
+    visual: 'original-fantasy-arena-art',
     contentRights: 'editorial-text-reserved',
   },
   {
@@ -199,7 +199,7 @@ export const PUBLIC_MEGA_GUIDES = [
         type: 'official',
       },
     ],
-    visual: 'css-reference-grid',
+    visual: 'original-fantasy-arena-art',
     contentRights: 'editorial-text-reserved',
   },
   {
@@ -252,7 +252,7 @@ export const PUBLIC_MEGA_GUIDES = [
         type: 'official',
       },
     ],
-    visual: 'css-reference-grid',
+    visual: 'original-fantasy-arena-art',
     contentRights: 'editorial-text-reserved',
   },
 ] as const satisfies readonly PublicMegaGuide[];
@@ -295,7 +295,7 @@ export const PUBLIC_EVIDENCE_HOLDS = [
         type: 'developer',
       },
     ],
-    visual: 'css-reference-grid',
+    visual: 'original-fantasy-arena-art',
     contentRights: 'editorial-text-reserved',
   },
 ] as const satisfies readonly EvidenceHoldNotice[];
