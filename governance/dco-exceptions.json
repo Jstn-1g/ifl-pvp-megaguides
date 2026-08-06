@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "policy": "exact-commit-only",
+  "exceptions": [
+    {
+      "commit": "1bc32dd3c9faca5a9f9cdc8b87e3f0af3157594d",
+      "pullRequest": "https://github.com/Jstn-1g/ifl-pvp-megaguides/pull/28",
+      "sourceCommit": "b5cfc86d46a051a4e20c1dc8b8fd23889752b179",
+      "sourceRef": "refs/tags/dco-source-pr-28",
+      "sourceTree": "492f8c39c4b7ed415aa0c7de853a5fc135c581da",
+      "reason": "GitHub's owner-approved administrative squash generated this main-branch commit without preserving the Signed-off-by trailer from the reviewed source commit. PR #28 passed the complete release gate, CodeQL, public verification, and two independent final reviews before merge. Rewriting public history would create more risk than recording this single immutable exception.",
+      "recordedAt": "2026-08-06",
+      "recordedBy": "Project owner"
+    }
+  ]
+}

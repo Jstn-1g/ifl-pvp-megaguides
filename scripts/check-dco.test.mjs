@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { execFile as execFileCallback } from 'node:child_process';
-import { mkdtemp, rm } from 'node:fs/promises';
+import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import { promisify } from 'node:util';
@@ -20,8 +20,29 @@ async function fixture({
   await execFile('git', ['init', '-b', 'main'], { cwd: root });
   await execFile('git', ['config', 'user.name', name], { cwd: root });
   await execFile('git', ['config', 'user.email', email], { cwd: root });
+  await writeFile(path.join(root, 'package.json'), `${JSON.stringify({ repository: { url: 'https://github.com/example/project.git' } }, null, 2)}\n`);
   await execFile('git', ['commit', '--allow-empty', `--author=${authorName} <${authorEmail}>`, '-m', message], { cwd: root });
   return root;
+}
+
+async function recordException(root, commit, overrides = {}) {
+  const manifest = {
+    schemaVersion: 1,
+    policy: 'exact-commit-only',
+    exceptions: [{
+      commit,
+      pullRequest: 'https://github.com/example/project/pull/1',
+      sourceCommit: 'a'.repeat(40),
+      sourceRef: 'refs/tags/dco-source-pr-1',
+      sourceTree: 'b'.repeat(40),
+      reason: 'A test-only exact exception for a generated squash commit.',
+      recordedAt: '2026-08-06',
+      recordedBy: 'Test Maintainer',
+      ...overrides,
+    }],
+  };
+  await mkdir(path.join(root, 'governance'), { recursive: true });
+  await writeFile(path.join(root, 'governance', 'dco-exceptions.json'), `${JSON.stringify(manifest, null, 2)}\n`);
 }
 
 test('DCO checker validates a signed maintainer commit', async () => {
@@ -101,6 +122,106 @@ test('DCO checker rejects a Dependabot look-alike identity', async () => {
     const result = await checkDco({ root, allowDependabot: true });
     assert.equal(result.ok, false);
     assert.equal(result.exemptionCount, 0);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test('DCO checker permits only an exact recorded immutable commit', async () => {
+  const root = await fixture({ message: 'test: signed source\n\nSigned-off-by: Test Maintainer <maintainer@example.invalid>' });
+  try {
+    const { stdout: sourceCommit } = await execFile('git', ['rev-parse', 'HEAD'], { cwd: root });
+    const { stdout: sourceTree } = await execFile('git', ['rev-parse', 'HEAD^{tree}'], { cwd: root });
+    await execFile('git', ['tag', 'dco-source-pr-1', sourceCommit.trim()], { cwd: root });
+    await execFile('git', ['commit', '--allow-empty', '-m', 'test: generated squash without trailer'], { cwd: root });
+    const { stdout: squashCommit } = await execFile('git', ['rev-parse', 'HEAD'], { cwd: root });
+    await recordException(root, squashCommit.trim(), { sourceCommit: sourceCommit.trim(), sourceTree: sourceTree.trim() });
+    const result = await checkDco({ root });
+    assert.equal(result.ok, true, result.failures.join('\n'));
+    assert.equal(result.exemptionCount, 1);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test('DCO checker rejects an unsigned commit that only resembles a recorded exception', async () => {
+  const root = await fixture({ message: 'test: signed source\n\nSigned-off-by: Test Maintainer <maintainer@example.invalid>' });
+  try {
+    const { stdout: sourceCommit } = await execFile('git', ['rev-parse', 'HEAD'], { cwd: root });
+    const { stdout: sourceTree } = await execFile('git', ['rev-parse', 'HEAD^{tree}'], { cwd: root });
+    await execFile('git', ['tag', 'dco-source-pr-1', sourceCommit.trim()], { cwd: root });
+    await execFile('git', ['commit', '--allow-empty', '-m', 'test: exact exempt squash'], { cwd: root });
+    const { stdout: exemptCommit } = await execFile('git', ['rev-parse', 'HEAD'], { cwd: root });
+    await recordException(root, exemptCommit.trim(), { sourceCommit: sourceCommit.trim(), sourceTree: sourceTree.trim() });
+    await execFile('git', ['commit', '--allow-empty', '-m', 'test: unsigned near-match'], { cwd: root });
+    const result = await checkDco({ root });
+    assert.equal(result.ok, false);
+    assert.equal(result.exemptionCount, 1);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test('DCO checker rejects malformed exception evidence', async () => {
+  const root = await fixture({ message: 'test: malformed exception' });
+  try {
+    const { stdout } = await execFile('git', ['rev-parse', 'HEAD'], { cwd: root });
+    await recordException(root, stdout.trim(), { pullRequest: 'not-a-url' });
+    await assert.rejects(() => checkDco({ root }), /incomplete or invalid/);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test('DCO checker rejects a source ref that does not resolve', async () => {
+  const root = await fixture({ message: 'test: unsigned squash' });
+  try {
+    const { stdout } = await execFile('git', ['rev-parse', 'HEAD'], { cwd: root });
+    await recordException(root, stdout.trim());
+    await assert.rejects(() => checkDco({ root }), /source ref does not resolve/);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test('DCO checker rejects an unsigned source commit', async () => {
+  const root = await fixture({ message: 'test: unsigned source' });
+  try {
+    const { stdout: sourceCommit } = await execFile('git', ['rev-parse', 'HEAD'], { cwd: root });
+    const { stdout: sourceTree } = await execFile('git', ['rev-parse', 'HEAD^{tree}'], { cwd: root });
+    await execFile('git', ['tag', 'dco-source-pr-1', sourceCommit.trim()], { cwd: root });
+    await execFile('git', ['commit', '--allow-empty', '-m', 'test: unsigned squash'], { cwd: root });
+    const { stdout: squashCommit } = await execFile('git', ['rev-parse', 'HEAD'], { cwd: root });
+    await recordException(root, squashCommit.trim(), { sourceCommit: sourceCommit.trim(), sourceTree: sourceTree.trim() });
+    await assert.rejects(() => checkDco({ root }), /source commit is not signed off/);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test('DCO checker rejects a source tree that differs from the exempted squash', async () => {
+  const root = await fixture({ message: 'test: signed source\n\nSigned-off-by: Test Maintainer <maintainer@example.invalid>' });
+  try {
+    const { stdout: sourceCommit } = await execFile('git', ['rev-parse', 'HEAD'], { cwd: root });
+    const { stdout: sourceTree } = await execFile('git', ['rev-parse', 'HEAD^{tree}'], { cwd: root });
+    await execFile('git', ['tag', 'dco-source-pr-1', sourceCommit.trim()], { cwd: root });
+    await writeFile(path.join(root, 'changed.txt'), 'different tree\n');
+    await execFile('git', ['add', 'changed.txt'], { cwd: root });
+    await execFile('git', ['commit', '-m', 'test: unsigned squash with changed tree'], { cwd: root });
+    const { stdout: squashCommit } = await execFile('git', ['rev-parse', 'HEAD'], { cwd: root });
+    await recordException(root, squashCommit.trim(), { sourceCommit: sourceCommit.trim(), sourceTree: sourceTree.trim() });
+    await assert.rejects(() => checkDco({ root }), /source and squash trees differ/);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test('DCO checker rejects a pull request URL from another repository', async () => {
+  const root = await fixture({ message: 'test: unsigned squash' });
+  try {
+    const { stdout } = await execFile('git', ['rev-parse', 'HEAD'], { cwd: root });
+    await recordException(root, stdout.trim(), { pullRequest: 'https://github.com/other/project/pull/1' });
+    await assert.rejects(() => checkDco({ root }), /incomplete or invalid/);
   } finally {
     await rm(root, { recursive: true, force: true });
   }
