@@ -6,7 +6,7 @@ This repository makes the **site software and tooling** available under the [MIT
 | --- | --- | --- |
 | Original application code, scripts, configuration, and developer documentation | Included | MIT, unless a file says otherwise |
 | Example copy and synthetic fixtures | Included only when specifically identified as examples | MIT with the code, unless a file says otherwise |
-| Editorial articles, research notes, guide databases, and collected or derived data | Excluded by default | All rights reserved unless a separate rights record says otherwise |
+| Editorial articles, research notes, guide databases, and collected or derived data | Excluded by default; five exact restored guide bodies are individually approved in the content-rights manifest | All rights reserved unless a separate rights record says otherwise |
 | IFL PvP / IFLPVP / IFL PvP MegaGuides names, marks, logos, and visual identity | Included only as exact reviewed files recorded in the public asset allowlist | All rights reserved; no trademark, branding, or general media-reuse permission; see [TRADEMARKS.md](TRADEMARKS.md) |
 | Game art, screenshots, video, audio, logos, player/team imagery, publisher material, and third-party marks | Excluded | Rights remain with their respective owners |
 
@@ -14,7 +14,7 @@ This repository makes the **site software and tooling** available under the [MIT
 
 Public visibility, attribution, a source URL, or a statement that material was useful for commentary does not establish a right to copy, redistribute, train on, or incorporate that material into another product. A file that combines code with separately protected material receives the MIT grant only for the original code.
 
-The machine-readable boundaries are [governance/content-rights-manifest.json](governance/content-rights-manifest.json) and [governance/public-asset-allowlist.json](governance/public-asset-allowlist.json). Both are deny-by-default.
+The machine-readable boundaries are [governance/content-rights-manifest.json](governance/content-rights-manifest.json) and [governance/public-asset-allowlist.json](governance/public-asset-allowlist.json). Both are deny-by-default. Public visibility of a restored guide grants permission to read and link to it, not to republish its text or tables.
 
 ## Contributions
 

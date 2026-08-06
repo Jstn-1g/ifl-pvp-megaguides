@@ -2,16 +2,16 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { PUBLIC_CONTENT } from '../../data/public-content';
 
-const title = 'Search retained guides — IFL PvP MegaGuides';
-const description = 'Search the small, evidence-held public route list for IFL PvP MegaGuides.';
+const title = 'Search MegaGuides — IFL PvP MegaGuides';
+const description = 'Search detailed competitive-game references by title, game, scope, and version.';
 ---
 
 <BaseLayout {title} {description} canonicalPath="/search/" noindex>
   <section class="page-hero page-hero--compact" aria-labelledby="search-title">
     <div class="container">
       <p class="eyebrow">Reference search</p>
-      <h1 id="search-title">Find a retained route.</h1>
-      <p class="page-hero__lede">Searches this public candidate’s route titles, games, and scope labels. Results remain evidence-held until they pass factual review.</p>
+      <h1 id="search-title">Find the mechanic, roster, or game.</h1>
+      <p class="page-hero__lede">Search five detailed guides covering more than 40,000 words of historical and patch-pinned competitive reference material.</p>
     </div>
   </section>
   <section class="section" aria-labelledby="search-results-title">
@@ -30,7 +30,7 @@ const description = 'Search the small, evidence-held public route list for IFL P
             <a href={`/${entry.route.slug}/`}>
               <span>{entry.game}</span>
               <strong>{entry.title}</strong>
-              <small>Evidence held · {entry.sources.length} source links retained</small>
+              <small>{entry.publicationState === 'patch-snapshot' ? 'Patch snapshot' : 'Detailed historical reference'} · {entry.stats.wordCount.toLocaleString('en-US')} words</small>
             </a>
           </li>
         ))}

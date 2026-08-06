@@ -1,0 +1,114 @@
+---
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+const { headings, variant } = Astro.props as { headings: Heading[]; variant: 'desktop' | 'mobile' };
+const sections = headings.filter((heading) => heading.depth === 2 || heading.depth === 3);
+---
+
+{sections.length >= 3 && variant === 'desktop' && (
+    <nav class="guide-toc guide-toc--desktop" aria-labelledby="guide-toc-title">
+      <div class="guide-toc__header">
+        <h2 id="guide-toc-title">On this page</h2>
+        <span>{sections.filter((heading) => heading.depth === 2).length} sections</span>
+      </div>
+      <ol>
+        {sections.map((heading) => (
+          <li class:list={{ 'guide-toc__nested': heading.depth === 3 }}>
+            <a href={`#${heading.slug}`}>{heading.text}</a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+)}
+
+{sections.length >= 3 && variant === 'mobile' && (
+    <details class="guide-toc guide-toc--mobile">
+      <summary>
+        <span>On this page</span>
+        <span>{sections.filter((heading) => heading.depth === 2).length} sections</span>
+      </summary>
+      <ol>
+        {sections.map((heading) => (
+          <li class:list={{ 'guide-toc__nested': heading.depth === 3 }}>
+            <a href={`#${heading.slug}`}>{heading.text}</a>
+          </li>
+        ))}
+      </ol>
+    </details>
+)}
+
+<style>
+  .guide-toc {
+    color: var(--text-secondary);
+    font-family: var(--font-interface);
+  }
+  .guide-toc__header,
+  .guide-toc--mobile summary {
+    display: flex;
+    min-height: 44px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .guide-toc h2,
+  .guide-toc--mobile summary span:first-child {
+    margin: 0;
+    color: var(--text-bright);
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+  }
+  .guide-toc__header > span,
+  .guide-toc--mobile summary span:last-child {
+    color: var(--text-muted);
+    font-size: 0.7rem;
+  }
+  .guide-toc ol {
+    display: grid;
+    max-height: calc(100vh - 11rem);
+    margin: 0;
+    padding: 0.7rem 0;
+    overflow-y: auto;
+    list-style: none;
+    scrollbar-width: thin;
+  }
+  .guide-toc li { min-width: 0; }
+  .guide-toc a {
+    display: block;
+    padding: 0.35rem 0.55rem;
+    border-left: 2px solid transparent;
+    color: var(--text-secondary);
+    font-size: 0.78rem;
+    line-height: 1.35;
+    text-decoration: none;
+  }
+  .guide-toc a:hover,
+  .guide-toc a:focus-visible {
+    border-left-color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    color: var(--text-bright);
+  }
+  .guide-toc__nested a {
+    padding-left: 1.15rem;
+    color: var(--text-muted);
+    font-size: 0.72rem;
+  }
+  .guide-toc--mobile { display: block; }
+  .guide-toc--mobile summary { cursor: pointer; list-style: none; }
+  .guide-toc--mobile summary::-webkit-details-marker { display: none; }
+  .guide-toc--mobile {
+    margin-bottom: 1.5rem;
+    padding: 0 1rem;
+    border: 1px solid var(--border-subtle);
+    background: var(--bg-surface);
+  }
+  @media (max-width: 1023px) {
+    .guide-toc--mobile ol { max-height: min(55vh, 28rem); }
+  }
+</style>

@@ -1,0 +1,243 @@
+---
+import GuideStatusBadge from '../components/GuideStatusBadge.astro';
+import GuideTableOfContents from '../components/GuideTableOfContents.astro';
+import ReferenceCover from '../components/ReferenceCover.astro';
+import BaseLayout from './BaseLayout.astro';
+import type { PublicMegaGuide } from '../data/public-content';
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+const { entry, headings } = Astro.props as { entry: PublicMegaGuide; headings: Heading[] };
+const canonicalPath = `/${entry.route.slug}/`;
+const publishedAt = entry.restoration.firstPublishedAt;
+const modifiedAt = entry.restoration.restoredAt;
+const structuredData = [
+  {
+    '@type': 'Article',
+    headline: entry.title,
+    description: entry.description,
+    url: new URL(canonicalPath, 'https://iflpvp.com').toString(),
+    mainEntityOfPage: new URL(canonicalPath, 'https://iflpvp.com').toString(),
+    datePublished: publishedAt,
+    dateModified: modifiedAt,
+    inLanguage: 'en-US',
+    isAccessibleForFree: true,
+    about: { '@type': 'VideoGame', name: entry.game },
+    author: { '@type': 'Person', name: 'Justin' },
+    publisher: { '@id': 'https://iflpvp.com/#organization' },
+    citation: entry.sources.map((source) => source.url),
+    isPartOf: { '@id': 'https://iflpvp.com/#website' },
+  },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'MegaGuides', item: 'https://iflpvp.com/guides/' },
+      { '@type': 'ListItem', position: 2, name: entry.title, item: new URL(canonicalPath, 'https://iflpvp.com').toString() },
+    ],
+  },
+];
+
+function readableDate(date: string) {
+  return new Intl.DateTimeFormat('en-US', { dateStyle: 'long', timeZone: 'UTC' }).format(new Date(`${date}T00:00:00Z`));
+}
+---
+
+<BaseLayout
+  title={`${entry.title} | IFL PvP MegaGuides`}
+  description={entry.description}
+  canonicalPath={canonicalPath}
+  noindex={!entry.route.indexable}
+  pageType="article"
+  {structuredData}
+>
+  <article class="reader" aria-labelledby="guide-title">
+    <header class="reader__hero">
+      <div class="container reader__hero-grid">
+        <div class="reader__intro">
+          <p class="eyebrow">{entry.game} / {entry.publicationState === 'patch-snapshot' ? 'Patch snapshot' : 'Historical reference'}</p>
+          <GuideStatusBadge
+            status={entry.publicationState === 'patch-snapshot' ? 'review-due' : 'stable-reference'}
+            label={entry.publicationState === 'patch-snapshot' ? 'Detailed snapshot · review due' : 'Detailed historical reference'}
+          />
+          <h1 id="guide-title">{entry.title}</h1>
+          <p class="reader__lede">{entry.description}</p>
+          <p class="reader__scope">{entry.scope}</p>
+        </div>
+        <ReferenceCover
+          variant="featured"
+          title={entry.title}
+          eyebrow={entry.game}
+          status={entry.publicationState === 'patch-snapshot' ? 'Patch snapshot' : 'Historical edition'}
+          index="IFL / GUIDE"
+          seed={entry.route.slug}
+          gameKey={entry.gameKey}
+        />
+      </div>
+    </header>
+
+    <div class="container reader__command" aria-label="Guide facts">
+      <div><span>Version</span><strong>{entry.gameVersion}</strong></div>
+      <div><span>Depth</span><strong>{entry.stats.wordCount.toLocaleString('en-US')} words · {entry.stats.tableRows} table rows</strong></div>
+      <div><span>Coverage</span><strong>{entry.stats.sectionCount} sections</strong></div>
+      <div><span>Restored</span><strong>{readableDate(entry.restoration.restoredAt)}</strong></div>
+    </div>
+
+    <div class="container reader__truth" role="note" aria-label="Historical accuracy notice">
+      <p><strong>Full guide body restored.</strong> Publisher images and icons were removed from this public edition, but the authored mechanics, roster, ability, strategy, history, and reference tables are present below.</p>
+      <p><strong>Use the version label.</strong> This is {entry.publicationState === 'patch-snapshot' ? 'a dated patch snapshot awaiting a fresh live-service review' : 'a historical reference, not current live-meta advice'}. Exact values may vary outside the stated legacy baseline; uncertain material remains visibly scoped and the route stays out of search indexing during review.</p>
+    </div>
+
+    <div class="container reader__layout">
+      <aside class="reader__sidebar">
+        <GuideTableOfContents {headings} variant="desktop" />
+      </aside>
+
+      <div class="reader__main">
+        <GuideTableOfContents {headings} variant="mobile" />
+        <div class="reader__prose prose">
+          <slot />
+        </div>
+
+        <section class="reader__sources" aria-labelledby="guide-sources">
+          <p class="eyebrow">Evidence ledger</p>
+          <h2 id="guide-sources">Primary and supporting sources</h2>
+          <p>Sources establish the edition and review trail. Community sources, where present, provide context and are not treated as sole proof of a material current-state claim.</p>
+          <ol class="source-list">
+            {entry.sources.map((source) => (
+              <li>
+                <a href={source.url} rel="external nofollow noopener noreferrer" target="_blank">{source.title}</a>
+                <span>{source.publisher} · {source.type.replace('-', ' ')} · checked {readableDate(source.checkedAt)}</span>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        <aside class="reader__corrections prose" aria-labelledby="guide-corrections">
+          <h2 id="guide-corrections">Corrections make this reference better.</h2>
+          <p>If a value, name, historical statement, or source is wrong, send the correction through the <a href="/editorial-policy/#corrections">editorial policy process</a>. Include a primary source or retained build when possible.</p>
+          <p><a href="/guides/">Explore all restored MegaGuides</a></p>
+        </aside>
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<script is:inline>
+  document.querySelectorAll('.reader__prose table').forEach((table) => {
+    table.tabIndex = 0;
+    table.setAttribute('aria-label', 'Scrollable guide data table');
+  });
+</script>
+
+<style>
+  .reader__hero {
+    padding-block: clamp(2.75rem, 6vw, 5rem);
+    border-bottom: 1px solid var(--border-subtle);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent);
+  }
+  .reader__hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(20rem, 0.9fr);
+    align-items: center;
+    gap: clamp(2rem, 5vw, 5rem);
+  }
+  .reader h1 {
+    max-width: 18ch;
+    margin: 1rem 0 0;
+    color: var(--text-bright);
+    font-family: var(--font-display);
+    font-size: clamp(2.35rem, 5vw, 4.6rem);
+    font-weight: 850;
+    letter-spacing: -0.055em;
+    line-height: 0.96;
+    text-wrap: balance;
+  }
+  .reader__lede {
+    max-width: 44rem;
+    margin-top: 1.25rem;
+    color: var(--text-primary);
+    font-size: clamp(1.08rem, 1rem + 0.4vw, 1.32rem);
+    line-height: 1.65;
+  }
+  .reader__scope {
+    max-width: 44rem;
+    margin-top: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+  .reader__command {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border: 1px solid var(--border-subtle);
+    border-top: 0;
+    background: rgba(8, 14, 23, 0.54);
+  }
+  .reader__command > div { min-width: 0; padding: 1rem; }
+  .reader__command > div + div { border-left: 1px solid var(--border-subtle); }
+  .reader__command span { display: block; color: var(--text-muted); font-size: 0.7rem; }
+  .reader__command strong { display: block; margin-top: 0.35rem; color: var(--text-bright); font-size: 0.84rem; line-height: 1.35; overflow-wrap: anywhere; }
+  .reader__truth {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+    padding: 1.1rem 1.2rem;
+    border-left: 3px solid var(--status-review);
+    background: color-mix(in srgb, var(--status-review) 8%, var(--bg-surface));
+  }
+  .reader__truth p { color: var(--text-secondary); font-size: 0.86rem; line-height: 1.65; }
+  .reader__truth strong { color: var(--text-bright); }
+  .reader__layout {
+    display: grid;
+    grid-template-columns: minmax(12rem, 15rem) minmax(0, 1fr);
+    align-items: start;
+    gap: clamp(2rem, 4vw, 4rem);
+    padding-block: clamp(3rem, 6vw, 5rem);
+  }
+  .reader__sidebar {
+    position: sticky;
+    top: calc(var(--header-height) + 1.5rem);
+    max-height: calc(100vh - var(--header-height) - 3rem);
+  }
+  .reader__main { min-width: 0; max-width: 52rem; }
+  .reader__main > :global(.guide-toc--mobile) { display: none; }
+  .reader__prose { max-width: none; }
+  .reader__sources,
+  .reader__corrections {
+    margin-top: 4rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--border-subtle);
+  }
+  .reader__sources h2,
+  .reader__corrections h2 {
+    margin: 0;
+    color: var(--text-bright);
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 3vw, 2.5rem);
+    letter-spacing: -0.04em;
+  }
+  .reader__sources > p,
+  .reader__corrections > p { margin-top: 1rem; color: var(--text-secondary); }
+  @media (max-width: 1023px) {
+    .reader__hero-grid,
+    .reader__layout { grid-template-columns: minmax(0, 1fr); }
+    .reader__sidebar { display: none; }
+    .reader__main { max-width: none; }
+    .reader__main > :global(.guide-toc--mobile) { display: block; }
+  }
+  @media (max-width: 760px) {
+    .reader__command { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .reader__command > div:nth-child(3) { border-top: 1px solid var(--border-subtle); border-left: 0; }
+    .reader__command > div:nth-child(4) { border-top: 1px solid var(--border-subtle); }
+    .reader__truth { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 520px) {
+    .reader h1 { font-size: clamp(2.2rem, 12vw, 3.2rem); }
+    .reader__command { grid-template-columns: 1fr; }
+    .reader__command > div + div { border-top: 1px solid var(--border-subtle); border-left: 0; }
+  }
+</style>
