@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.7.0](https://github.com/Jstn-1g/ifl-pvp-megaguides/compare/v0.6.1...v0.7.0) (2026-08-06)
+
+
+### Features
+
+* restore five complete MegaGuides ([1bc32dd](https://github.com/Jstn-1g/ifl-pvp-megaguides/commit/1bc32dd3c9faca5a9f9cdc8b87e3f0af3157594d))
+
+
+### Bug Fixes
+
+* record exact DCO squash exception ([bdeaa02](https://github.com/Jstn-1g/ifl-pvp-megaguides/commit/bdeaa02099468e263f03db34def8b1894f319756))
+
 ## [0.6.1](https://github.com/Jstn-1g/ifl-pvp-megaguides/compare/v0.6.0...v0.6.1) (2026-08-04)
 
 
