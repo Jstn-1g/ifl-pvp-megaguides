@@ -2,22 +2,20 @@
 import GuideCard from '../components/GuideCard.astro';
 import ArenaStage from '../components/ArenaStage.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { INDEXABLE_PUBLIC_CONTENT, PUBLIC_CONTENT, PUBLIC_MEGA_GUIDES } from '../data/public-content';
+import { PUBLIC_CONTENT } from '../data/public-content';
 import { SITE } from '../utils/site';
 
 const retainedGuideCount = PUBLIC_CONTENT.length;
-const megaGuideCount = PUBLIC_MEGA_GUIDES.length;
-const indexableGuideCount = INDEXABLE_PUBLIC_CONTENT.length;
-const featuredEntries = PUBLIC_CONTENT.slice(0, 3);
+const featuredEntries = PUBLIC_CONTENT.filter((entry) => ['battlerite', 'gigantic', 'gunz'].includes(entry.gameKey));
 const descriptions = {
   title: `${SITE.name} — Competitive Game Reference Library`,
   description: 'Source-backed, version-pinned field manuals for competitive games. Current retained routes are clearly marked while evidence review is in progress.',
 };
 
 function reviewLabel(entry: (typeof PUBLIC_CONTENT)[number]) {
-  return entry.kind === 'mega-guide'
-    ? `Review due ${entry.review.nextReviewAt}`
-    : 'Evidence reconstruction in progress';
+  return entry.publicationState === 'patch-snapshot'
+    ? `Patch review due ${entry.review.nextReviewAt}`
+    : `Restored ${entry.restoration.restoredAt}`;
 }
 ---
 
@@ -29,15 +27,15 @@ function reviewLabel(entry: (typeof PUBLIC_CONTENT)[number]) {
       <div class="hero__content">
         <p class="eyebrow">The IFL PvP library</p>
         <h1 id="site-intro">Know the matchup.<br />Own the fight.</h1>
-        <p class="hero__lede">Build your next game plan from <strong>source-backed competitive research</strong>. Every route shows its evidence, review date, and exactly what still needs verification.</p>
+        <p class="hero__lede">Build your next game plan from <strong>detailed competitive field manuals</strong>. Five restored references now put the mechanics, rosters, techniques, tables, and evidence back where they belong.</p>
         <div class="hero__actions">
           <a class="button button--primary" href="/guides/">Explore game guides <span aria-hidden="true">→</span></a>
           <a class="button button--quiet" href="/editorial-policy/">How we verify</a>
         </div>
         <dl class="hero__facts" aria-label="Library status">
-          <div><dt>Retained routes</dt><dd>{retainedGuideCount}<small>Preserved and accessible</small></dd></div>
-          <div><dt>MegaGuide records</dt><dd>{megaGuideCount}<small>Rebuilding game by game</small></dd></div>
-          <div class="hero__status"><dt>Current guide status</dt><dd>{indexableGuideCount === 0 ? 'Evidence review' : `${indexableGuideCount} verified`}<small>{indexableGuideCount === 0 ? 'No live-meta claims yet' : 'Ready to explore'}</small></dd></div>
+          <div><dt>Detailed guides</dt><dd>{retainedGuideCount}<small>All bodies restored</small></dd></div>
+          <div><dt>Guide depth</dt><dd>40K+<small>Words of mechanics and reference data</small></dd></div>
+          <div class="hero__status"><dt>Publication state</dt><dd>Online<small>Historical and patch scope visible</small></dd></div>
         </dl>
       </div>
     </div>
@@ -52,7 +50,7 @@ function reviewLabel(entry: (typeof PUBLIC_CONTENT)[number]) {
         </div>
         <a href="/guides/">See all retained routes <span aria-hidden="true">→</span></a>
       </div>
-      <p class="section-intro">Five established routes are being rebuilt with game-specific research and media. Each card tells you what is usable now, what is historical, and what is still under review.</p>
+      <p class="section-intro">Five established routes now contain their detailed authored reference bodies again. Each card names the exact historical or patch scope before you open it.</p>
       {featuredEntries.length > 0 ? (
         <div class="guide-grid">
           {featuredEntries.map((entry, index) => (
@@ -62,12 +60,13 @@ function reviewLabel(entry: (typeof PUBLIC_CONTENT)[number]) {
               description={entry.description}
               game={entry.game}
               index={index + 1}
-              status="review-due"
-              statusLabel="Evidence held"
+              status={entry.publicationState === 'patch-snapshot' ? 'review-due' : 'stable-reference'}
+              statusLabel={entry.publicationState === 'patch-snapshot' ? 'Patch snapshot' : 'Detailed reference'}
               reviewedLabel={reviewLabel(entry)}
               gameKey={entry.gameKey}
-              gameVersion={entry.kind === 'mega-guide' ? entry.gameVersion : undefined}
+              gameVersion={entry.gameVersion}
               sourceCount={entry.sources.length}
+              readingTime={`${Math.max(1, Math.ceil(entry.stats.wordCount / 225))} min read`}
             />
           ))}
         </div>
@@ -98,10 +97,10 @@ function reviewLabel(entry: (typeof PUBLIC_CONTENT)[number]) {
     <div class="container section__split">
       <div>
         <p class="eyebrow">Legacy archive</p>
-        <h2 id="archive-status">Preserved privately. Restored deliberately.</h2>
+        <h2 id="archive-status">The detailed guides are back. The archive remains protected.</h2>
       </div>
       <div class="prose">
-        <p>Legacy writing is not bulk-republished simply because it existed before. A route returns only after its text rights, sources, scope, and review state are documented for public use.</p>
+        <p>Five established guide bodies have returned through a one-way, publisher-media-free restoration. The remaining archive still returns only after its text rights, sources, scope, and review state are documented for public use.</p>
         <p><a href="/archive/">View the archive status</a></p>
       </div>
     </div>

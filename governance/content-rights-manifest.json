@@ -11,18 +11,58 @@
   "content": [
     {
       "path": "src/data/public-content.ts",
-      "sha256": "cc80a0a38a27ced6bfd9521b850005943250d6f854a196a888c6ed42cd0d36b6",
-      "rightsBasis": "Newly authored, concise evidence-hold route summaries, explicit game-identity keys, and exact paths to separately allowlisted first-party route illustrations created for this clean export under the repository owner's active task authorization; no private article body or third-party media was copied.",
+      "sha256": "71d9c08c7772677c7d10d6b0ae6c718ac6beac92182ec0fd2344a22dc834afff",
+      "rightsBasis": "Original public directory, scope, review, restoration, and source metadata for five owner-authorized editorial guide editions. It references only separately allowlisted first-party route illustrations and contains no copied publisher media or private dataset.",
       "license": "All rights reserved",
-      "reviewedAt": "2026-08-04",
+      "reviewedAt": "2026-08-05",
       "status": "approved"
     },
     {
       "path": "src/data/PUBLIC-CONTENT-NOTES.md",
-      "sha256": "a4357dc5087d9c296c9e631155ac8b01bc75a4497b474c2bec5e3501287f0a14",
+      "sha256": "cca3b0c6628e63ca3e7c64d54d9fb54751f79b9a1643c0236b2190c4262906c5",
       "rightsBasis": "Original project governance documentation written for this clean export.",
       "license": "MIT",
-      "reviewedAt": "2026-08-04",
+      "reviewedAt": "2026-08-05",
+      "status": "approved"
+    },
+    {
+      "path": "src/data/guides/battlerite-complete-guide-every-champion.md",
+      "sha256": "c7bac8c65dc95d84cb71b097a926560c39dd6be035e4ae83397e9cbf4ce079b2",
+      "rightsBasis": "Owner-authored Battlerite editorial guide and reference tables restored under the project owner's explicit publication authorization. Every legacy media embed and private internal link was removed; remaining external links are source citations.",
+      "license": "All rights reserved",
+      "reviewedAt": "2026-08-05",
+      "status": "approved"
+    },
+    {
+      "path": "src/data/guides/bloodline-champions-complete-guide-every-bloodline.md",
+      "sha256": "c2e8c9fa6452afb8cdb370a25fe0ed77b1cd2b24dae3e716d36d0d267b302c60",
+      "rightsBasis": "Owner-authored Bloodline Champions editorial guide and reference tables restored under the project owner's explicit publication authorization. Every legacy media embed and private internal link was removed; remaining external links are source citations.",
+      "license": "All rights reserved",
+      "reviewedAt": "2026-08-05",
+      "status": "approved"
+    },
+    {
+      "path": "src/data/guides/gigantic-complete-guide-every-hero.md",
+      "sha256": "db7ce5cdcd177a53bf7d0116a8c833936040fc0bbdac3ee7b7a8a72251e9a62d",
+      "rightsBasis": "Owner-authored Gigantic editorial guide and reference tables restored under the project owner's explicit publication authorization. Every legacy media embed and private internal link was removed; remaining external links are source citations.",
+      "license": "All rights reserved",
+      "reviewedAt": "2026-08-05",
+      "status": "approved"
+    },
+    {
+      "path": "src/data/guides/gunz-the-duel-complete-guide-k-style.md",
+      "sha256": "70773fb2be836e76d227b105c5cb603759379c2921abbb933812d9ba66b42feb",
+      "rightsBasis": "Owner-authored GunZ editorial guide and reference tables restored under the project owner's explicit publication authorization. Every legacy media embed and private internal link was removed; remaining external links are source citations.",
+      "license": "All rights reserved",
+      "reviewedAt": "2026-08-05",
+      "status": "approved"
+    },
+    {
+      "path": "src/data/guides/marvel-rivals-complete-hero-guide-tier-list.md",
+      "sha256": "e44a6b7833828c4648c0cb2d9307e0d4f2f60aaabf81bb1ec9a8e4097f69d60d",
+      "rightsBasis": "Owner-authored Marvel Rivals editorial guide and reference tables restored under the project owner's explicit publication authorization. No private kit dataset, publisher image, or private internal link was included; remaining external links are source citations.",
+      "license": "All rights reserved",
+      "reviewedAt": "2026-08-05",
       "status": "approved"
     }
   ]

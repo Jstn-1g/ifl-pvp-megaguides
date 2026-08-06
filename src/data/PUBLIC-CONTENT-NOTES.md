@@ -1,44 +1,35 @@
-# Public content boundary
+# Public guide-content boundary
 
-`public-content.ts` is the entire editorial-data boundary for the initial public
-release. It contains five newly authored, publisher-image-free route records:
-four review-due MegaGuide summaries and one Bloodline Champions
-evidence-reconstruction notice.
+The public repository now includes five individually restored guide bodies under
+`src/data/guides/`. They preserve the established slugs and the owner-authorized
+editorial text, tables, and historical analysis that previously lived only in
+the private recovery archive.
 
-## Intentional omissions
+## Restoration boundary
 
-No legacy route manifest is included in this public repository. The private archive
-contains 92 additional published legacy articles and two drafts. The 92 legacy
-articles do not have source metadata, and copying even slug/title pairs into
-the public repository would create an incomplete catalogue that could be
-mistaken for public, reviewed content.
+The restoration was one-way and deny-by-default:
 
-The public site should therefore expose only a general archive-status page
-until an individual legacy article is independently reviewed and intentionally
-restored. When a route returns, preserve its established slug and record:
+- private frontmatter and every Markdown image reference were removed;
+- publisher screenshots, portraits, ability icons, weapon art, logos, videos,
+  fonts, and scraped or synchronized datasets remain excluded;
+- links to unpublished private articles were flattened to text;
+- the five output bodies are hash-pinned in
+  `governance/content-rights-manifest.json`;
+- route art continues to use separately allowlisted original IFL illustrations;
+  and
+- all five restored editions remain `noindex,follow` until their factual review
+  is individually approved.
 
-- an ownership/right-to-publish attestation for the editorial text;
-- primary sources for material factual claims, each with a checked date;
-- a current or clearly historical scope statement;
-- `robots` status appropriate to its review state; and
-- publisher-image-free body and metadata, unless an exact asset has a documented
-  public-rights basis.
+The public text is available for reading but is not MIT-licensed. It remains
+all rights reserved under `CONTENT-LICENSE.md`.
 
-The public release deliberately excludes the former article bodies, frontmatter
-image paths, Markdown image embeds, social/OG media, videos, author portrait,
-font binaries, game logos, hero data, ability data, and all scraped or
-synchronized datasets. Those materials remain in the private source
-archive pending separate rights and evidence review.
+## Truthful guide states
 
-The homepage fantasy arena presentation and five route scenes are original,
-hash-pinned project art. Each route scene uses a distinct first-party composition
-to restore visual game-genre identity while publisher media remains unavailable.
-Every scene is visibly labeled as an original IFL illustration, not game footage;
-the treatment is decorative and is never guide evidence.
+Battlerite, Bloodline Champions, Gigantic, and GunZ are published as detailed
+historical references. Marvel Rivals is a dated Season 9 patch snapshot. Every
+page leads with its version/scope boundary and a visible notice that historical
+values or patch-sensitive recommendations may not describe another build.
 
-## Route state
-
-All five retained routes use `noindex,follow`. This preserves a stable path for
-existing links while preventing the evidence-held summary from entering a
-sitemap, RSS feed, or search index. A route becomes indexable only after a
-human review updates its factual content and evidence.
+This makes the information accessible immediately without calling it verified
+current guidance. Indexing, freshness dates, and confidence can advance only
+through the normal evidence review.

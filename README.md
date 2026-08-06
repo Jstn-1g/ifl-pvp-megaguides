@@ -21,10 +21,10 @@ The original application and maintenance tooling in this repository are publishe
 
 - An Astro-based static-site foundation for a guide-first reference experience.
 - Deterministic local checks for build quality, accessibility, release boundaries, contributor sign-off, and dependency licensing.
-- Synthetic example material, a first-party IFL identity system, an original arena hero, and distinct game-specific presentation states—no unapproved publisher art, screenshots, video, collected game data, or legacy editorial archive.
+- Five detailed, owner-authorized guide editions totaling more than 40,000 words, plus a first-party IFL identity system and distinct game-specific presentation states—without unapproved publisher art, screenshots, video, or scraped datasets.
 - A human-reviewed maintenance model: automation may prepare proposals, but it may not merge, deploy, or publish without maintainer approval.
 
-The production site remains at [iflpvp.com](https://iflpvp.com). This repository deliberately does not include a live-site export or a copy of its historical media library.
+The production site remains at [iflpvp.com](https://iflpvp.com). This repository includes the five reviewed restoration outputs, but deliberately excludes the private historical media library and wider legacy archive.
 
 ## Product preview
 
@@ -32,14 +32,14 @@ These captures come from this repository’s first-party public interface. The d
 
 <p>
   <img src="docs/screenshots/home-desktop.png" width="49%" alt="IFL PvP MegaGuides desktop home with an original arena hero and game-specific evidence-led guide library" />
-  <img src="docs/screenshots/evidence-hold-desktop.png" width="49%" alt="Evidence-held guide route showing its review status and publication boundary" />
+  <img src="docs/screenshots/evidence-hold-desktop.png" width="49%" alt="Detailed historical guide reader showing version scope, restored data, and source boundaries" />
 </p>
 
 ## How it works
 
 1. **A route declares its status.** Current, stable-historical, review-due, and unavailable states are visible rather than hidden behind a freshness badge.
 2. **Material claims require evidence.** Version context, review dates, source links, and correction paths travel with the guide record.
-3. **Publication fails closed.** Missing proof keeps a route available only as a clearly labeled, non-indexed evidence hold; automation cannot promote it on its own.
+3. **Publication fails closed.** Restored material can be read as a clearly labeled, non-indexed historical edition, but automation cannot claim current status or indexing on its own.
 4. **Releases are reviewed artifacts.** DCO, rights, provenance, dependency, SEO, browser, accessibility, workflow, and clean-history gates run before a tagged build can become a release asset.
 5. **Media fails closed.** Every local image and responsive candidate must exist in the built artifact and load on every generated desktop and mobile route. Game media additionally requires separate public-display and repository-redistribution grants.
 
@@ -47,7 +47,7 @@ These captures come from this repository’s first-party public interface. The d
 
 | Path | Responsibility |
 | --- | --- |
-| `src/data/` | Human-reviewed public records and their source ledger |
+| `src/data/` | Human-reviewed public records plus the five sanitized restored guide bodies |
 | `src/pages/`, `src/layouts/`, `src/components/` | Static routes and the responsive Reference Grid experience |
 | `governance/` | Deny-by-default content, game-media, and asset publication records |
 | `scripts/` | Deterministic release, provenance, media-integrity, policy, browser, and accessibility gates |

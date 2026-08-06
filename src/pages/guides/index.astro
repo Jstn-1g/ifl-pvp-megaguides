@@ -3,19 +3,19 @@ import GuideCard from '../../components/GuideCard.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { PUBLIC_CONTENT } from '../../data/public-content';
 
-const title = 'MegaGuides — Evidence-held competitive references';
-const description = 'Retained competitive-game guide routes with visible evidence-hold status, scope limits, and review information.';
+const title = 'MegaGuides — Detailed Competitive Game References';
+const description = 'Detailed historical and patch-pinned competitive-game references with mechanics, rosters, techniques, tables, sources, and visible scope limits.';
 const retainedRouteCount: number = PUBLIC_CONTENT.length;
 const retainedRouteLabel = new Intl.PluralRules('en-US').select(retainedRouteCount) === 'one' ? 'route' : 'routes';
 
 function statusLabel(entry: (typeof PUBLIC_CONTENT)[number]) {
-  return entry.kind === 'mega-guide' ? 'Review due' : 'Evidence reconstruction';
+  return entry.publicationState === 'patch-snapshot' ? 'Patch snapshot' : 'Detailed reference';
 }
 
 function reviewLabel(entry: (typeof PUBLIC_CONTENT)[number]) {
-  return entry.kind === 'mega-guide'
-    ? `Review due ${entry.review.nextReviewAt}`
-    : 'Historical evidence reconstruction';
+  return entry.publicationState === 'patch-snapshot'
+    ? `Patch review due ${entry.review.nextReviewAt}`
+    : `Restored ${entry.restoration.restoredAt}`;
 }
 ---
 
@@ -23,8 +23,8 @@ function reviewLabel(entry: (typeof PUBLIC_CONTENT)[number]) {
   <section class="page-hero" aria-labelledby="guides-title">
     <div class="container">
       <p class="eyebrow">IFL / MegaGuides</p>
-      <h1 id="guides-title">Reference routes with their status in view.</h1>
-      <p class="page-hero__lede">{retainedRouteCount} retained {retainedRouteLabel}, each held to an explicit evidence and review standard. None are currently represented as a verified-current guide.</p>
+      <h1 id="guides-title">The full reference bodies are back.</h1>
+      <p class="page-hero__lede">{retainedRouteCount} detailed {retainedRouteLabel}, 40,696 words, and 923 data rows across mechanics, rosters, abilities, techniques, history, and strategy—with historical and patch scope kept visible.</p>
     </div>
   </section>
 
@@ -40,11 +40,12 @@ function reviewLabel(entry: (typeof PUBLIC_CONTENT)[number]) {
               game={entry.game}
               gameKey={entry.gameKey}
               index={index + 1}
-              status="review-due"
+              status={entry.publicationState === 'patch-snapshot' ? 'review-due' : 'stable-reference'}
               statusLabel={statusLabel(entry)}
               reviewedLabel={reviewLabel(entry)}
-              gameVersion={entry.kind === 'mega-guide' ? entry.gameVersion : undefined}
+              gameVersion={entry.gameVersion}
               sourceCount={entry.sources.length}
+              readingTime={`${Math.max(1, Math.ceil(entry.stats.wordCount / 225))} min read`}
             />
           ))}
         </div>

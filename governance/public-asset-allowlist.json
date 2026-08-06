@@ -114,11 +114,11 @@
     {
       "path": "docs/screenshots/evidence-hold-desktop.png",
       "role": "other",
-      "sha256": "d453ed478686e7e9933d6ce9fa11b3701e82136f6963ba0541671c2a9f66cae0",
-      "creatorSource": "Playwright full-page capture of this repository's local evidence-hold route at a 1440x1000 viewport with reduced motion enabled",
-      "rightsBasis": "First-party capture of the evidence-hold route using the allowlisted IFL PvP logo, an original route illustration, and the game-specific CSS presentation state; contains no publisher art, game screenshots, remote fonts, third-party logos, or private data.",
+      "sha256": "11b00b82d8f265d3d0719e61ed5e342563d963d0da25ec80df2f8014fe40b758",
+      "creatorSource": "Viewport capture of this repository's local restored Battlerite guide reader at a 1440x1000 viewport",
+      "rightsBasis": "First-party capture of the restored reader, table of contents, and owner-authored editorial text using the allowlisted IFL PvP logo and project interface; contains no publisher art, game screenshots, remote fonts, third-party logos, or private data.",
       "license": "All rights reserved; public redistribution is permitted only as part of this repository and its project presentation.",
-      "approvalDate": "2026-08-03",
+      "approvalDate": "2026-08-05",
       "redistributable": true
     }
   ]

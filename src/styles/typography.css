@@ -7,6 +7,7 @@
 }
 .prose > * + * { margin-top: 1.35rem; }
 .prose h2, .prose h3, .prose h4 {
+  scroll-margin-top: calc(var(--header-height) + 1.5rem);
   color: var(--text-bright);
   font-family: var(--font-display);
   letter-spacing: -0.025em;
@@ -27,8 +28,23 @@
 .prose code { padding: 0.15em 0.35em; background: var(--bg-raised); color: var(--text-bright); }
 .prose pre { overflow-x: auto; padding: 1rem; border: 1px solid var(--border-subtle); background: var(--bg-deep); }
 .prose pre code { padding: 0; background: transparent; }
-.prose table { width: 100%; border-collapse: collapse; font-size: 0.9em; }
-.prose th, .prose td { padding: 0.6rem 0.7rem; border-bottom: 1px solid var(--border-subtle); text-align: left; vertical-align: top; }
-.prose th { color: var(--text-bright); font-family: var(--font-display); letter-spacing: 0.02em; }
+.prose table {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--border-subtle);
+  border-collapse: collapse;
+  background: color-mix(in srgb, var(--bg-surface) 82%, transparent);
+  font-size: 0.88em;
+  scrollbar-width: thin;
+}
+.prose th, .prose td { min-width: 8rem; padding: 0.72rem 0.8rem; border-bottom: 1px solid var(--border-subtle); text-align: left; vertical-align: top; }
+.prose th { position: sticky; top: 0; background: var(--bg-raised); color: var(--text-bright); font-family: var(--font-display); letter-spacing: 0.02em; }
+.prose tr:last-child td { border-bottom: 0; }
+.prose tr:nth-child(even) td { background: rgba(255, 255, 255, 0.018); }
+.prose td:first-child { color: var(--text-bright); font-weight: 650; }
+.prose table:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.prose hr { margin-block: 3rem; border: 0; border-top: 1px solid var(--border-subtle); }
 .table-scroll { overflow-x: auto; border: 1px solid var(--border-subtle); }
-@media (max-width: 640px) { .prose h2 { margin-top: 2.4rem; } .prose th, .prose td { min-width: 9rem; } }
+@media (max-width: 640px) { .prose h2 { margin-top: 2.4rem; } .prose th, .prose td { min-width: 10rem; } }

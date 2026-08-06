@@ -1,15 +1,29 @@
 ---
-import GuideEvidenceHold from '../layouts/GuideEvidenceHold.astro';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import RestoredGuideReader from '../layouts/RestoredGuideReader.astro';
 import { PUBLIC_CONTENT, type PublicContentEntry } from '../data/public-content';
 
-export function getStaticPaths() {
-  return PUBLIC_CONTENT.map((entry) => ({
-    params: { slug: entry.route.slug },
-    props: { entry },
-  }));
+export async function getStaticPaths() {
+  const guides = await getCollection('guides');
+  const guidesBySlug = new Map(guides.map((guide) => [guide.id, guide]));
+
+  return PUBLIC_CONTENT.map((entry) => {
+    const guide = guidesBySlug.get(entry.route.slug);
+    if (!guide) throw new Error(`Restored guide body is missing: ${entry.route.slug}`);
+    return {
+      params: { slug: entry.route.slug },
+      props: { entry, guide },
+    };
+  });
 }
 
-const { entry } = Astro.props as { entry: PublicContentEntry };
+const { entry, guide } = Astro.props as {
+  entry: PublicContentEntry;
+  guide: CollectionEntry<'guides'>;
+};
+const { Content, headings } = await render(guide);
 ---
 
-<GuideEvidenceHold entry={entry} />
+<RestoredGuideReader entry={entry} {headings}>
+  <Content />
+</RestoredGuideReader>
