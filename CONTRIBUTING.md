@@ -22,6 +22,8 @@ This adds `Signed-off-by: Your Name <email@example.com>` to the commit. By signi
 
 The exact GitHub Dependabot identity has a narrow CI-only exception so its dependency pull requests can run verification before review. This is not a DCO waiver for `main`: automated dependency pull requests are not approved for merge as-is, and a maintainer must review the update and contribute the accepted change through a signed-off human commit before it can merge. The exception does not waive scope, licensing, rights, or security review.
 
+An already-published GitHub-generated squash commit may be exempted only by its full immutable SHA in `governance/dco-exceptions.json`. Each record must identify the reviewed pull request, signed source commit, immutable evidence tag and tree, reason, date, and recorder. CI resolves the evidence tag, verifies the source trailer, proves exact tree equality, and binds the pull-request URL to this repository. This is a recovery mechanism for a lost trailer, not permission to merge unsigned work; near matches, unrecorded commits, foreign repositories, missing evidence, unsigned sources, and mismatched trees fail closed.
+
 ## AI and automation
 
 AI, models, generators, scrapers, and automation can assist with a contribution, but they cannot establish rights, authorship, factual accuracy, or legal permission. Disclose material assistance in the pull request and describe how a person checked the output. Do not present generated output as independently verified evidence.
