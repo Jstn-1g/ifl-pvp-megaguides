@@ -1,10 +1,22 @@
 ---
+import { PUBLIC_CONTENT } from '../data/public-content';
+
 interface Props {
   action?: string | undefined;
   id?: string | undefined;
 }
 
 const { action = '/search/', id = 'site-search' } = Astro.props;
+
+const searchIndex = PUBLIC_CONTENT.map((guide) => ({
+  title: guide.title,
+  game: guide.game,
+  description: guide.description,
+  scope: guide.scope,
+  slug: guide.route.slug,
+  wordCount: guide.stats.wordCount.toLocaleString('en-US'),
+  status: guide.publicationState === 'patch-snapshot' ? 'Patch snapshot' : 'Historical reference',
+}));
 ---
 
 <dialog id={id} class="search-dialog" aria-labelledby={`${id}-title`}>
@@ -12,40 +24,103 @@ const { action = '/search/', id = 'site-search' } = Astro.props;
     <div class="search-dialog__heading">
       <p class="search-dialog__eyebrow">Reference search</p>
       <h2 id={`${id}-title`}>Find an answer</h2>
-      <p>Search by game, character, mechanic, or competitive concept.</p>
+      <p>Search five detailed field manuals covering 40,000+ words of competitive material.</p>
     </div>
-    <form class="search-dialog__form" action={action} method="get" role="search">
+    <form class="search-dialog__form" action={action} method="get" role="search" data-search-dialog-form>
       <label for={`${id}-input`}>Search MegaGuides</label>
       <div class="search-dialog__input-row">
-        <input id={`${id}-input`} name="q" type="search" autocomplete="off" placeholder="Try a game or mechanic" />
+        <input id={`${id}-input`} name="q" type="search" autocomplete="off" placeholder="Try a game, character, or mechanic..." data-search-input />
         <button type="submit">Search</button>
       </div>
     </form>
-    <button type="button" class="search-dialog__close" data-search-close>Close search</button>
+    <button type="button" class="search-dialog__close" data-search-close aria-label="Close search">Close search</button>
     <div class="search-dialog__results" aria-live="polite" aria-atomic="true" data-search-results>
       <slot />
     </div>
   </div>
 </dialog>
 
-<script is:inline>
+<script is:inline define:vars={{ searchIndex }}>
   const dialog = document.currentScript?.previousElementSibling;
   if (dialog instanceof HTMLDialogElement) {
     let opener = null;
+    const input = dialog.querySelector('[data-search-input]');
+    const resultsContainer = dialog.querySelector('[data-search-results]');
+
+    const renderResults = (query) => {
+      if (!resultsContainer) return;
+      const q = (query || '').trim().toLowerCase();
+      if (!q) {
+        resultsContainer.innerHTML = '';
+        return;
+      }
+      const matches = searchIndex.filter(
+        (item) =>
+          item.title.toLowerCase().includes(q) ||
+          item.game.toLowerCase().includes(q) ||
+          item.description.toLowerCase().includes(q) ||
+          item.scope.toLowerCase().includes(q)
+      );
+
+      if (matches.length === 0) {
+        resultsContainer.innerHTML = `<p class="search-dialog__empty">No matching reference guide found for "<strong>${escapeHtml(q)}</strong>".</p>`;
+        return;
+      }
+
+      resultsContainer.innerHTML = `
+        <p class="search-dialog__summary">${matches.length} matching ${matches.length === 1 ? 'guide' : 'guides'} found:</p>
+        <ul class="search-dialog__list" role="list">
+          ${matches
+            .map(
+              (item) => `
+            <li class="search-dialog__item">
+              <a href="/${item.slug}/" class="search-dialog__link">
+                <span class="search-dialog__game-tag">${escapeHtml(item.game)}</span>
+                <strong class="search-dialog__item-title">${escapeHtml(item.title)}</strong>
+                <span class="search-dialog__item-meta">${escapeHtml(item.status)} · ${escapeHtml(item.wordCount)} words</span>
+              </a>
+            </li>
+          `
+            )
+            .join('')}
+        </ul>
+      `;
+    };
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
     const close = () => {
       if (dialog.open) dialog.close();
       if (opener instanceof HTMLElement && opener.isConnected) opener.focus();
     };
+
     document.querySelectorAll('[data-search-trigger]').forEach((trigger) => {
       trigger.addEventListener('click', () => {
         opener = trigger;
         dialog.showModal();
-        dialog.querySelector('input')?.focus();
+        input?.focus();
       });
     });
+
     dialog.querySelector('[data-search-close]')?.addEventListener('click', close);
-    dialog.addEventListener('cancel', (event) => { event.preventDefault(); close(); });
-    dialog.addEventListener('click', (event) => { if (event.target === dialog) close(); });
+    dialog.addEventListener('cancel', (event) => {
+      event.preventDefault();
+      close();
+    });
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) close();
+    });
+
+    input?.addEventListener('input', () => {
+      renderResults(input.value);
+    });
+
     document.addEventListener('keydown', (event) => {
       if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
         event.preventDefault();
@@ -53,7 +128,7 @@ const { action = '/search/', id = 'site-search' } = Astro.props;
         else {
           opener = document.activeElement;
           dialog.showModal();
-          dialog.querySelector('input')?.focus();
+          input?.focus();
         }
       }
     });
@@ -76,6 +151,16 @@ const { action = '/search/', id = 'site-search' } = Astro.props;
   .search-dialog button:hover { background: var(--accent-strong); }
   .search-dialog__close { position: absolute; top: 1rem; right: 1rem; border-color: var(--border-medium) !important; background: transparent !important; color: var(--text-secondary) !important; }
   .search-dialog__close:hover { color: var(--text-bright) !important; border-color: var(--accent) !important; }
-  .search-dialog__results { max-height: 16rem; margin-top: 1.25rem; overflow: auto; color: var(--text-secondary); }
+  .search-dialog__results { max-height: 18rem; margin-top: 1.25rem; overflow-y: auto; color: var(--text-secondary); }
+  .search-dialog__summary { margin: 0 0 0.75rem; font-size: 0.78rem; color: var(--text-muted); font-family: var(--font-display); text-transform: uppercase; letter-spacing: 0.05em; }
+  .search-dialog__empty { margin: 1rem 0; font-size: 0.9rem; color: var(--text-secondary); }
+  .search-dialog__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.6rem; }
+  .search-dialog__item { margin: 0; }
+  .search-dialog__link { display: flex; flex-direction: column; gap: 0.2rem; padding: 0.75rem; border: 1px solid var(--border-medium); background: var(--bg-deep); text-decoration: none; transition: border-color 0.15s ease, background-color 0.15s ease; }
+  .search-dialog__link:hover, .search-dialog__link:focus { border-color: var(--accent); background: var(--bg-surface); outline: none; }
+  .search-dialog__game-tag { font-family: var(--font-display); font-size: 0.68rem; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; }
+  .search-dialog__item-title { font-family: var(--font-display); font-size: 0.95rem; color: var(--text-bright); }
+  .search-dialog__item-meta { font-size: 0.78rem; color: var(--text-muted); }
   @media (max-width: 480px) { .search-dialog { width: calc(100% - 1rem); } .search-dialog__input-row { flex-direction: column; } .search-dialog__input-row button { width: 100%; } }
 </style>
+
