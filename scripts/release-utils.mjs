@@ -1,8 +1,9 @@
 import { createHash } from 'node:crypto';
 import { readFile, readdir } from 'node:fs/promises';
 import { join, relative } from 'node:path';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
-export const projectRoot = new URL('..', import.meta.url).pathname.replace(/^\/(?:([A-Za-z]):)/, '$1:');
+export const projectRoot = fileURLToPath(new URL('..', import.meta.url));
 
 export async function readJson(path) {
   return JSON.parse(await readFile(path, 'utf8'));
@@ -36,5 +37,6 @@ export function relativePosix(root, path) {
 }
 
 export function invokedAsMain(moduleUrl) {
-  return Boolean(process.argv[1]) && new URL(`file:${process.argv[1].replaceAll('\\', '/')}`).href === moduleUrl;
+  return Boolean(process.argv[1]) && pathToFileURL(process.argv[1]).href === moduleUrl;
 }
+
