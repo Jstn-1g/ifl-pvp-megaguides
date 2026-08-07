@@ -22,10 +22,29 @@ import { SITE } from '../utils/site';
     </nav>
     <p class="site-footer__legal">© {SITE.copyrightYear} {SITE.name}<br />Independent reference publishing.</p>
   </div>
+  <button type="button" class="back-to-top" id="back-to-top" aria-label="Back to top">
+    <span aria-hidden="true">↑</span> Top
+  </button>
 </footer>
 
+<script is:inline>
+  const backToTopBtn = document.getElementById('back-to-top');
+  if (backToTopBtn) {
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 400) {
+        backToTopBtn.classList.add('is-visible');
+      } else {
+        backToTopBtn.classList.remove('is-visible');
+      }
+    }, { passive: true });
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+</script>
+
 <style>
-  .site-footer { margin-top: auto; border-top: 1px solid var(--border-subtle); background: var(--bg-deep); }
+  .site-footer { position: relative; margin-top: auto; border-top: 1px solid var(--border-subtle); background: var(--bg-deep); }
   .site-footer__inner { display: grid; grid-template-columns: 1.2fr 1fr auto; gap: 2rem; align-items: end; padding-block: 3rem; }
   .footer-lockup { display: grid; gap: 0.25rem; width: max-content; }
   .footer-lockup span { color: var(--accent); font-family: var(--font-display); font-size: 0.65rem; font-weight: 800; letter-spacing: 0.12em; }
@@ -35,5 +54,36 @@ import { SITE } from '../utils/site';
   .site-footer__links a { color: var(--text-secondary); font-size: 0.78rem; text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 0.25em; }
   .site-footer__links a:hover { color: var(--text-bright); text-decoration-color: var(--accent); }
   .site-footer__legal { margin: 0; color: var(--text-muted); font-size: 0.7rem; line-height: 1.55; text-align: right; }
+  .back-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 90;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.5rem 0.8rem;
+    border: 1px solid var(--border-medium);
+    border-radius: 0;
+    background: var(--bg-surface);
+    color: var(--text-bright);
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 750;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(10px);
+    transition: opacity 0.2s ease, transform 0.2s ease, border-color 0.15s ease;
+    box-shadow: var(--shadow-raised);
+  }
+  .back-to-top.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+  .back-to-top:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
   @media (max-width: 760px) { .site-footer__inner { grid-template-columns: 1fr; gap: 1.35rem; } .site-footer__legal { text-align: left; } }
 </style>

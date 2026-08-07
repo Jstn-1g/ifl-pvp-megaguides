@@ -394,3 +394,12 @@ h1, h2, h3, p, dl, dd { margin: 0; }
   .reference-cover__axis, .reference-cover__status { color: CanvasText !important; }
   .button, .search-page-form input, .search-page-form button, .fact-grid, .fact-grid > div, .empty-state { border-color: CanvasText !important; background: Canvas !important; color: CanvasText !important; }
 }
+
+@media print {
+  .site-header, .site-footer, .back-to-top, .search-dialog, .reader__progress-bar, .reader__sidebar, .code-copy-btn { display: none !important; }
+  body { background: #ffffff !important; color: #000000 !important; }
+  .container, .reader__main { width: 100% !important; max-width: none !important; padding: 0 !important; }
+  .reader__prose { color: #000000 !important; }
+  .reader__prose h1, .reader__prose h2, .reader__prose h3 { color: #000000 !important; page-break-after: avoid; }
+  .reader__prose pre, .reader__prose table { border: 1px solid #ccc !important; background: #f8f9fa !important; color: #000000 !important; page-break-inside: avoid; }
+}
