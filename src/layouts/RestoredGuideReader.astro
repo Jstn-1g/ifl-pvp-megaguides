@@ -17,7 +17,7 @@ const publishedAt = entry.restoration.firstPublishedAt;
 const modifiedAt = entry.restoration.restoredAt;
 const structuredData = [
   {
-    '@type': 'Article',
+    '@type': 'TechArticle',
     headline: entry.title,
     description: entry.description,
     url: new URL(canonicalPath, 'https://iflpvp.com').toString(),
@@ -26,7 +26,13 @@ const structuredData = [
     dateModified: modifiedAt,
     inLanguage: 'en-US',
     isAccessibleForFree: true,
-    about: { '@type': 'VideoGame', name: entry.game },
+    proficiencyLevel: 'Expert',
+    dependencies: entry.gameVersion,
+    about: {
+      '@type': 'VideoGame',
+      name: entry.game,
+      gamePlatform: entry.platforms,
+    },
     author: { '@type': 'Person', name: 'Justin' },
     publisher: { '@id': 'https://iflpvp.com/#organization' },
     citation: entry.sources.map((source) => source.url),
