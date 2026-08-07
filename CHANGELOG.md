@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.8.0](https://github.com/Jstn-1g/ifl-pvp-megaguides/compare/v0.7.0...v0.8.0) (2026-08-07)
+
+
+### Features
+
+* **pwa:** add web app manifest and offline service worker ([1978581](https://github.com/Jstn-1g/ifl-pvp-megaguides/commit/1978581a9fe84ccb2588aa2e3712fb38ee407117))
+* **search:** add live in-dialog instant reference search ([ad6d207](https://github.com/Jstn-1g/ifl-pvp-megaguides/commit/ad6d207a165c1dfb2142f97a8363b14d2c300232))
+* **seo:** add TechArticle JSON-LD structured data for guide rich snippets ([526ba91](https://github.com/Jstn-1g/ifl-pvp-megaguides/commit/526ba91a03b4a4987bd1c432e26cdd98f5ced6bf))
+* **ux:** add copy-to-clipboard buttons for code and combo blocks ([0ee3cc5](https://github.com/Jstn-1g/ifl-pvp-megaguides/commit/0ee3cc5f5875f9d04686c963f95d2d890bdb46a5))
+* **ux:** add dynamic TOC scroll highlighting and reading progress bar ([bc431c0](https://github.com/Jstn-1g/ifl-pvp-megaguides/commit/bc431c0f112148fbe443c23142f847c650f61e1f))
+* **ux:** add smooth back-to-top button and printable guide styles ([eaeb3fa](https://github.com/Jstn-1g/ifl-pvp-megaguides/commit/eaeb3fa55708ffdf8b903c3555cfcafffa02d91a))
+
+
+### Bug Fixes
+
+* **scripts:** support path resolution on directories with spaces ([5e4c1c5](https://github.com/Jstn-1g/ifl-pvp-megaguides/commit/5e4c1c5f55f057fd6d8a8832b4c0cdab0874d67f))
+* **search:** use DOM node creation in search dialog results to comply with link validator ([b6000d6](https://github.com/Jstn-1g/ifl-pvp-megaguides/commit/b6000d6a523a25e75fcd29286fdd708d4a833f99))
+
 ## [0.7.0](https://github.com/Jstn-1g/ifl-pvp-megaguides/compare/v0.6.1...v0.7.0) (2026-08-06)
 
 
