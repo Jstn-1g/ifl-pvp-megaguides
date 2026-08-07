@@ -54,6 +54,7 @@ function readableDate(date: string) {
   pageType="article"
   {structuredData}
 >
+  <div class="reader__progress-bar" id="reader-progress" aria-hidden="true"></div>
   <article class="reader" aria-labelledby="guide-title">
     <header class="reader__hero">
       <div class="container reader__hero-grid">
@@ -131,9 +132,31 @@ function readableDate(date: string) {
     table.tabIndex = 0;
     table.setAttribute('aria-label', 'Scrollable guide data table');
   });
+
+  const progressBar = document.getElementById('reader-progress');
+  if (progressBar) {
+    const updateProgress = () => {
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = totalHeight > 0 ? (window.scrollY / totalHeight) * 100 : 0;
+      progressBar.style.width = `${Math.min(100, Math.max(0, progress))}%`;
+    };
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    updateProgress();
+  }
 </script>
 
 <style>
+  .reader__progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 0%;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+    z-index: 1000;
+    transition: width 0.08s ease-out;
+  }
   .reader__hero {
     padding-block: clamp(2.75rem, 6vw, 5rem);
     border-bottom: 1px solid var(--border-subtle);
