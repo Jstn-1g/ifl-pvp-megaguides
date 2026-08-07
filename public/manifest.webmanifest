@@ -1,0 +1,17 @@
+{
+  "name": "IFL PvP MegaGuides",
+  "short_name": "MegaGuides",
+  "description": "Source-backed, version-pinned field manuals for competitive games.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#080e17",
+  "theme_color": "#080e17",
+  "icons": [
+    {
+      "src": "/brand/ifl-pvp-logo.webp",
+      "sizes": "512x512",
+      "type": "image/webp",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -75,7 +75,16 @@ const serializedJsonLd = JSON.stringify(jsonLd).replaceAll('<', '\\u003c');
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={`${SITE.url}/og.png`} />
     <meta name="twitter:image:alt" content="IFL PvP MegaGuides Reference Grid" />
+    <meta name="theme-color" content="#080e17" />
+    <link rel="manifest" href="/manifest.webmanifest" />
     <script is:inline type="application/ld+json" set:html={serializedJsonLd} />
+    <script is:inline>
+      if ('serviceWorker' in navigator && window.location.protocol === 'https:') {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(() => {});
+        });
+      }
+    </script>
     <title>{title}</title>
   </head>
   <body>
