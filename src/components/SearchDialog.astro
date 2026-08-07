@@ -67,24 +67,43 @@ const searchIndex = PUBLIC_CONTENT.map((guide) => ({
         return;
       }
 
-      resultsContainer.innerHTML = `
-        <p class="search-dialog__summary">${matches.length} matching ${matches.length === 1 ? 'guide' : 'guides'} found:</p>
-        <ul class="search-dialog__list" role="list">
-          ${matches
-            .map(
-              (item) => `
-            <li class="search-dialog__item">
-              <a href="/${item.slug}/" class="search-dialog__link">
-                <span class="search-dialog__game-tag">${escapeHtml(item.game)}</span>
-                <strong class="search-dialog__item-title">${escapeHtml(item.title)}</strong>
-                <span class="search-dialog__item-meta">${escapeHtml(item.status)} · ${escapeHtml(item.wordCount)} words</span>
-              </a>
-            </li>
-          `
-            )
-            .join('')}
-        </ul>
-      `;
+      resultsContainer.innerHTML = '';
+      const summary = document.createElement('p');
+      summary.className = 'search-dialog__summary';
+      summary.textContent = `${matches.length} matching ${matches.length === 1 ? 'guide' : 'guides'} found:`;
+      resultsContainer.appendChild(summary);
+
+      const list = document.createElement('ul');
+      list.className = 'search-dialog__list';
+      list.setAttribute('role', 'list');
+
+      matches.forEach((item) => {
+        const li = document.createElement('li');
+        li.className = 'search-dialog__item';
+        const a = document.createElement('a');
+        a.className = 'search-dialog__link';
+        a.href = '/' + item.slug + '/';
+
+        const tag = document.createElement('span');
+        tag.className = 'search-dialog__game-tag';
+        tag.textContent = item.game;
+
+        const title = document.createElement('strong');
+        title.className = 'search-dialog__item-title';
+        title.textContent = item.title;
+
+        const meta = document.createElement('span');
+        meta.className = 'search-dialog__item-meta';
+        meta.textContent = `${item.status} · ${item.wordCount} words`;
+
+        a.appendChild(tag);
+        a.appendChild(title);
+        a.appendChild(meta);
+        li.appendChild(a);
+        list.appendChild(li);
+      });
+
+      resultsContainer.appendChild(list);
     };
 
     function escapeHtml(str) {
