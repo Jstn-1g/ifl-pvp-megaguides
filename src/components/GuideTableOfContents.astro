@@ -41,7 +41,7 @@ const sections = headings.filter((heading) => heading.depth === 2 || heading.dep
     </details>
 )}
 
-<script is:inline>
+<script>
   const observeHeadings = () => {
     const headings = document.querySelectorAll('.reader__prose h2[id], .reader__prose h3[id]');
     const links = document.querySelectorAll('.guide-toc a');
